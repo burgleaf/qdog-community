@@ -1,0 +1,30 @@
+{
+  "name": "awesome-codex-pet",
+  "version": "0.1.0",
+  "description": "A curated gallery of community-made Codex pets with one-command install and generated previews.",
+  "homepage": "https://q.dog",
+  "license": "SEE LICENSE IN LICENSE AND ASSETS-LICENSE.md",
+  "type": "module",
+  "bin": {
+    "awesome-codex-pet": "scripts/install-pet.mjs"
+  },
+  "scripts": {
+    "format": "prettier --write \"**/*.{md,json}\"",
+    "install:pet": "node scripts/install-pet.mjs",
+    "lint": "prettier --check \"**/*.{md,json}\" && node scripts/check-readme-locales.mjs",
+    "previews": "python3 scripts/generate-pet-previews.py",
+    "requests": "node scripts/generate-request-catalog.mjs",
+    "readmes": "node scripts/generate-readmes.mjs",
+    "star-history": "node scripts/generate-star-history.mjs",
+    "test:duplicates": "node --test scripts/test/pet-duplicates.test.mjs",
+    "test:install": "node --test scripts/test/install-pet.test.mjs",
+    "validate": "node scripts/validate-pets.mjs --require-generated-assets",
+    "validate:pr": "npm run test:duplicates && npm run test:install && node scripts/validate-pets.mjs"
+  },
+  "devDependencies": {
+    "prettier": "^3.5.3"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

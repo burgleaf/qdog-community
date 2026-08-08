@@ -1,0 +1,22 @@
+name = "qdog-community-stats"
+main = "src/index.js"
+compatibility_date = "2026-07-14"
+workers_dev = false
+
+[[routes]]
+pattern = "resource.q.dog"
+custom_domain = true
+
+[[d1_databases]]
+binding = "DB"
+database_name = "qdog-community-stats-db"
+# Replace after creating the D1 database; this is intentionally invalid until then.
+database_id = "21e9863e-c6d7-4c21-a8f2-44fa2c1aa4e7"
+migrations_dir = "migrations"
+
+[triggers]
+crons = ["17 3 * * *"]
+
+[vars]
+# Comma separated list of allowed origins for CORS.
+ALLOWED_ORIGINS = "https://www.q.dog,https://q.dog,http://localhost:3000,http://localhost:3001"

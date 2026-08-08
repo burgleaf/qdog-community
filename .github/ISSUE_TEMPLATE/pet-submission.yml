@@ -1,0 +1,31 @@
+name: Submit your pet repository
+description: Submit a public GitHub repository containing a finished Codex pet for review
+title: "[Submission]: "
+labels:
+  - "type: submission"
+  - "status: triage"
+body:
+  - type: markdown
+    attributes:
+      value: |
+        <!-- pet-flow: repository-submission -->
+        Submit the root URL of a public GitHub repository. Do not upload files here. The repository should document provenance and contain the final `submission.json`, `pet.json`, and `spritesheet.webp` package.
+  - type: input
+    id: repository_url
+    attributes:
+      label: Public GitHub repository URL
+      description: Use the repository root in https://github.com/owner/repository format. Private repositories, file links, branches, releases, and archives cannot be reviewed.
+      placeholder: https://github.com/your-name/your-pet
+    validations:
+      required: true
+  - type: checkboxes
+    id: repository_confirmation
+    attributes:
+      label: Repository confirmation
+      options:
+        - label: The repository is public and maintainers can inspect the final pet package and its source or provenance notes.
+          required: true
+        - label: I reviewed the animation, transparent edges, runtime version, and three-file package before submitting this repository.
+          required: true
+        - label: I understand that accepted pet assets are for non-commercial use unless a stricter stated license applies.
+          required: true

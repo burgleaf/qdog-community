@@ -1,0 +1,12 @@
+node_modules/
+.next/
+.next-dev/
+public/assets/
+public/categories.json
+public/collections.json
+public/llms.txt
+public/llms-full.txt
+public/pets.json
+public/requests.json
+.generated/
+out/
