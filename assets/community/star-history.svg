@@ -31,7 +31,7 @@
       <text x="58" y="146.2" text-anchor="end" class="axis">4</text>
       <line x1="72" y1="82" x2="966" y2="82" stroke="#e5e7eb" stroke-width="1" />
       <text x="58" y="87" text-anchor="end" class="axis">5</text>
-  <text x="72" y="415" text-anchor="start" class="axis">Aug 13</text><text x="295.5" y="415" text-anchor="middle" class="axis">Aug 13</text><text x="519" y="415" text-anchor="middle" class="axis">Aug 13</text><text x="742.5" y="415" text-anchor="middle" class="axis">Aug 13</text><text x="966" y="415" text-anchor="end" class="axis">Aug 14</text>
+  <text x="72" y="415" text-anchor="start" class="axis">Aug 14</text><text x="295.5" y="415" text-anchor="middle" class="axis">Aug 14</text><text x="519" y="415" text-anchor="middle" class="axis">Aug 14</text><text x="742.5" y="415" text-anchor="middle" class="axis">Aug 14</text><text x="966" y="415" text-anchor="end" class="axis">Aug 15</text>
   <polygon points="72,378 966.00,378" fill="url(#area)" />
   <polyline points="72,378" fill="none" stroke="#10b981" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
   
