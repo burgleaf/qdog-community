@@ -520,6 +520,19 @@
     "spriteVersionNumber": 1
   },
   {
+    "slug": "flutter-mane-3d--dnnyngyen",
+    "name": "Flutter Mane (3D)",
+    "author": "Danny Nguyen",
+    "author_handle": "dnnyngyen",
+    "author_url": "https://github.com/dnnyngyen",
+    "primary_category": "Game Characters",
+    "canonical_key": "pokemon/flutter-mane",
+    "collections": [],
+    "license": "Non-commercial fan use in Codex companions and fan tooling. Adapted from Pokémon Showdown community-animated sprites; Pokémon imagery remains © Nintendo / Game Freak / Creatures Inc. No commercial use or bulk redistribution as a separate pet pack.",
+    "description": "A 3D animated Flutter Mane companion adapted from an attributed Pokémon Showdown community sprite.",
+    "spriteVersionNumber": 1
+  },
+  {
     "slug": "frankie--aygunvarol",
     "name": "Frankie",
     "author": "Aygun Varol",
@@ -591,6 +604,19 @@
     "collections": ["jujutsu-kaisen"],
     "license": "Non-commercial repository redistribution authorized by the original asset creator; permission confirmed by the repository maintainer on 2026-07-18.",
     "description": "A tiny blindfolded white-haired chibi sorcerer companion in Codex digital pet style.",
+    "spriteVersionNumber": 1
+  },
+  {
+    "slug": "gouging-fire-3d--dnnyngyen",
+    "name": "Gouging Fire (3D)",
+    "author": "Danny Nguyen",
+    "author_handle": "dnnyngyen",
+    "author_url": "https://github.com/dnnyngyen",
+    "primary_category": "Game Characters",
+    "canonical_key": "pokemon/gouging-fire",
+    "collections": [],
+    "license": "Non-commercial fan use in Codex companions and fan tooling. Adapted from Pokémon Showdown community-animated sprites; Pokémon imagery remains © Nintendo / Game Freak / Creatures Inc. No commercial use or bulk redistribution as a separate pet pack.",
+    "description": "A 3D animated Gouging Fire companion adapted from an attributed Pokémon Showdown community sprite.",
     "spriteVersionNumber": 1
   },
   {
@@ -1306,6 +1332,19 @@
     "collections": ["animal-companions"],
     "license": "CC BY 4.0",
     "description": "An original pixel duck that spins through the same eight-frame loop in every Codex state.",
+    "spriteVersionNumber": 1
+  },
+  {
+    "slug": "pyroar-3d--dnnyngyen",
+    "name": "Pyroar (3D)",
+    "author": "Danny Nguyen",
+    "author_handle": "dnnyngyen",
+    "author_url": "https://github.com/dnnyngyen",
+    "primary_category": "Game Characters",
+    "canonical_key": "pokemon/pyroar",
+    "collections": [],
+    "license": "Non-commercial fan use in Codex companions and fan tooling. Adapted from Pokémon Showdown community-animated sprites; Pokémon imagery remains © Nintendo / Game Freak / Creatures Inc. No commercial use or bulk redistribution as a separate pet pack.",
+    "description": "A 3D animated Pyroar companion adapted from an attributed Pokémon Showdown community sprite.",
     "spriteVersionNumber": 1
   },
   {
