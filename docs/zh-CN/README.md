@@ -12,7 +12,7 @@
 
 <a href="https://q.dog"><img src="../../assets/cover/qdog-cover.png" alt="进入 QDog 精品画廊"></a>
 
-![pets: 181](https://img.shields.io/badge/pets-181-2ea44f) ![categories: 11](https://img.shields.io/badge/categories-11-0969da) ![languages: en | zh--CN | ko | ja | es](https://img.shields.io/badge/languages-en%20%7C%20zh--CN%20%7C%20ko%20%7C%20ja%20%7C%20es-8250df) ![code: MIT](https://img.shields.io/badge/code-MIT-111111) ![assets: CC BY--NC 4.0](https://img.shields.io/badge/assets-CC%20BY--NC%204.0-f97316) ![install: one command](https://img.shields.io/badge/install-one%20command-111111) [![Pet previews](https://github.com/burgleaf/qdog-community/actions/workflows/pet-previews.yml/badge.svg)](https://github.com/burgleaf/qdog-community/actions/workflows/pet-previews.yml)
+![pets: 182](https://img.shields.io/badge/pets-182-2ea44f) ![categories: 11](https://img.shields.io/badge/categories-11-0969da) ![languages: en | zh--CN | ko | ja | es](https://img.shields.io/badge/languages-en%20%7C%20zh--CN%20%7C%20ko%20%7C%20ja%20%7C%20es-8250df) ![code: MIT](https://img.shields.io/badge/code-MIT-111111) ![assets: CC BY--NC 4.0](https://img.shields.io/badge/assets-CC%20BY--NC%204.0-f97316) ![install: one command](https://img.shields.io/badge/install-one%20command-111111) [![Pet previews](https://github.com/burgleaf/qdog-community/actions/workflows/pet-previews.yml/badge.svg)](https://github.com/burgleaf/qdog-community/actions/workflows/pet-previews.yml)
 
 </div>
 
@@ -107,6 +107,13 @@ curl -fsSL https://raw.githubusercontent.com/burgleaf/qdog-community/main/script
 <tr><th>安装</th><td colspan="5"><code>curl -fsSL https://raw.githubusercontent.com/burgleaf/qdog-community/main/scripts/install-pet.sh | bash -s -- acheron--lingxiaotian</code></td></tr>
 <tr><th>动作</th><td><strong>待机</strong></td><td><strong>挥手</strong></td><td><strong>奔跑</strong></td><td><strong>等待</strong></td><td><strong>审阅</strong></td></tr>
 <tr><th>预览</th><td><img src="https://q.dog/assets/previews/acheron--lingxiaotian/webp/idle.webp" alt="黄泉 idle" width="120" height="130"></td><td><img src="https://q.dog/assets/previews/acheron--lingxiaotian/webp/waving.webp" alt="黄泉 waving" width="120" height="130"></td><td><img src="https://q.dog/assets/previews/acheron--lingxiaotian/webp/running-right.webp" alt="黄泉 running-right" width="120" height="130"></td><td><img src="https://q.dog/assets/previews/acheron--lingxiaotian/webp/waiting.webp" alt="黄泉 waiting" width="120" height="130"></td><td><img src="https://q.dog/assets/previews/acheron--lingxiaotian/webp/review.webp" alt="黄泉 review" width="120" height="130"></td></tr>
+</table>
+
+<table>
+<tr><th>名称</th><td colspan="5"><a href="../../pets/aggron-3d--dnnyngyen">Aggron (3D)</a> · 作者 <a href="https://github.com/dnnyngyen">@dnnyngyen</a> · 游戏角色 · v1</td></tr>
+<tr><th>安装</th><td colspan="5"><code>curl -fsSL https://raw.githubusercontent.com/burgleaf/qdog-community/main/scripts/install-pet.sh | bash -s -- aggron-3d--dnnyngyen</code></td></tr>
+<tr><th>动作</th><td><strong>待机</strong></td><td><strong>挥手</strong></td><td><strong>奔跑</strong></td><td><strong>等待</strong></td><td><strong>审阅</strong></td></tr>
+<tr><th>预览</th><td><img src="https://q.dog/assets/previews/aggron-3d--dnnyngyen/webp/idle.webp" alt="Aggron (3D) idle" width="120" height="130"></td><td><img src="https://q.dog/assets/previews/aggron-3d--dnnyngyen/webp/waving.webp" alt="Aggron (3D) waving" width="120" height="130"></td><td><img src="https://q.dog/assets/previews/aggron-3d--dnnyngyen/webp/running-right.webp" alt="Aggron (3D) running-right" width="120" height="130"></td><td><img src="https://q.dog/assets/previews/aggron-3d--dnnyngyen/webp/waiting.webp" alt="Aggron (3D) waiting" width="120" height="130"></td><td><img src="https://q.dog/assets/previews/aggron-3d--dnnyngyen/webp/review.webp" alt="Aggron (3D) review" width="120" height="130"></td></tr>
 </table>
 
 <table>

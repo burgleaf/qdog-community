@@ -12,7 +12,7 @@
 
 <a href="https://q.dog"><img src="./assets/cover/qdog-cover.png" alt="Open the QDog gallery"></a>
 
-![pets: 181](https://img.shields.io/badge/pets-181-2ea44f) ![categories: 11](https://img.shields.io/badge/categories-11-0969da) ![languages: en | zh--CN | ko | ja | es](https://img.shields.io/badge/languages-en%20%7C%20zh--CN%20%7C%20ko%20%7C%20ja%20%7C%20es-8250df) ![code: MIT](https://img.shields.io/badge/code-MIT-111111) ![assets: CC BY--NC 4.0](https://img.shields.io/badge/assets-CC%20BY--NC%204.0-f97316) ![install: one command](https://img.shields.io/badge/install-one%20command-111111) [![Pet previews](https://github.com/burgleaf/qdog-community/actions/workflows/pet-previews.yml/badge.svg)](https://github.com/burgleaf/qdog-community/actions/workflows/pet-previews.yml)
+![pets: 182](https://img.shields.io/badge/pets-182-2ea44f) ![categories: 11](https://img.shields.io/badge/categories-11-0969da) ![languages: en | zh--CN | ko | ja | es](https://img.shields.io/badge/languages-en%20%7C%20zh--CN%20%7C%20ko%20%7C%20ja%20%7C%20es-8250df) ![code: MIT](https://img.shields.io/badge/code-MIT-111111) ![assets: CC BY--NC 4.0](https://img.shields.io/badge/assets-CC%20BY--NC%204.0-f97316) ![install: one command](https://img.shields.io/badge/install-one%20command-111111) [![Pet previews](https://github.com/burgleaf/qdog-community/actions/workflows/pet-previews.yml/badge.svg)](https://github.com/burgleaf/qdog-community/actions/workflows/pet-previews.yml)
 
 </div>
 
@@ -107,6 +107,13 @@ The **Update** action is an AI-assisted v1-to-v2 conversion, not a download noti
 <tr><th>Install</th><td colspan="5"><code>curl -fsSL https://raw.githubusercontent.com/burgleaf/qdog-community/main/scripts/install-pet.sh | bash -s -- acheron--lingxiaotian</code></td></tr>
 <tr><th>Action</th><td><strong>Idle</strong></td><td><strong>Waving</strong></td><td><strong>Running</strong></td><td><strong>Waiting</strong></td><td><strong>Review</strong></td></tr>
 <tr><th>Preview</th><td><img src="https://q.dog/assets/previews/acheron--lingxiaotian/webp/idle.webp" alt="Acheron idle" width="120" height="130"></td><td><img src="https://q.dog/assets/previews/acheron--lingxiaotian/webp/waving.webp" alt="Acheron waving" width="120" height="130"></td><td><img src="https://q.dog/assets/previews/acheron--lingxiaotian/webp/running-right.webp" alt="Acheron running-right" width="120" height="130"></td><td><img src="https://q.dog/assets/previews/acheron--lingxiaotian/webp/waiting.webp" alt="Acheron waiting" width="120" height="130"></td><td><img src="https://q.dog/assets/previews/acheron--lingxiaotian/webp/review.webp" alt="Acheron review" width="120" height="130"></td></tr>
+</table>
+
+<table>
+<tr><th>Name</th><td colspan="5"><a href="./pets/aggron-3d--dnnyngyen">Aggron (3D)</a> · by <a href="https://github.com/dnnyngyen">@dnnyngyen</a> · Game Characters · v1</td></tr>
+<tr><th>Install</th><td colspan="5"><code>curl -fsSL https://raw.githubusercontent.com/burgleaf/qdog-community/main/scripts/install-pet.sh | bash -s -- aggron-3d--dnnyngyen</code></td></tr>
+<tr><th>Action</th><td><strong>Idle</strong></td><td><strong>Waving</strong></td><td><strong>Running</strong></td><td><strong>Waiting</strong></td><td><strong>Review</strong></td></tr>
+<tr><th>Preview</th><td><img src="https://q.dog/assets/previews/aggron-3d--dnnyngyen/webp/idle.webp" alt="Aggron (3D) idle" width="120" height="130"></td><td><img src="https://q.dog/assets/previews/aggron-3d--dnnyngyen/webp/waving.webp" alt="Aggron (3D) waving" width="120" height="130"></td><td><img src="https://q.dog/assets/previews/aggron-3d--dnnyngyen/webp/running-right.webp" alt="Aggron (3D) running-right" width="120" height="130"></td><td><img src="https://q.dog/assets/previews/aggron-3d--dnnyngyen/webp/waiting.webp" alt="Aggron (3D) waiting" width="120" height="130"></td><td><img src="https://q.dog/assets/previews/aggron-3d--dnnyngyen/webp/review.webp" alt="Aggron (3D) review" width="120" height="130"></td></tr>
 </table>
 
 <table>

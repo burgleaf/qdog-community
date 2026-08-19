@@ -48,6 +48,19 @@
     "spriteVersionNumber": 1
   },
   {
+    "slug": "aggron-3d--dnnyngyen",
+    "name": "Aggron (3D)",
+    "author": "Danny Nguyen",
+    "author_handle": "dnnyngyen",
+    "author_url": "https://github.com/dnnyngyen",
+    "primary_category": "Game Characters",
+    "canonical_key": "pokemon/aggron",
+    "collections": [],
+    "license": "Non-commercial fan use in Codex companions and fan tooling. Adapted from Pokémon Showdown community-animated sprites; Pokémon imagery remains © Nintendo / Game Freak / Creatures Inc. No commercial use or bulk redistribution as a separate pet pack.",
+    "description": "A 3D animated Aggron companion adapted from an attributed Pokémon Showdown community sprite.",
+    "spriteVersionNumber": 1
+  },
+  {
     "slug": "aiko--chenxin-dlut",
     "name": "Aiko",
     "localized_names": { "en": "Aiko", "zh": "爱子" },
