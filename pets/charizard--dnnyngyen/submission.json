@@ -1,0 +1,21 @@
+{
+  "slug": "charizard--dnnyngyen",
+  "pet_slug": "charizard",
+  "author_slug": "dnnyngyen",
+  "name": "Charizard",
+  "author": "Danny Nguyen",
+  "author_handle": "dnnyngyen",
+  "author_url": "https://github.com/dnnyngyen",
+  "primary_category": "Game Characters",
+  "canonical_key": "pokemon/charizard",
+  "collections": [],
+  "tags": ["pokemon", "charizard", "pixel-art", "2d", "pokeapi"],
+  "source_type": "github",
+  "source_url": "https://github.com/dnnyngyen/codex-pokepets/tree/main/pets/charizard",
+  "license": "Non-commercial fan use and QDog repository redistribution authorized by codex-pokepets maintainer Danny Nguyen. Derived from the PokeAPI Black and White animated sprite set; Pokémon artwork © Nintendo / Game Freak / Creatures Inc. Not affiliated with or endorsed by the rights holders.",
+  "preview_image": "../../assets/previews/charizard--dnnyngyen/gifs/idle.gif",
+  "codex_install": {
+    "pet_json": "pet.json",
+    "spritesheet": "spritesheet.webp"
+  }
+}

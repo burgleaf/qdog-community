@@ -1,0 +1,6 @@
+{
+  "id": "charizard--dnnyngyen",
+  "displayName": "Charizard",
+  "description": "A 2D pixel-art Charizard companion adapted from the PokeAPI Black and White animated sprite set.",
+  "spritesheetPath": "spritesheet.webp"
+}
