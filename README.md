@@ -12,7 +12,7 @@
 
 <a href="https://q.dog"><img src="./assets/cover/qdog-cover.png" alt="Open the QDog gallery"></a>
 
-![pets: 178](https://img.shields.io/badge/pets-178-2ea44f) ![categories: 11](https://img.shields.io/badge/categories-11-0969da) ![languages: en | zh--CN | ko | ja | es](https://img.shields.io/badge/languages-en%20%7C%20zh--CN%20%7C%20ko%20%7C%20ja%20%7C%20es-8250df) ![code: MIT](https://img.shields.io/badge/code-MIT-111111) ![assets: CC BY--NC 4.0](https://img.shields.io/badge/assets-CC%20BY--NC%204.0-f97316) ![install: one command](https://img.shields.io/badge/install-one%20command-111111) [![Pet previews](https://github.com/burgleaf/qdog-community/actions/workflows/pet-previews.yml/badge.svg)](https://github.com/burgleaf/qdog-community/actions/workflows/pet-previews.yml)
+![pets: 181](https://img.shields.io/badge/pets-181-2ea44f) ![categories: 11](https://img.shields.io/badge/categories-11-0969da) ![languages: en | zh--CN | ko | ja | es](https://img.shields.io/badge/languages-en%20%7C%20zh--CN%20%7C%20ko%20%7C%20ja%20%7C%20es-8250df) ![code: MIT](https://img.shields.io/badge/code-MIT-111111) ![assets: CC BY--NC 4.0](https://img.shields.io/badge/assets-CC%20BY--NC%204.0-f97316) ![install: one command](https://img.shields.io/badge/install-one%20command-111111) [![Pet previews](https://github.com/burgleaf/qdog-community/actions/workflows/pet-previews.yml/badge.svg)](https://github.com/burgleaf/qdog-community/actions/workflows/pet-previews.yml)
 
 </div>
 
@@ -138,6 +138,13 @@ The **Update** action is an AI-assisted v1-to-v2 conversion, not a download noti
 </table>
 
 <table>
+<tr><th>Name</th><td colspan="5"><a href="./pets/charizard--dnnyngyen">Charizard</a> · by <a href="https://github.com/dnnyngyen">@dnnyngyen</a> · Game Characters · v1</td></tr>
+<tr><th>Install</th><td colspan="5"><code>curl -fsSL https://raw.githubusercontent.com/burgleaf/qdog-community/main/scripts/install-pet.sh | bash -s -- charizard--dnnyngyen</code></td></tr>
+<tr><th>Action</th><td><strong>Idle</strong></td><td><strong>Waving</strong></td><td><strong>Running</strong></td><td><strong>Waiting</strong></td><td><strong>Review</strong></td></tr>
+<tr><th>Preview</th><td><img src="https://q.dog/assets/previews/charizard--dnnyngyen/webp/idle.webp" alt="Charizard idle" width="120" height="130"></td><td><img src="https://q.dog/assets/previews/charizard--dnnyngyen/webp/waving.webp" alt="Charizard waving" width="120" height="130"></td><td><img src="https://q.dog/assets/previews/charizard--dnnyngyen/webp/running-right.webp" alt="Charizard running-right" width="120" height="130"></td><td><img src="https://q.dog/assets/previews/charizard--dnnyngyen/webp/waiting.webp" alt="Charizard waiting" width="120" height="130"></td><td><img src="https://q.dog/assets/previews/charizard--dnnyngyen/webp/review.webp" alt="Charizard review" width="120" height="130"></td></tr>
+</table>
+
+<table>
 <tr><th>Name</th><td colspan="5"><a href="./pets/chen--chenxin-dlut">Ch'en</a> · by <a href="https://github.com/chenxin-dlut">@chenxin-dlut</a> · Game Characters · v1</td></tr>
 <tr><th>Install</th><td colspan="5"><code>curl -fsSL https://raw.githubusercontent.com/burgleaf/qdog-community/main/scripts/install-pet.sh | bash -s -- chen--chenxin-dlut</code></td></tr>
 <tr><th>Action</th><td><strong>Idle</strong></td><td><strong>Waving</strong></td><td><strong>Running</strong></td><td><strong>Waiting</strong></td><td><strong>Review</strong></td></tr>
@@ -163,6 +170,13 @@ The **Update** action is an AI-assisted v1-to-v2 conversion, not a download noti
 <tr><th>Install</th><td colspan="5"><code>curl -fsSL https://raw.githubusercontent.com/burgleaf/qdog-community/main/scripts/install-pet.sh | bash -s -- doro--lingxiaotian</code></td></tr>
 <tr><th>Action</th><td><strong>Idle</strong></td><td><strong>Waving</strong></td><td><strong>Running</strong></td><td><strong>Waiting</strong></td><td><strong>Review</strong></td></tr>
 <tr><th>Preview</th><td><img src="https://q.dog/assets/previews/doro--lingxiaotian/webp/idle.webp" alt="Doro idle" width="120" height="130"></td><td><img src="https://q.dog/assets/previews/doro--lingxiaotian/webp/waving.webp" alt="Doro waving" width="120" height="130"></td><td><img src="https://q.dog/assets/previews/doro--lingxiaotian/webp/running-right.webp" alt="Doro running-right" width="120" height="130"></td><td><img src="https://q.dog/assets/previews/doro--lingxiaotian/webp/waiting.webp" alt="Doro waiting" width="120" height="130"></td><td><img src="https://q.dog/assets/previews/doro--lingxiaotian/webp/review.webp" alt="Doro review" width="120" height="130"></td></tr>
+</table>
+
+<table>
+<tr><th>Name</th><td colspan="5"><a href="./pets/eevee--dnnyngyen">Eevee</a> · by <a href="https://github.com/dnnyngyen">@dnnyngyen</a> · Game Characters · v1</td></tr>
+<tr><th>Install</th><td colspan="5"><code>curl -fsSL https://raw.githubusercontent.com/burgleaf/qdog-community/main/scripts/install-pet.sh | bash -s -- eevee--dnnyngyen</code></td></tr>
+<tr><th>Action</th><td><strong>Idle</strong></td><td><strong>Waving</strong></td><td><strong>Running</strong></td><td><strong>Waiting</strong></td><td><strong>Review</strong></td></tr>
+<tr><th>Preview</th><td><img src="https://q.dog/assets/previews/eevee--dnnyngyen/webp/idle.webp" alt="Eevee idle" width="120" height="130"></td><td><img src="https://q.dog/assets/previews/eevee--dnnyngyen/webp/waving.webp" alt="Eevee waving" width="120" height="130"></td><td><img src="https://q.dog/assets/previews/eevee--dnnyngyen/webp/running-right.webp" alt="Eevee running-right" width="120" height="130"></td><td><img src="https://q.dog/assets/previews/eevee--dnnyngyen/webp/waiting.webp" alt="Eevee waiting" width="120" height="130"></td><td><img src="https://q.dog/assets/previews/eevee--dnnyngyen/webp/review.webp" alt="Eevee review" width="120" height="130"></td></tr>
 </table>
 
 <table>
@@ -282,6 +296,13 @@ The **Update** action is an AI-assisted v1-to-v2 conversion, not a download noti
 <tr><th>Install</th><td colspan="5"><code>curl -fsSL https://raw.githubusercontent.com/burgleaf/qdog-community/main/scripts/install-pet.sh | bash -s -- phoebe--chenxin-dlut</code></td></tr>
 <tr><th>Action</th><td><strong>Idle</strong></td><td><strong>Waving</strong></td><td><strong>Running</strong></td><td><strong>Waiting</strong></td><td><strong>Review</strong></td></tr>
 <tr><th>Preview</th><td><img src="https://q.dog/assets/previews/phoebe--chenxin-dlut/webp/idle.webp" alt="Phoebe idle" width="120" height="130"></td><td><img src="https://q.dog/assets/previews/phoebe--chenxin-dlut/webp/waving.webp" alt="Phoebe waving" width="120" height="130"></td><td><img src="https://q.dog/assets/previews/phoebe--chenxin-dlut/webp/running-right.webp" alt="Phoebe running-right" width="120" height="130"></td><td><img src="https://q.dog/assets/previews/phoebe--chenxin-dlut/webp/waiting.webp" alt="Phoebe waiting" width="120" height="130"></td><td><img src="https://q.dog/assets/previews/phoebe--chenxin-dlut/webp/review.webp" alt="Phoebe review" width="120" height="130"></td></tr>
+</table>
+
+<table>
+<tr><th>Name</th><td colspan="5"><a href="./pets/pikachu--dnnyngyen">Pikachu</a> · by <a href="https://github.com/dnnyngyen">@dnnyngyen</a> · Game Characters · v1</td></tr>
+<tr><th>Install</th><td colspan="5"><code>curl -fsSL https://raw.githubusercontent.com/burgleaf/qdog-community/main/scripts/install-pet.sh | bash -s -- pikachu--dnnyngyen</code></td></tr>
+<tr><th>Action</th><td><strong>Idle</strong></td><td><strong>Waving</strong></td><td><strong>Running</strong></td><td><strong>Waiting</strong></td><td><strong>Review</strong></td></tr>
+<tr><th>Preview</th><td><img src="https://q.dog/assets/previews/pikachu--dnnyngyen/webp/idle.webp" alt="Pikachu idle" width="120" height="130"></td><td><img src="https://q.dog/assets/previews/pikachu--dnnyngyen/webp/waving.webp" alt="Pikachu waving" width="120" height="130"></td><td><img src="https://q.dog/assets/previews/pikachu--dnnyngyen/webp/running-right.webp" alt="Pikachu running-right" width="120" height="130"></td><td><img src="https://q.dog/assets/previews/pikachu--dnnyngyen/webp/waiting.webp" alt="Pikachu waiting" width="120" height="130"></td><td><img src="https://q.dog/assets/previews/pikachu--dnnyngyen/webp/review.webp" alt="Pikachu review" width="120" height="130"></td></tr>
 </table>
 
 <table>

@@ -181,6 +181,18 @@
     "spriteVersionNumber": 1
   },
   {
+    "slug": "charizard--dnnyngyen",
+    "name": "Charizard",
+    "author": "Danny Nguyen",
+    "author_handle": "dnnyngyen",
+    "author_url": "https://github.com/dnnyngyen",
+    "primary_category": "Game Characters",
+    "canonical_key": "pokemon/charizard",
+    "collections": [],
+    "license": "Non-commercial fan use and QDog repository redistribution authorized by codex-pokepets maintainer Danny Nguyen. Derived from the PokeAPI Black and White animated sprite set; Pokémon artwork © Nintendo / Game Freak / Creatures Inc. Not affiliated with or endorsed by the rights holders.",
+    "spriteVersionNumber": 1
+  },
+  {
     "slug": "chen--chenxin-dlut",
     "name": "Chen",
     "localized_names": { "en": "Ch'en", "zh": "陈" },
@@ -403,6 +415,18 @@
     "collections": ["animal-companions"],
     "license": "Unknown license; public Codex Pets upload; no explicit repository redistribution license was provided.",
     "description": "A tiny couple pet: Dudu the warm brown bear and Bubu the white panda-bear doing sweet little paired actions together.",
+    "spriteVersionNumber": 1
+  },
+  {
+    "slug": "eevee--dnnyngyen",
+    "name": "Eevee",
+    "author": "Danny Nguyen",
+    "author_handle": "dnnyngyen",
+    "author_url": "https://github.com/dnnyngyen",
+    "primary_category": "Game Characters",
+    "canonical_key": "pokemon/eevee",
+    "collections": [],
+    "license": "Non-commercial fan use and QDog repository redistribution authorized by codex-pokepets maintainer Danny Nguyen. Derived from the PokeAPI Black and White animated sprite set; Pokémon artwork © Nintendo / Game Freak / Creatures Inc. Not affiliated with or endorsed by the rights holders.",
     "spriteVersionNumber": 1
   },
   {
@@ -1231,6 +1255,18 @@
     "primary_category": "Game Characters",
     "collections": ["wuthering-waves"],
     "license": "Personal non-commercial fan use",
+    "spriteVersionNumber": 1
+  },
+  {
+    "slug": "pikachu--dnnyngyen",
+    "name": "Pikachu",
+    "author": "Danny Nguyen",
+    "author_handle": "dnnyngyen",
+    "author_url": "https://github.com/dnnyngyen",
+    "primary_category": "Game Characters",
+    "canonical_key": "pokemon/pikachu",
+    "collections": [],
+    "license": "Non-commercial fan use and QDog repository redistribution authorized by codex-pokepets maintainer Danny Nguyen. Derived from the PokeAPI Black and White animated sprite set; Pokémon artwork © Nintendo / Game Freak / Creatures Inc. Not affiliated with or endorsed by the rights holders.",
     "spriteVersionNumber": 1
   },
   {
