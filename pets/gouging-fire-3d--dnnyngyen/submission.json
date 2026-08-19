@@ -1,0 +1,22 @@
+{
+  "slug": "gouging-fire-3d--dnnyngyen",
+  "pet_slug": "gouging-fire-3d",
+  "author_slug": "dnnyngyen",
+  "name": "Gouging Fire (3D)",
+  "author": "Danny Nguyen",
+  "author_handle": "dnnyngyen",
+  "author_url": "https://github.com/dnnyngyen",
+  "primary_category": "Game Characters",
+  "canonical_key": "pokemon/gouging-fire",
+  "collections": [],
+  "tags": ["pokemon", "gouging-fire", "3d", "pokemon-showdown"],
+  "source_type": "github",
+  "source_url": "https://github.com/dnnyngyen/codex-pokepets/tree/main/pets/gouging-fire-3d",
+  "license": "Non-commercial fan use in Codex companions and fan tooling. Adapted from Pokémon Showdown community-animated sprites; Pokémon imagery remains © Nintendo / Game Freak / Creatures Inc. No commercial use or bulk redistribution as a separate pet pack.",
+  "description": "A 3D animated Gouging Fire companion adapted from an attributed Pokémon Showdown community sprite.",
+  "preview_image": "../../assets/previews/gouging-fire-3d--dnnyngyen/gifs/idle.gif",
+  "codex_install": {
+    "pet_json": "pet.json",
+    "spritesheet": "spritesheet.webp"
+  }
+}
