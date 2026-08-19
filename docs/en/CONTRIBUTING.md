@@ -22,9 +22,9 @@ Appearance-specific requests, including real pets, original characters, and avat
 
 ### Showcase a finished pet
 
-A completed pet that already works in Codex may be shared in a `[Showcase]` issue for community discovery and feedback. Showcase one pet per issue, include at least one public preview or image attachment, credit its creator and important source material truthfully, and optionally link directly to its QDog page, public source repository, project page, or installation instructions. Referral, shortened, and paid-download links are not accepted.
+One or more completed pets that already work in Codex may be shared together in a `[Showcase]` issue for community discovery and feedback. Include public previews or image attachments that clearly cover every showcased pet, credit each creator and important source truthfully, and optionally link directly to their QDog pages, public source repositories, project pages, or installation instructions. Referral, shortened, and paid-download links are not accepted.
 
-A showcase does not request catalog inclusion, transfer ownership, or replace asset licensing. To add or update the pet in QDog, use the normal ready-for-review pull request path; use a blocked `[Submission]` issue only when that submission path remains genuinely blocked after recovery.
+A showcase does not request catalog inclusion, transfer ownership, or replace asset licensing. To add or update the pets in QDog, use a separate normal ready-for-review pull request for each pet; use a blocked `[Submission]` issue only when that submission path remains genuinely blocked after recovery.
 
 ### Create or submit your pet with Codex
 

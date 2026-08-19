@@ -1,5 +1,5 @@
-name: Showcase a finished pet
-description: Share a completed Codex pet with the community
+name: Showcase finished pets
+description: Share one or more completed Codex pets with the community
 title: "[Showcase]: "
 labels:
   - "status: triage"
@@ -8,43 +8,47 @@ body:
     attributes:
       value: |
         <!-- pet-flow: showcase -->
-        Share a pet that is already complete and working in Codex. A showcase is for community discovery and feedback; it is not a catalog submission or an acceptance request. Use a pull request when you want the pet added to QDog.
-  - type: input
-    id: pet_name
+        Share one or more pets that are already complete and working in Codex. A showcase is for community discovery and feedback; it is not a catalog submission or an acceptance request. Use a pull request for each pet you want added to QDog.
+  - type: textarea
+    id: pet_names
     attributes:
-      label: Pet name
-      description: The character, mascot, creature, or concept shown by this pet.
-      placeholder: Misaka Mikoto
+      label: Pet name(s)
+      description: List every character, mascot, creature, or concept included in this showcase.
+      placeholder: |
+        Misaka Mikoto
+        Kuroko Shirai
     validations:
       required: true
   - type: textarea
     id: showcase_media
     attributes:
       label: Preview
-      description: Add at least one public image URL, animation URL, or image attachment that shows the finished pet.
-      placeholder: Paste a preview URL or drag an image here
+      description: Add public image URLs, animation URLs, or image attachments that clearly show every finished pet, either individually or together.
+      placeholder: Paste preview URLs or drag images here
     validations:
       required: true
   - type: textarea
     id: description
     attributes:
-      label: About this pet
-      description: Describe its visual style, animations, creation process, or anything you want the community to notice.
-      placeholder: A compact V2 chibi pet with electric effects and 16 look directions.
+      label: About these pets
+      description: Describe their visual styles, animations, creation process, shared theme, or anything you want the community to notice.
+      placeholder: A V2 chibi collection with coordinated effects and complete look directions.
     validations:
       required: true
-  - type: input
-    id: pet_url
+  - type: textarea
+    id: pet_links
     attributes:
-      label: Pet or project link
-      description: Optional. Link directly to its QDog page, public source repository, project page, or installation instructions. Do not use referral, shortened, or paid-download links.
-      placeholder: https://q.dog/pets/pet-slug--author-slug
-  - type: input
+      label: Pet or project link(s)
+      description: Optional. Link directly to QDog pages, public source repositories, project pages, or installation instructions. Do not use referral, shortened, or paid-download links.
+      placeholder: |
+        https://q.dog/pets/first-pet--author
+        https://q.dog/pets/second-pet--author
+  - type: textarea
     id: creator
     attributes:
-      label: Creator and credits
-      description: Credit the pet creator and honestly identify important source or reference material.
-      placeholder: Created by @your-name; independently generated fan art based on...
+      label: Creators and credits
+      description: Credit the creator of every showcased pet and honestly identify important source or reference material.
+      placeholder: List each pet with its creator and relevant source notes.
     validations:
       required: true
   - type: dropdown
@@ -52,8 +56,9 @@ body:
     attributes:
       label: Pet runtime version
       options:
-        - V1
-        - V2
+        - V1 only
+        - V2 only
+        - Mixed V1 and V2
     validations:
       required: true
   - type: dropdown
@@ -72,6 +77,7 @@ body:
         - Memes
         - Objects & Props
         - Others
+        - Multiple categories
     validations:
       required: true
   - type: checkboxes
@@ -79,9 +85,9 @@ body:
     attributes:
       label: Showcase confirmation
       options:
-        - label: This pet is complete enough to run in Codex, and the preview represents the finished result.
+        - label: Every showcased pet is complete enough to run in Codex, and the previews represent the finished results.
           required: true
-        - label: I have the right to share this material and have provided truthful creator and source credits.
+        - label: I have the right to share these materials and have provided truthful creator and source credits for every showcased pet.
           required: true
-        - label: I understand that this showcase does not submit the pet to the QDog catalog; catalog inclusion still requires the normal pull request or blocked-submission process.
+        - label: I understand that this showcase does not submit any pet to the QDog catalog; catalog inclusion still requires a separate normal pull request or blocked-submission process for each pet.
           required: true
