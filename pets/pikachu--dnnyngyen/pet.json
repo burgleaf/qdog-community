@@ -1,0 +1,6 @@
+{
+  "id": "pikachu--dnnyngyen",
+  "displayName": "Pikachu",
+  "description": "A 2D pixel-art Pikachu companion adapted from the PokeAPI Black and White animated sprite set.",
+  "spritesheetPath": "spritesheet.webp"
+}
