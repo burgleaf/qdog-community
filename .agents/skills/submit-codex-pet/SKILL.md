@@ -1,6 +1,6 @@
 ---
 name: submit-codex-pet
-description: Request or submit pets to Awesome Codex Pet without a full repository clone. Use when a user wants the community to make a pet, wants AI to create or finish their own pet from references, wants to submit existing pet files, needs duplicate, attribution, and visual-quality review, or wants a focused GitHub issue or pull request created and followed through CI.
+description: Request, showcase, or submit pets to Awesome Codex Pet without a full repository clone. Use when a user wants the community to make a pet, wants to share a finished pet for discovery and feedback, wants AI to create or finish their own pet from references, wants to submit existing pet files, needs duplicate, attribution, and visual-quality review, or wants a focused GitHub issue or pull request created and followed through CI.
 ---
 
 # Submit Codex Pet
@@ -10,6 +10,7 @@ Use GitHub APIs or an authenticated GitHub CLI by default. Do not make the user 
 ## Choose the route
 
 - **Request**: the user wants the community or maintainers to make a pet. Search for duplicates and create a `[Request]` issue containing `<!-- pet-flow: request -->`; do not make or submit the pet in this route.
+- **Showcase**: the user has one finished, working pet and wants to share it for community discovery or feedback without requesting catalog inclusion. Create a `[Showcase]` issue containing `<!-- pet-flow: showcase -->` with an accessible preview and truthful creator/source credits.
 - **Submission**: the user owns the submission and wants AI to create or finish it from references, or already has a spritesheet, pet folder, or finished assets. Complete production as needed, validate the result, then open a focused pull request through the GitHub API.
 - **Blocked submission**: use only after trying the recovery steps below and receiving the user's approval. Create a concise `[Submission]` issue containing `<!-- pet-flow: submission -->` when a duplicate needs maintainer judgment, required review files cannot be made accessible, or GitHub authorization remains unavailable.
 - **Advanced PR**: the user explicitly prefers Git, GitHub, or Codespaces. Follow `CONTRIBUTING.md`; use a sparse, blob-filtered clone when a local checkout is needed.
@@ -29,6 +30,13 @@ Repository: `https://github.com/burgleaf/qdog-community`
 5. Keep reference authorship and source notes truthful, mark the requested output as non-commercial, and never imply that a request is accepted or scheduled.
 6. Follow `.github/ISSUE_TEMPLATE/pet-request.yml`. Include the duplicate result and unresolved questions.
 7. Create the issue and return its URL. Repository automation manages type, status, version, and category labels.
+
+## Showcase workflow
+
+1. Confirm that the user wants community discovery or feedback for one pet that is already complete and working in Codex. If they want the pet added to or updated in QDog, use the submission workflow instead.
+2. Collect the pet name, an accessible image or animation preview, a short description, truthful creator and important source credits, runtime version, and primary category. A direct QDog page, public source repository, project page, or installation link is optional; do not include referral, shortened, or paid-download links.
+3. Follow `.github/ISSUE_TEMPLATE/pet-showcase.yml`. Use the `[Showcase]:` title and retain `<!-- pet-flow: showcase -->`. Never claim a local file or private-chat image was attached when maintainers cannot access it.
+4. Create the issue and return its URL. Explain that a showcase does not request catalog inclusion, transfer ownership, or replace licensing, and that a normal pull request is still required for inclusion.
 
 ## Submission workflow
 

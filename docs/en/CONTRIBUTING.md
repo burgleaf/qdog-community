@@ -20,6 +20,12 @@ Use this when you have a character, concept, or references but no finished pet. 
 
 Appearance-specific requests, including real pets, original characters, and avatars, need a maintainer-viewable image attachment or public image URL. A private-chat image, local path, filename, or prose description is not an attachment.
 
+### Showcase a finished pet
+
+A completed pet that already works in Codex may be shared in a `[Showcase]` issue for community discovery and feedback. Showcase one pet per issue, include at least one public preview or image attachment, credit its creator and important source material truthfully, and optionally link directly to its QDog page, public source repository, project page, or installation instructions. Referral, shortened, and paid-download links are not accepted.
+
+A showcase does not request catalog inclusion, transfer ownership, or replace asset licensing. To add or update the pet in QDog, use the normal ready-for-review pull request path; use a blocked `[Submission]` issue only when that submission path remains genuinely blocked after recovery.
+
 ### Create or submit your pet with Codex
 
 Start from a character and references, continue an in-progress pet, or give Codex an existing pet folder or spritesheet. It follows [the repository submission skill](../../.agents/skills/submit-codex-pet), produces or repairs the pet, verifies duplicates, attribution, non-commercial terms, metadata, atlas dimensions, animation quality, and transparent edges, then creates a focused branch and pull request through the GitHub API. A full clone is not required. If Codex is not installed, copy the prompt from the website and use it with another capable AI assistant.

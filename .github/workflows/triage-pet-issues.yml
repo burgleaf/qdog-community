@@ -16,8 +16,11 @@ jobs:
     if: >-
       startsWith(github.event.issue.title, '[Request]:') ||
       startsWith(github.event.issue.title, '[Submission]:') ||
+      startsWith(github.event.issue.title, '[Showcase]:') ||
       contains(github.event.issue.body || '', '<!-- pet-flow: request -->') ||
-      contains(github.event.issue.body || '', '<!-- pet-flow: submission -->')
+      contains(github.event.issue.body || '', '<!-- pet-flow: submission -->') ||
+      contains(github.event.issue.body || '', '<!-- pet-flow: repository-submission -->') ||
+      contains(github.event.issue.body || '', '<!-- pet-flow: showcase -->')
     runs-on: ubuntu-latest
     steps:
       - name: Apply pet workflow labels
@@ -28,9 +31,16 @@ jobs:
             const title = issue.title.toLowerCase();
             const body = issue.body ?? "";
 
-            const type =
-              title.startsWith("[request]:") || body.includes("<!-- pet-flow: request -->")
-                ? "request"
+            const isRequest =
+              title.startsWith("[request]:") ||
+              body.includes("<!-- pet-flow: request -->");
+            const isShowcase =
+              title.startsWith("[showcase]:") ||
+              body.includes("<!-- pet-flow: showcase -->");
+            const type = isRequest
+              ? "request"
+              : isShowcase
+                ? "showcase"
                 : "submission";
 
             function fieldValue(headings) {
@@ -102,6 +112,38 @@ jobs:
             const current = issue.labels.map((label) =>
               typeof label === "string" ? label : label.name,
             );
+
+            async function ensureLabel(name, color, description) {
+              try {
+                await github.rest.issues.getLabel({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  name,
+                });
+              } catch (error) {
+                if (error.status !== 404) throw error;
+                try {
+                  await github.rest.issues.createLabel({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    name,
+                    color,
+                    description,
+                  });
+                } catch (createError) {
+                  if (createError.status !== 422) throw createError;
+                }
+              }
+            }
+
+            if (type === "showcase") {
+              await ensureLabel(
+                "type: showcase",
+                "8250df",
+                "A finished pet shared for community discovery and feedback",
+              );
+            }
+
             const managed = current.filter(
               (label) =>
                 !label.startsWith("type: ") &&
