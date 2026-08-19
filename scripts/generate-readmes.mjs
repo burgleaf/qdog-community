@@ -52,37 +52,77 @@ const previewStates = [
 
 const readmeLocales = {
   en: {
-    rootPrefix: ".",
-    labels: ["Name", "Install", "Action", "Preview"],
-    by: "by",
+    labels: {
+      name: "Name",
+      author: "Author",
+      category: "Category",
+      version: "Version",
+      install: "Install",
+      action: "Action",
+      preview: "Preview",
+      fullActions: "View all actions",
+      featured: "Featured pet",
+    },
     categoryLabels: {},
     stateIndex: 1,
   },
   zh: {
-    rootPrefix: "../..",
-    labels: ["名称", "安装", "动作", "预览"],
-    by: "作者",
+    labels: {
+      name: "名称",
+      author: "作者",
+      category: "分类",
+      version: "版本",
+      install: "安装",
+      action: "动作",
+      preview: "预览",
+      fullActions: "查看完整动作",
+      featured: "精选宠物",
+    },
     categoryLabels: categoryZh,
     stateIndex: 2,
   },
   ko: {
-    rootPrefix: "../..",
-    labels: ["이름", "설치", "동작", "미리 보기"],
-    by: "제작자",
+    labels: {
+      name: "이름",
+      author: "제작자",
+      category: "카테고리",
+      version: "버전",
+      install: "설치",
+      action: "동작",
+      preview: "미리 보기",
+      fullActions: "전체 동작 보기",
+      featured: "추천 펫",
+    },
     categoryLabels: categoryKo,
     stateIndex: 3,
   },
   ja: {
-    rootPrefix: "../..",
-    labels: ["名前", "インストール", "アクション", "プレビュー"],
-    by: "作者",
+    labels: {
+      name: "名前",
+      author: "作者",
+      category: "カテゴリー",
+      version: "バージョン",
+      install: "インストール",
+      action: "アクション",
+      preview: "プレビュー",
+      fullActions: "すべてのアクションを見る",
+      featured: "おすすめペット",
+    },
     categoryLabels: categoryJa,
     stateIndex: 4,
   },
   es: {
-    rootPrefix: "../..",
-    labels: ["Nombre", "Instalación", "Acción", "Vista previa"],
-    by: "por",
+    labels: {
+      name: "Nombre",
+      author: "Autor",
+      category: "Categoría",
+      version: "Versión",
+      install: "Instalación",
+      action: "Acción",
+      preview: "Vista previa",
+      fullActions: "Ver todas las acciones",
+      featured: "Mascota destacada",
+    },
     categoryLabels: categoryEs,
     stateIndex: 5,
   },
@@ -187,25 +227,60 @@ function localizedPetName(pet, lang) {
   return pet.localized_names?.[lang] || pet.name;
 }
 
-function petBlock(pet, lang) {
+function petDetailsUrl(slug) {
+  return `${websiteUrl}/pets/${slug}`;
+}
+
+function featuredPetBlock(pet, lang) {
   const locale = readmeLocales[lang];
+  const { labels } = locale;
   const category = normalizeCategory(pet.primary_category);
   const categoryName = locale.categoryLabels[category] || category;
   const displayName = localizedPetName(pet, lang);
+  const detailsUrl = petDetailsUrl(pet.slug);
   const stateNames = previewStates.map((state) => state[locale.stateIndex]);
-  const previews = previewStates.map(([state]) => {
+  const previews = previewStates.map(([state], index) => {
     const path = `${websiteUrl}/assets/previews/${pet.slug}/webp/${state}.webp`;
-    return `<img src="${path}" alt="${displayName} ${state}" width="120" height="130">`;
+    return `<img src="${path}" alt="${displayName} ${stateNames[index]}" width="120" height="130">`;
   });
 
   return [
     `<table>`,
-    `<tr><th>${locale.labels[0]}</th><td colspan="5"><a href="${locale.rootPrefix}/pets/${pet.slug}">${displayName}</a> · ${locale.by} ${authorLink(pet)} · ${categoryName} · v${pet.spriteVersionNumber}</td></tr>`,
-    `<tr><th>${locale.labels[1]}</th><td colspan="5"><code>${bashInstallCommand(pet.slug)}</code></td></tr>`,
-    `<tr><th>${locale.labels[2]}</th>${stateNames.map((name) => `<td><strong>${name}</strong></td>`).join("")}</tr>`,
-    `<tr><th>${locale.labels[3]}</th>${previews.map((preview) => `<td>${preview}</td>`).join("")}</tr>`,
+    `<tr><th>${labels.name}</th><td colspan="5"><strong>★ ${labels.featured}</strong> · <a href="${detailsUrl}">${displayName}</a> · ${labels.author}: ${authorLink(pet)} · ${labels.category}: ${categoryName} · ${labels.version}: v${pet.spriteVersionNumber}</td></tr>`,
+    `<tr><th>${labels.install}</th><td colspan="5"><code>${bashInstallCommand(pet.slug)}</code></td></tr>`,
+    `<tr><th>${labels.action}</th>${stateNames.map((name) => `<td><strong>${name}</strong></td>`).join("")}</tr>`,
+    `<tr><th>${labels.preview}</th>${previews.map((preview) => `<td>${preview}</td>`).join("")}</tr>`,
+    `<tr><th>${labels.fullActions}</th><td colspan="5"><a href="${detailsUrl}">${labels.fullActions} →</a></td></tr>`,
     `</table>`,
   ].join("\n");
+}
+
+function compactPetBlock(pet, lang, thumbnailSide) {
+  const locale = readmeLocales[lang];
+  const { labels } = locale;
+  const category = normalizeCategory(pet.primary_category);
+  const categoryName = locale.categoryLabels[category] || category;
+  const displayName = localizedPetName(pet, lang);
+  const detailsUrl = petDetailsUrl(pet.slug);
+  const thumbnail = [
+    `<td width="180" align="center">`,
+    `<a href="${detailsUrl}"><img src="${websiteUrl}/assets/previews/${pet.slug}/thumbnail.png" alt="${displayName} ${labels.preview}" width="160" height="173"></a>`,
+    `</td>`,
+  ].join("");
+  const information = [
+    `<td valign="top">`,
+    `<strong><a href="${detailsUrl}">${displayName}</a></strong><br>`,
+    `${labels.author}: ${authorLink(pet)} · ${labels.category}: ${categoryName} · ${labels.version}: v${pet.spriteVersionNumber}<br><br>`,
+    `<strong>${labels.install}</strong><br><code>${bashInstallCommand(pet.slug)}</code><br><br>`,
+    `<a href="${detailsUrl}">${labels.fullActions} →</a>`,
+    `</td>`,
+  ].join("");
+  const cells =
+    thumbnailSide === "left"
+      ? `${thumbnail}${information}`
+      : `${information}${thumbnail}`;
+
+  return [`<table>`, `<tr>${cells}</tr>`, `</table>`].join("\n");
 }
 
 function normalizeCategory(category) {
@@ -213,6 +288,8 @@ function normalizeCategory(category) {
 }
 
 function categorySections(pets, lang) {
+  let compactIndex = 0;
+
   return categories
     .flatMap((category) => {
       const items = pets.filter(
@@ -220,13 +297,16 @@ function categorySections(pets, lang) {
       );
       if (items.length === 0) return [];
       const title = readmeLocales[lang].categoryLabels[category] || category;
-      return [
-        [
-          `### ${title}`,
-          "",
-          items.map((pet) => petBlock(pet, lang)).join("\n\n"),
-        ].join("\n"),
-      ];
+      const petBlocks = items.map((pet) => {
+        if (featuredRank.has(pet.slug)) {
+          return featuredPetBlock(pet, lang);
+        }
+
+        const thumbnailSide = compactIndex % 2 === 0 ? "left" : "right";
+        compactIndex += 1;
+        return compactPetBlock(pet, lang, thumbnailSide);
+      });
+      return [[`### ${title}`, "", petBlocks.join("\n\n")].join("\n")];
     })
     .join("\n\n");
 }

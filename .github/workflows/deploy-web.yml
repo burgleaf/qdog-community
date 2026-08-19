@@ -133,7 +133,7 @@ jobs:
               running
               review
             )
-            sprite_version="$(node -e 'const pet = require(process.argv[1]); process.stdout.write(String(pet.spriteVersionNumber ?? 1))' "$pet_dir/pet.json")"
+            sprite_version="$(node -e 'const fs = require("node:fs"); const pet = JSON.parse(fs.readFileSync(process.argv[1], "utf8")); process.stdout.write(String(pet.spriteVersionNumber ?? 1))' "$pet_dir/pet.json")"
             if [ "$sprite_version" = "2" ]; then
               states+=(look-000-157 look-180-337)
             fi
