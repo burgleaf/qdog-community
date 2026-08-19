@@ -134,6 +134,19 @@
     "spriteVersionNumber": 1
   },
   {
+    "slug": "barboach-3d--dnnyngyen",
+    "name": "Barboach (3D)",
+    "author": "Danny Nguyen",
+    "author_handle": "dnnyngyen",
+    "author_url": "https://github.com/dnnyngyen",
+    "primary_category": "Game Characters",
+    "canonical_key": "pokemon/barboach",
+    "collections": [],
+    "license": "Non-commercial fan use in Codex companions and fan tooling. Adapted from Pokémon Showdown community-animated sprites; Pokémon imagery remains © Nintendo / Game Freak / Creatures Inc. No commercial use or bulk redistribution as a separate pet pack.",
+    "description": "A 3D animated Barboach companion adapted from an attributed Pokémon Showdown community sprite.",
+    "spriteVersionNumber": 1
+  },
+  {
     "slug": "becky--natewanggg",
     "name": "Becky",
     "author": "NateWanggg",
