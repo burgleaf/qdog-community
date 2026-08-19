@@ -1,0 +1,21 @@
+{
+  "slug": "eevee--dnnyngyen",
+  "pet_slug": "eevee",
+  "author_slug": "dnnyngyen",
+  "name": "Eevee",
+  "author": "Danny Nguyen",
+  "author_handle": "dnnyngyen",
+  "author_url": "https://github.com/dnnyngyen",
+  "primary_category": "Game Characters",
+  "canonical_key": "pokemon/eevee",
+  "collections": [],
+  "tags": ["pokemon", "eevee", "pixel-art", "2d", "pokeapi"],
+  "source_type": "github",
+  "source_url": "https://github.com/dnnyngyen/codex-pokepets/tree/main/pets/eevee",
+  "license": "Non-commercial fan use and QDog repository redistribution authorized by codex-pokepets maintainer Danny Nguyen. Derived from the PokeAPI Black and White animated sprite set; Pokémon artwork © Nintendo / Game Freak / Creatures Inc. Not affiliated with or endorsed by the rights holders.",
+  "preview_image": "../../assets/previews/eevee--dnnyngyen/gifs/idle.gif",
+  "codex_install": {
+    "pet_json": "pet.json",
+    "spritesheet": "spritesheet.webp"
+  }
+}
