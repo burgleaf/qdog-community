@@ -30,7 +30,7 @@ The site deploys automatically after commits land on `main`. The `Pet previews` 
 
 There is also a separate manual/tag-based deploy workflow available as a fallback (`v*`, `web-v*`, or manual dispatch).
 
-Complete GIF, WebP, and contact-sheet previews are generated for the CI artifact. The Pages bundle only includes thumbnails and animated WebP files referenced by the gallery and README, rather than every QA output under `assets/previews/`.
+Production deploys restore the generated preview cache and regenerate only pets whose spritesheet, runtime metadata, preview generator, or dependency declaration changed. A cold cache still performs one complete generation. The Pages bundle only includes thumbnails and animated WebP files referenced by the gallery and README, rather than every QA output under `assets/previews/`.
 
 This means README preview links can point at the deployed site while the repository stays leaner over time.
 
@@ -51,7 +51,7 @@ This means README preview links can point at the deployed site while the reposit
    - `CLOUDFLARE_API_TOKEN` — the API token from step 2
    - `CLOUDFLARE_ACCOUNT_ID` — your account ID from step 3
 
-5. Merge or push to `main` once — the `Pet previews` workflow will create the Pages project on first run and deploy automatically. If needed, you can also push a release tag (for the fallback deploy workflow) or trigger a deploy manually from the Actions tab.
+5. For the first deployment, manually run `Deploy Web to Cloudflare Pages` with `ensure_infrastructure=true` to create the Pages project and attach `q.dog`. Normal `main` and tag deployments skip these already-completed provisioning checks, avoiding an unnecessary external failure point.
 
 ### Custom Domain
 

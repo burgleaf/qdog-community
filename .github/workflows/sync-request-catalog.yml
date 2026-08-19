@@ -63,6 +63,4 @@ jobs:
         if: steps.publish.outputs.changed == 'true'
         env:
           GH_TOKEN: ${{ github.token }}
-        run: |
-          gh workflow run deploy-web.yml --ref main
-          gh workflow run deploy-stats.yml --ref main
+        run: gh workflow run deploy-web.yml --ref main -f sync_catalog=true

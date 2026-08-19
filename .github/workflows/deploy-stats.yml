@@ -2,37 +2,141 @@ name: Deploy Stats Worker
 
 on:
   workflow_call:
+    inputs:
+      sync_only:
+        description: Only synchronize pets.json and requests.json to D1
+        required: false
+        type: boolean
+        default: false
+  workflow_dispatch:
+    inputs:
+      sync_only:
+        description: Only synchronize pets.json and requests.json to D1
+        required: false
+        type: boolean
+        default: false
+  pull_request:
   push:
     branches:
       - main
     paths:
-      - "worker/**"
-      - "pets.json"
-      - "collections.json"
-      - "requests.json"
-      - ".github/workflows/deploy-stats.yml"
-  workflow_dispatch:
+      - "worker/src/**"
+      - "worker/scripts/**"
+      - "worker/test/**"
+      - "worker/migrations/**"
+      - "worker/package.json"
+      - "worker/package-lock.json"
+      - "worker/wrangler.toml"
 
 concurrency:
-  group: deploy-stats-production
+  group: deploy-stats-${{ github.event_name == 'pull_request' && github.ref || 'production' }}
   cancel-in-progress: false
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
     permissions:
+      actions: write
       contents: read
     env:
       CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
       CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-
     steps:
       - name: Checkout
         uses: actions/checkout@v7
         with:
-          ref: main
+          ref: ${{ (github.event_name == 'push' || github.event_name == 'pull_request') && github.sha || 'main' }}
+          fetch-depth: 2
+
+      - name: Determine required operations
+        id: mode
+        shell: bash
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          SYNC_ONLY: ${{ inputs.sync_only }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
+          HEAD_SHA: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+
+          if [ "$EVENT_NAME" = "workflow_call" ] || [ "$EVENT_NAME" = "workflow_dispatch" ]; then
+            if [ "$SYNC_ONLY" = "true" ]; then
+              test_worker=false
+              migrate=false
+              sync=true
+              deploy=false
+              refresh_web=true
+            else
+              test_worker=true
+              migrate=true
+              sync=true
+              deploy=true
+              refresh_web=true
+            fi
+          else
+            base_sha="$BASE_SHA"
+            diff_available=true
+            if [ -z "$base_sha" ]; then
+              diff_available=false
+            elif ! git cat-file -e "$base_sha^{commit}" 2>/dev/null; then
+              if ! git fetch origin "$base_sha" --depth=1; then
+                diff_available=false
+              fi
+            fi
+
+            test_worker=false
+            migrate=false
+            sync=false
+            deploy=false
+            refresh_web=false
+            if [ "$diff_available" != "true" ]; then
+              echo "Unable to load the event base commit; running the conservative full operation set."
+              test_worker=true
+              migrate=true
+              sync=true
+              deploy=true
+              refresh_web=true
+            else
+              git diff --name-only "$base_sha" "$HEAD_SHA" > /tmp/changed-files.txt
+              echo "Changed files:"
+              cat /tmp/changed-files.txt
+
+              if grep -Eq '^worker/(src/|scripts/|test/|migrations/|package(-lock)?\.json$|wrangler\.toml$)' /tmp/changed-files.txt; then
+                test_worker=true
+              fi
+              if grep -Eq '^worker/migrations/' /tmp/changed-files.txt; then
+                migrate=true
+                sync=true
+                refresh_web=true
+              fi
+              if grep -Eq '^worker/scripts/sync-catalog\.mjs$' /tmp/changed-files.txt; then
+                sync=true
+                refresh_web=true
+              fi
+              if grep -Eq '^worker/(src/|package(-lock)?\.json$|wrangler\.toml$)' /tmp/changed-files.txt; then
+                deploy=true
+              fi
+              if grep -Eq '^worker/(scripts/export-stats\.mjs$|package(-lock)?\.json$|wrangler\.toml$)' /tmp/changed-files.txt; then
+                refresh_web=true
+              fi
+              if grep -Fxq '.github/workflows/deploy-stats.yml' /tmp/changed-files.txt; then
+                test_worker=true
+                sync=true
+                deploy=true
+              fi
+            fi
+          fi
+
+          echo "test=$test_worker" >> "$GITHUB_OUTPUT"
+          echo "migrate=$migrate" >> "$GITHUB_OUTPUT"
+          echo "sync=$sync" >> "$GITHUB_OUTPUT"
+          echo "deploy=$deploy" >> "$GITHUB_OUTPUT"
+          echo "refresh_web=$refresh_web" >> "$GITHUB_OUTPUT"
+          printf 'Operations: test=%s migrate=%s sync=%s deploy=%s refresh-web=%s\n' \
+            "$test_worker" "$migrate" "$sync" "$deploy" "$refresh_web"
 
       - name: Setup Node.js
+        if: steps.mode.outputs.test == 'true' || steps.mode.outputs.migrate == 'true' || steps.mode.outputs.sync == 'true' || steps.mode.outputs.deploy == 'true'
         uses: actions/setup-node@v7
         with:
           node-version: 24
@@ -40,21 +144,44 @@ jobs:
           cache-dependency-path: worker/package-lock.json
 
       - name: Install dependencies
+        if: steps.mode.outputs.test == 'true' || steps.mode.outputs.migrate == 'true' || steps.mode.outputs.sync == 'true' || steps.mode.outputs.deploy == 'true'
         run: npm ci
         working-directory: worker
 
       - name: Test Worker
+        if: steps.mode.outputs.test == 'true'
         run: npm test
         working-directory: worker
 
+      - name: Validate local catalog synchronization
+        if: github.event_name == 'pull_request' && steps.mode.outputs.sync == 'true'
+        run: |
+          npm run db:migrate:local
+          npm run db:sync -- --local
+        working-directory: worker
+
+      - name: Validate Worker bundle
+        if: github.event_name == 'pull_request' && steps.mode.outputs.deploy == 'true'
+        run: npx wrangler deploy --dry-run
+        working-directory: worker
+
       - name: Apply D1 migrations
+        if: github.event_name != 'pull_request' && steps.mode.outputs.migrate == 'true'
         run: npm run db:migrate:remote
         working-directory: worker
 
       - name: Sync pet catalog
+        if: github.event_name != 'pull_request' && steps.mode.outputs.sync == 'true'
         run: npm run db:sync -- --remote
         working-directory: worker
 
       - name: Deploy Worker
+        if: github.event_name != 'pull_request' && steps.mode.outputs.deploy == 'true'
         run: npm run deploy
         working-directory: worker
+
+      - name: Refresh static stats snapshot
+        if: github.event_name != 'pull_request' && steps.mode.outputs.refresh_web == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run deploy-web.yml --ref main

@@ -1,11 +1,67 @@
 name: Deploy Web to Cloudflare Pages
 
 on:
+  workflow_call:
+    inputs:
+      sync_catalog:
+        description: Synchronize pets.json and requests.json before exporting stats
+        required: false
+        type: boolean
+        default: false
+      validate_catalog:
+        description: Validate the generated pet previews and catalog before deployment
+        required: false
+        type: boolean
+        default: false
+      ensure_infrastructure:
+        description: Create the Pages project and attach q.dog before deployment
+        required: false
+        type: boolean
+        default: false
+  workflow_dispatch:
+    inputs:
+      sync_catalog:
+        description: Synchronize pets.json and requests.json before exporting stats
+        required: false
+        type: boolean
+        default: false
+      validate_catalog:
+        description: Validate the generated pet previews and catalog before deployment
+        required: false
+        type: boolean
+        default: false
+      ensure_infrastructure:
+        description: Create the Pages project and attach q.dog before deployment
+        required: false
+        type: boolean
+        default: false
   push:
+    branches:
+      - main
     tags:
       - "v*"
       - "web-v*"
-  workflow_dispatch:
+    paths:
+      - "web/app/**"
+      - "web/components/**"
+      - "web/lib/**"
+      - "web/public/**"
+      - "web/scripts/**"
+      - "web/eslint.config.mjs"
+      - "web/next.config.ts"
+      - "web/package.json"
+      - "web/package-lock.json"
+      - "web/postcss.config.mjs"
+      - "web/tsconfig.json"
+      - "assets/brand/**"
+      - "assets/cover/**"
+      - "assets/request-placeholders/**"
+      - "collections.json"
+      - "requests.json"
+
+concurrency:
+  group: deploy-web-production
+  cancel-in-progress: true
 
 jobs:
   deploy:
@@ -17,10 +73,11 @@ jobs:
       NEXT_PUBLIC_BING_SITE_VERIFICATION: ${{ secrets.BING_SITE_VERIFICATION }}
       NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION: ${{ secrets.GOOGLE_SITE_VERIFICATION }}
       NEXT_PUBLIC_SITE_URL: "https://q.dog"
-
     steps:
-      - name: Checkout
+      - name: Checkout deployment source
         uses: actions/checkout@v7
+        with:
+          ref: ${{ startsWith(github.ref, 'refs/tags/') && github.ref || 'main' }}
 
       - name: Setup Node.js
         uses: actions/setup-node@v7
@@ -28,26 +85,127 @@ jobs:
           node-version: 24
           cache: npm
           cache-dependency-path: |
+            package-lock.json
             web/package-lock.json
             worker/package-lock.json
 
+      - name: Restore generated preview cache
+        uses: actions/cache@v5
+        with:
+          path: assets/previews
+          key: pet-previews-v2-${{ hashFiles('pets/**/spritesheet.webp', 'pets/**/pet.json', 'scripts/generate-pet-previews.py', 'requirements.txt') }}
+          restore-keys: |
+            pet-previews-v2-
+
+      - name: Plan incremental preview generation
+        id: preview-plan
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p assets/previews/.source-hashes /tmp/preview-source-hashes
+          : > /tmp/pets-to-preview.txt
+
+          for pet_dir in pets/*; do
+            [ -d "$pet_dir" ] || continue
+            pet_id="${pet_dir#pets/}"
+            source_hash="$({
+              sha256sum \
+                "$pet_dir/spritesheet.webp" \
+                "$pet_dir/pet.json" \
+                scripts/generate-pet-previews.py \
+                requirements.txt
+            } | sha256sum | cut -d' ' -f1)"
+            marker="assets/previews/.source-hashes/$pet_id"
+            cached_hash=""
+            if [ -f "$marker" ]; then
+              cached_hash="$(cat "$marker")"
+            fi
+
+            preview_complete=true
+            states=(
+              idle
+              running-right
+              running-left
+              waving
+              jumping
+              failed
+              waiting
+              running
+              review
+            )
+            sprite_version="$(node -e 'const pet = require(process.argv[1]); process.stdout.write(String(pet.spriteVersionNumber ?? 1))' "$pet_dir/pet.json")"
+            if [ "$sprite_version" = "2" ]; then
+              states+=(look-000-157 look-180-337)
+            fi
+            for state in "${states[@]}"; do
+              if [ ! -f "assets/previews/$pet_id/gifs/$state.gif" ] || \
+                 [ ! -f "assets/previews/$pet_id/webp/$state.webp" ]; then
+                preview_complete=false
+                break
+              fi
+            done
+
+            if [ "$cached_hash" != "$source_hash" ] || \
+               [ "$preview_complete" != "true" ] || \
+               [ ! -f "assets/previews/$pet_id/thumbnail.png" ] || \
+               [ ! -f "assets/previews/$pet_id/contact-sheet.png" ]; then
+              echo "$pet_id" >> /tmp/pets-to-preview.txt
+              printf '%s\n' "$source_hash" > "/tmp/preview-source-hashes/$pet_id"
+            fi
+          done
+
+          count="$(wc -l < /tmp/pets-to-preview.txt | tr -d ' ')"
+          echo "count=$count" >> "$GITHUB_OUTPUT"
+          if [ "$count" -gt 0 ]; then
+            echo "generate=true" >> "$GITHUB_OUTPUT"
+            echo "Generating previews for $count changed or uncached pet(s)."
+          else
+            echo "generate=false" >> "$GITHUB_OUTPUT"
+            echo "All pet previews are current; skipping generation."
+          fi
+
       - name: Setup Python
+        if: steps.preview-plan.outputs.generate == 'true'
         uses: actions/setup-python@v7
         with:
           python-version: "3.11"
 
       - name: Install preview dependencies
+        if: steps.preview-plan.outputs.generate == 'true'
         run: python -m pip install -r requirements.txt
 
-      - name: Generate previews for site bundle
-        run: npm run previews
+      - name: Generate changed or uncached previews
+        if: steps.preview-plan.outputs.generate == 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          while IFS= read -r pet_id; do
+            python3 scripts/generate-pet-previews.py "$pet_id"
+            cp "/tmp/preview-source-hashes/$pet_id" "assets/previews/.source-hashes/$pet_id"
+          done < /tmp/pets-to-preview.txt
 
-      - name: Install dependencies
+      - name: Install repository dependencies
+        if: inputs.validate_catalog == true
+        run: npm ci
+
+      - name: Validate repository
+        if: inputs.validate_catalog == true
+        run: npm run validate
+
+      - name: Install web dependencies
         run: npm ci
         working-directory: web
 
       - name: Install stats export dependencies
         run: npm ci
+        working-directory: worker
+
+      - name: Synchronize pet and request catalogs
+        if: inputs.sync_catalog == true
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: npm run db:sync -- --remote
         working-directory: worker
 
       - name: Export static stats snapshot
@@ -57,20 +215,22 @@ jobs:
         run: npm run db:export -- --remote
         working-directory: worker
 
-      - name: Build
+      - name: Build web
         run: npm run build
         working-directory: web
 
       - name: Ensure Cloudflare Pages project exists
+        if: inputs.ensure_infrastructure == true
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: |
-          npx --yes wrangler@3 pages project create qdog-community \
+          npx --yes wrangler@4.110.0 pages project create qdog-community \
             --production-branch=main 2>/dev/null || \
             echo "Project already exists, skipping create."
 
       - name: Ensure canonical apex domain is attached
+        if: inputs.ensure_infrastructure == true
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
@@ -84,6 +244,7 @@ jobs:
           command: pages deploy web/out --project-name=qdog-community --branch=main --commit-dirty=true
 
       - name: Verify AI search access
+        continue-on-error: true
         run: node web/scripts/check-ai-search-access.mjs
 
       - name: Notify IndexNow

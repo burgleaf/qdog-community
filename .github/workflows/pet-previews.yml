@@ -3,15 +3,19 @@ name: Pet previews
 permissions:
   contents: write
   deployments: write
-  issues: write
 
 on:
   pull_request:
   push:
     branches:
       - main
-    paths-ignore:
-      - "assets/community/star-history.svg"
+    paths:
+      - "pets/**"
+      - "categories.json"
+      - "scripts/generate-pet-previews.py"
+      - "scripts/generate-readmes.mjs"
+      - "scripts/validate-pets.mjs"
+      - "requirements.txt"
 
 concurrency:
   group: pet-previews-${{ github.ref }}
@@ -19,8 +23,6 @@ concurrency:
 
 jobs:
   previews:
-    outputs:
-      catalog-changed: ${{ steps.commit-generated.outputs.catalog-changed }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -28,28 +30,73 @@ jobs:
         with:
           fetch-depth: 2
 
+      - name: Determine catalog check scope
+        id: scope
+        shell: bash
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          set -euo pipefail
+          if [ "$EVENT_NAME" != "pull_request" ]; then
+            echo "relevant=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          if ! git cat-file -e "$BASE_SHA^{commit}" 2>/dev/null; then
+            git fetch origin "$BASE_SHA" --depth=1
+          fi
+          git diff --name-only "$BASE_SHA" HEAD > /tmp/changed-files.txt
+          if grep -Eq '\.(md|json)$' /tmp/changed-files.txt; then
+            echo "format=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "format=false" >> "$GITHUB_OUTPUT"
+          fi
+          if grep -Eq '^(pets/|categories\.json$|scripts/(generate-pet-previews\.py|generate-readmes\.mjs|validate-pets\.mjs|check-readme-locales\.mjs|install-pet\.(mjs|sh|ps1)|test/)|package(-lock)?\.json$|requirements\.txt$)' /tmp/changed-files.txt; then
+            echo "relevant=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "relevant=false" >> "$GITHUB_OUTPUT"
+            echo "No catalog-affecting files changed; skipping pet checks."
+          fi
+
       - name: Setup Node.js
+        if: steps.scope.outputs.relevant == 'true' || steps.scope.outputs.format == 'true'
         uses: actions/setup-node@v7
         with:
           node-version: 24
           cache: npm
 
       - name: Install repository dependencies
+        if: steps.scope.outputs.relevant == 'true' || steps.scope.outputs.format == 'true'
         run: npm ci
 
-      - name: Generate repository listings
+      - name: Check changed Markdown and JSON formatting
+        if: github.event_name == 'pull_request' && steps.scope.outputs.format == 'true'
+        shell: bash
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
         run: |
-          npm run readmes
+          git diff --name-only -z "$BASE_SHA" HEAD -- '*.md' '*.json' \
+            | xargs -0 npx prettier --check
+
+      - name: Generate repository listings
+        if: steps.scope.outputs.relevant == 'true'
+        run: npm run readmes
 
       - name: Validate pull request payload
-        if: github.event_name == 'pull_request'
+        if: github.event_name == 'pull_request' && steps.scope.outputs.relevant == 'true'
         run: |
           npm run validate:pr
-          npm run lint
+          npx prettier --check \
+            "pets/**/*.json" \
+            categories.json \
+            pets.json \
+            README.md \
+            "docs/{zh-CN,ko,ja,es}/README.md"
+          node scripts/check-readme-locales.mjs
 
       - name: Find changed pets
         id: changed-pets
-        if: github.event_name == 'pull_request'
+        if: github.event_name == 'pull_request' && steps.scope.outputs.relevant == 'true'
         env:
           BASE_SHA: ${{ github.event.pull_request.base.sha }}
         run: |
@@ -89,7 +136,14 @@ jobs:
 
       - name: Validate generated listings on main
         if: github.event_name == 'push'
-        run: npm run lint
+        run: |
+          npx prettier --check \
+            "pets/**/*.json" \
+            categories.json \
+            pets.json \
+            README.md \
+            "docs/{zh-CN,ko,ja,es}/README.md"
+          node scripts/check-readme-locales.mjs
 
       - name: Commit generated files on main
         id: commit-generated
@@ -97,9 +151,17 @@ jobs:
         run: |
           git fetch origin main
           if [ "$(git rev-parse origin/main)" != "$GITHUB_SHA" ]; then
-            echo "main moved ahead while this run was executing; skip generated commit from stale run."
-            echo "catalog-changed=false" >> "$GITHUB_OUTPUT"
-            exit 0
+            echo "main moved ahead; regenerate from the latest main before publishing."
+            git restore \
+              README.md \
+              docs/zh-CN/README.md \
+              docs/ko/README.md \
+              docs/ja/README.md \
+              docs/es/README.md \
+              pets.json
+            git checkout -B main origin/main
+            npm run readmes
+            node scripts/check-readme-locales.mjs
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -110,13 +172,11 @@ jobs:
             docs/ja/README.md \
             docs/es/README.md \
             pets.json
-          catalog_changed=false
-          if git diff --cached --name-only | grep -Fxq pets.json; then
-            catalog_changed=true
-          fi
           git diff --cached --quiet || git commit -m "chore: update generated previews and readmes"
-          git push
-          echo "catalog-changed=$catalog_changed" >> "$GITHUB_OUTPUT"
+          git push || {
+            git pull --rebase origin main
+            git push
+          }
 
   web-quality:
     if: github.event_name == 'pull_request'
@@ -126,121 +186,63 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v7
+        with:
+          fetch-depth: 2
+
+      - name: Determine web check scope
+        id: scope
+        shell: bash
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          set -euo pipefail
+          if ! git cat-file -e "$BASE_SHA^{commit}" 2>/dev/null; then
+            git fetch origin "$BASE_SHA" --depth=1
+          fi
+          git diff --name-only "$BASE_SHA" HEAD > /tmp/changed-files.txt
+          if grep -Eq '^(web/(app/|components/|lib/|public/|scripts/|eslint\.config\.mjs$|next\.config\.ts$|package(-lock)?\.json$|postcss\.config\.mjs$|tsconfig\.json$)|pets/|categories\.json$|collections\.json$|requests\.json$|scripts/(generate-pet-previews\.py|generate-readmes\.mjs)|requirements\.txt$)' /tmp/changed-files.txt; then
+            echo "relevant=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "relevant=false" >> "$GITHUB_OUTPUT"
+            echo "No web-affecting files changed; skipping web checks."
+          fi
 
       - name: Setup Node.js
-        uses: actions/setup-node@v7
-        with:
-          node-version: 24
-          cache: npm
-          cache-dependency-path: web/package-lock.json
-
-      - name: Install web dependencies
-        run: npm ci
-        working-directory: web
-
-      - name: Lint web
-        run: npm run lint
-        working-directory: web
-
-      - name: Build web
-        run: npm run build:pr
-        working-directory: web
-
-  deploy-stats:
-    if: github.event_name == 'push' && needs.previews.outputs.catalog-changed == 'true'
-    needs: previews
-    uses: ./.github/workflows/deploy-stats.yml
-    secrets: inherit
-
-  deploy-web:
-    if: github.event_name == 'push'
-    needs: previews
-    runs-on: ubuntu-latest
-    env:
-      NEXT_PUBLIC_BING_SITE_VERIFICATION: ${{ secrets.BING_SITE_VERIFICATION }}
-      NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION: ${{ secrets.GOOGLE_SITE_VERIFICATION }}
-      NEXT_PUBLIC_SITE_URL: "https://q.dog"
-
-    steps:
-      - name: Checkout latest main
-        uses: actions/checkout@v7
-        with:
-          ref: main
-
-      - name: Setup Node.js
+        if: steps.scope.outputs.relevant == 'true'
         uses: actions/setup-node@v7
         with:
           node-version: 24
           cache: npm
           cache-dependency-path: |
+            package-lock.json
             web/package-lock.json
-            worker/package-lock.json
 
-      - name: Setup Python
-        uses: actions/setup-python@v7
-        with:
-          python-version: "3.11"
-
-      - name: Install preview dependencies
-        run: python -m pip install -r requirements.txt
-
-      - name: Generate previews for site bundle
-        run: npm run previews
-
-      - name: Validate repository
-        run: npm run validate
-
-      - name: Upload generated previews
-        uses: actions/upload-artifact@v7
-        with:
-          name: pet-previews
-          path: assets/previews/
-          if-no-files-found: error
+      - name: Prepare generated catalog
+        if: steps.scope.outputs.relevant == 'true'
+        run: |
+          npm ci
+          npm run readmes
 
       - name: Install web dependencies
+        if: steps.scope.outputs.relevant == 'true'
         run: npm ci
         working-directory: web
 
-      - name: Install stats export dependencies
-        run: npm ci
-        working-directory: worker
-
-      - name: Export static stats snapshot
-        env:
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-        run: npm run db:export -- --remote
-        working-directory: worker
+      - name: Lint web
+        if: steps.scope.outputs.relevant == 'true'
+        run: npm run lint
+        working-directory: web
 
       - name: Build web
-        run: npm run build
+        if: steps.scope.outputs.relevant == 'true'
+        run: npm run build:pr
         working-directory: web
 
-      - name: Ensure Cloudflare Pages project exists
-        env:
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-        run: |
-          npx --yes wrangler@3 pages project create qdog-community \
-            --production-branch=main 2>/dev/null || \
-            echo "Project already exists, skipping create."
-
-      - name: Ensure canonical apex domain is attached
-        env:
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-        run: node web/scripts/ensure-pages-domain.mjs q.dog
-
-      - name: Deploy to Cloudflare Pages
-        uses: cloudflare/wrangler-action@v4
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy web/out --project-name=qdog-community --branch=main --commit-dirty=true
-
-      - name: Verify AI search access
-        run: node web/scripts/check-ai-search-access.mjs
-
-      - name: Notify IndexNow
-        continue-on-error: true
-        run: INDEXNOW_KEY="${{ secrets.INDEXNOW_KEY }}" node web/scripts/submit-indexnow.mjs web/out/sitemap.xml
+  deploy-web:
+    if: github.event_name == 'push'
+    needs: previews
+    uses: ./.github/workflows/deploy-web.yml
+    with:
+      sync_catalog: true
+      validate_catalog: true
+    secrets: inherit

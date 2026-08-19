@@ -97,6 +97,16 @@ function buildSyncSql(catalog, requestCatalog, legacyStats) {
         : 0;
     return `(${issueNumber}, ${active}, ${nonNegativeInteger(request.reactions)}, ${Date.parse(request.updatedAt) || 0})`;
   });
+  const requestSyncSql =
+    requests.length === 0
+      ? ""
+      : `INSERT INTO request_stats (issue_number, active, supporters, updated_at)
+VALUES
+  ${requests.join(",\n  ")}
+ON CONFLICT(issue_number) DO UPDATE SET
+  active = excluded.active,
+  supporters = MAX(request_stats.supporters, excluded.supporters),
+  updated_at = MAX(request_stats.updated_at, excluded.updated_at);`;
 
   return `PRAGMA foreign_keys = ON;
 UPDATE pet_stats SET active = 0;
@@ -117,13 +127,7 @@ ON CONFLICT(slug) DO UPDATE SET
   active = 1;
 
 UPDATE request_stats SET active = 0;
-INSERT INTO request_stats (issue_number, active, supporters, updated_at)
-VALUES
-  ${requests.join(",\n  ")}
-ON CONFLICT(issue_number) DO UPDATE SET
-  active = excluded.active,
-  supporters = MAX(request_stats.supporters, excluded.supporters),
-  updated_at = MAX(request_stats.updated_at, excluded.updated_at);
+${requestSyncSql}
 `;
 }
 
@@ -136,8 +140,8 @@ async function main() {
   if (!Array.isArray(catalog) || catalog.length === 0) {
     throw new Error("pets.json must contain a non-empty array");
   }
-  if (!Array.isArray(requestCatalog) || requestCatalog.length === 0) {
-    throw new Error("requests.json must contain a non-empty array");
+  if (!Array.isArray(requestCatalog)) {
+    throw new Error("requests.json must contain an array");
   }
   const legacyStats =
     options.statsUrl && !options.skipLegacy
