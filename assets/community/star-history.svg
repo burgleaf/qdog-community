@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="1000" height="440" viewBox="0 0 1000 440" role="img" aria-labelledby="title description">
   <title id="title">Awesome Codex Pet GitHub star history</title>
-  <desc id="description">0 stars from No stars recorded yet</desc>
+  <desc id="description">2 stars from Aug 19, 2026 – Aug 19, 2026</desc>
   <defs>
     <linearGradient id="area" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0%" stop-color="#10b981" stop-opacity="0.3" />
@@ -16,8 +16,8 @@
   </defs>
   <rect x="0.5" y="0.5" width="999" height="439" rx="12" fill="#ffffff" stroke="#e5e7eb" />
   <text x="72" y="39" class="title">GitHub Star History</text>
-  <text x="72" y="64" class="subtitle">burgleaf/qdog-community · No stars recorded yet</text>
-  <text x="966" y="45" text-anchor="end" class="count">0 stars</text>
+  <text x="72" y="64" class="subtitle">burgleaf/qdog-community · Aug 19, 2026 – Aug 19, 2026</text>
+  <text x="966" y="45" text-anchor="end" class="count">2 stars</text>
   
       <line x1="72" y1="378" x2="966" y2="378" stroke="#e5e7eb" stroke-width="1" />
       <text x="58" y="383" text-anchor="end" class="axis">0</text>
@@ -32,7 +32,7 @@
       <line x1="72" y1="82" x2="966" y2="82" stroke="#e5e7eb" stroke-width="1" />
       <text x="58" y="87" text-anchor="end" class="axis">5</text>
   <text x="72" y="415" text-anchor="start" class="axis">Aug 19</text><text x="295.5" y="415" text-anchor="middle" class="axis">Aug 19</text><text x="519" y="415" text-anchor="middle" class="axis">Aug 19</text><text x="742.5" y="415" text-anchor="middle" class="axis">Aug 19</text><text x="966" y="415" text-anchor="end" class="axis">Aug 20</text>
-  <polygon points="72,378 966.00,378" fill="url(#area)" />
-  <polyline points="72,378" fill="none" stroke="#10b981" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
-  
+  <polygon points="72,378 72.00,259.60 72.00,378" fill="url(#area)" />
+  <polyline points="72,378 72.00,259.60" fill="none" stroke="#10b981" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+  <circle cx="72.00" cy="259.60" r="6" fill="#ffffff" stroke="#10b981" stroke-width="4" />
 </svg>
