@@ -92,6 +92,14 @@ function traitsList(traits: string) {
   return traits.split("|").map((trait) => trait.replace(":", " · "));
 }
 
+function currentPageReturnTo() {
+  if (typeof window === "undefined") return "/eggs";
+  const url = new URL(window.location.href);
+  // A previous OAuth failure must not be carried into a retry's success redirect.
+  url.searchParams.delete("login");
+  return `${url.pathname}${url.search}${url.hash}`;
+}
+
 export function DailyPetEggsPage({ locale }: { locale: Locale }) {
   const text = copy[locale === "zh" ? "zh" : "en"];
   const [catalog, setCatalog] = useState<DailyPetEggCatalog | null>(null);
@@ -161,7 +169,7 @@ export function DailyPetEggsPage({ locale }: { locale: Locale }) {
     await refresh();
   }
 
-  const returnTo = typeof window === "undefined" ? "/eggs" : `${window.location.pathname}${window.location.search}`;
+  const returnTo = currentPageReturnTo();
   const loginFailed = typeof window !== "undefined" && new URLSearchParams(window.location.search).get("login") === "failed";
 
   return (
@@ -185,7 +193,7 @@ export function DailyPetEggsPage({ locale }: { locale: Locale }) {
             <span className="text-sm text-muted">{text.dailyLimit}</span>
           </div>
           {!account ? <p className="mt-4 text-sm text-muted">{text.loginHint}</p> : null}
-          {loginFailed ? <p className="mt-4 text-sm font-semibold text-[#b42318]" role="alert">{text.failedLogin}</p> : null}
+          {!account && loginFailed ? <p className="mt-4 text-sm font-semibold text-[#b42318]" role="alert">{text.failedLogin}</p> : null}
           {message ? <p className="mt-4 text-sm font-semibold text-[#b42318]" role="alert">{message}</p> : null}
         </section>
 
