@@ -40,7 +40,22 @@ export default function sitemap(): MetadataRoute.Sitemap {
     {
       url: `${siteConfig.url}/eggs`,
       changeFrequency: "daily",
-      priority: 0.75,
+      priority: 0.95,
+    },
+    {
+      url: `${siteConfig.url}/eggs/redeem`,
+      changeFrequency: "daily",
+      priority: 0.9,
+    },
+    {
+      url: `${siteConfig.url}/en/eggs/redeem`,
+      changeFrequency: "daily",
+      priority: 0.8,
+    },
+    {
+      url: `${siteConfig.url}/zh/eggs/redeem`,
+      changeFrequency: "daily",
+      priority: 0.9,
     },
     {
       url: `${siteConfig.url}/en/eggs`,
@@ -88,7 +103,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       {
         url: `${siteConfig.url}${localePath(locale, "/eggs")}`,
         changeFrequency: "daily" as const,
-        priority: 0.8,
+        priority: 0.9,
+      },
+      {
+        url: `${siteConfig.url}${localePath(locale, "/eggs/redeem")}`,
+        changeFrequency: "daily" as const,
+        priority: 0.85,
       },
       {
         url: `${siteConfig.url}${localePath(locale, "/request")}`,

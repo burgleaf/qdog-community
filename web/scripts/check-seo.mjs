@@ -49,6 +49,7 @@ function checkPage(filePath, html) {
       ? ""
       : outputPath.replace(/(?:\/index)?\.html$/, "");
   const expectedCanonical = `${SITE_URL}${route ? `/${route}` : ""}`;
+  const isPrivateRoute = /(?:^|\/)(?:account|login)$/.test(route);
   const routeLocale = outputPath.split(/[/.]/)[0];
   const expectedLanguage = routeLanguages[routeLocale] ?? "en";
   requireMatch(html, /<title>[^<]+<\/title>/, `${outputPath}: missing title`);
@@ -96,10 +97,12 @@ function checkPage(filePath, html) {
     failures.push(
       `${outputPath}: canonical is ${canonical ?? "missing"}, expected ${expectedCanonical}`,
     );
-  } else {
+  } else if (!isPrivateRoute) {
     canonicalUrls.add(normalizeUrl(canonical));
   }
-  if (/noindex/i.test(html)) {
+  if (isPrivateRoute && !/noindex/i.test(html)) {
+    failures.push(`${outputPath}: private account page must be noindex`);
+  } else if (!isPrivateRoute && /noindex/i.test(html)) {
     failures.push(`${outputPath}: unexpectedly noindex`);
   }
   if (/pages\.dev|www\.codexpet\.top/.test(html)) {
@@ -137,7 +140,7 @@ await Promise.all(
 const home = await readFile(join(outDir, "index.html"), "utf8");
 for (const required of [
   "free Codex pet gallery and community",
-  "Your free community",
+  "Meet the community’s",
   "Browse and install",
   "/request",
 ]) {
@@ -155,8 +158,8 @@ for (const language of hreflangLocales) {
 
 const chineseHome = await readFile(join(outDir, "zh.html"), "utf8");
 for (const required of [
-  "免费的社区",
-  "Codex 小宠物画廊",
+  "社区宠物",
+  "Codex 社区宠物",
   "浏览并安装",
   "/zh/request",
 ]) {

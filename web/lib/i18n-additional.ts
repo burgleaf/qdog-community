@@ -8,7 +8,7 @@ export const additionalTranslations: Record<
   TranslationOverrides
 > = {
   ko: {
-    gallery: "갤러리",
+    gallery: "커뮤니티 펫",
     collections: "컬렉션",
     rankings: "랭킹",
     install: "설치",
@@ -45,7 +45,7 @@ export const additionalTranslations: Record<
     heroStatLicense: "오픈 소스",
     exploreGallery: "갤러리 보기",
     submitYourPet: "펫 제출",
-    galleryTitle: "갤러리",
+    galleryTitle: "커뮤니티 펫",
     petsAvailable: "펫 {count}마리",
     searchPlaceholder: "펫, 제작자, 태그 검색...",
     allCategories: "전체 카테고리",
@@ -227,7 +227,7 @@ export const additionalTranslations: Record<
     failed: "실패",
   },
   ja: {
-    gallery: "ギャラリー",
+    gallery: "コミュニティペット",
     collections: "コレクション",
     rankings: "ランキング",
     install: "インストール",
@@ -264,7 +264,7 @@ export const additionalTranslations: Record<
     heroStatLicense: "オープンソース",
     exploreGallery: "ギャラリーを見る",
     submitYourPet: "ペットを投稿",
-    galleryTitle: "ギャラリー",
+    galleryTitle: "コミュニティペット",
     petsAvailable: "{count} 体のペット",
     searchPlaceholder: "ペット、作者、タグを検索...",
     allCategories: "すべてのカテゴリー",
@@ -446,7 +446,7 @@ export const additionalTranslations: Record<
     failed: "失敗",
   },
   es: {
-    gallery: "Galería",
+    gallery: "Mascotas de la comunidad",
     collections: "Colecciones",
     rankings: "Clasificación",
     install: "Instalar",
@@ -484,7 +484,7 @@ export const additionalTranslations: Record<
     heroStatLicense: "Código abierto",
     exploreGallery: "Explorar la galería",
     submitYourPet: "Enviar tu mascota",
-    galleryTitle: "Galería",
+    galleryTitle: "Mascotas de la comunidad",
     petsAvailable: "{count} mascotas disponibles",
     searchPlaceholder: "Buscar mascotas, autores o etiquetas...",
     allCategories: "Todas las categorías",

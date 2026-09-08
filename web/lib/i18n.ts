@@ -68,7 +68,7 @@ export function localeFromPathname(pathname: string): Locale | null {
 export const translations = {
   en: {
     // Header
-    gallery: "Gallery",
+    gallery: "Community pets",
     collections: "Collections",
     rankings: "Rankings",
     install: "Install",
@@ -96,14 +96,14 @@ export const translations = {
     switchToDarkMode: "Switch to dark mode",
 
     // Hero
-    heroBadge: "{count} carefully selected pets",
-    heroTitle1: "Your free community",
-    heroTitle2: "Codex pet gallery",
+    heroBadge: "{count} community pets",
+    heroTitle1: "Meet the community’s",
+    heroTitle2: "Codex pets",
     heroDesc:
       "Browse community-made companions like a free pet store: preview every animation, install a favorite in one step, or request a character you want the community to make.",
     heroExplore: "Browse and install",
     heroSubmit: "Request a character",
-    heroStatPets: "Selected pets",
+    heroStatPets: "Community pets",
     heroStatCategories: "Categories",
     heroStatLicense: "Open source",
     heroStatLicenseValue: "MIT + CC BY-NC",
@@ -111,7 +111,7 @@ export const translations = {
     submitYourPet: "Submit your pet",
 
     // Gallery
-    galleryTitle: "Gallery",
+    galleryTitle: "Community pets",
     petsAvailable: "{count} pets available",
     searchPlaceholder: "Search pets, authors, tags...",
     allCategories: "All categories",
@@ -496,7 +496,7 @@ export const translations = {
   },
   zh: {
     // Header
-    gallery: "精品画廊",
+    gallery: "社区宠物",
     collections: "合集",
     rankings: "榜单",
     install: "安装",
@@ -523,14 +523,14 @@ export const translations = {
     switchToDarkMode: "切换到深色模式",
 
     // Hero
-    heroBadge: "已收录 {count} 只精品宠物",
+    heroBadge: "已收录 {count} 只社区宠物",
     heroTitle1: "免费的社区",
-    heroTitle2: "Codex 小宠物画廊",
+    heroTitle2: "Codex 社区宠物",
     heroDesc:
       "像逛免费小宠物商店一样预览完整动画，一键安装喜欢的动漫、游戏或原创伙伴；没有想要的角色，还可以提交社区制作申请。",
     heroExplore: "浏览并安装",
     heroSubmit: "申请喜欢的角色",
-    heroStatPets: "精品收录",
+    heroStatPets: "社区收录",
     heroStatCategories: "分类数",
     heroStatLicense: "开源许可",
     heroStatLicenseValue: "MIT + CC BY-NC",
@@ -538,7 +538,7 @@ export const translations = {
     submitYourPet: "提交你的宠物",
 
     // Gallery
-    galleryTitle: "画廊",
+    galleryTitle: "社区宠物",
     petsAvailable: "共 {count} 只宠物",
     searchPlaceholder: "搜索宠物、作者、标签...",
     allCategories: "全部分类",

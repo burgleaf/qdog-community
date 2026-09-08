@@ -1,155 +1,43 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 
-import {
-  claimDailyPetEgg,
-  getCurrentAccount,
-  getDailyPetEggs,
-  googleLoginUrl,
-  logoutQDogAccount,
-  setDailyPetEggSupport,
-  type DailyPetEggCatalog,
-  type PetEggAsset,
-  type QDogAccount,
-} from "@/lib/qdog-server";
-import type { Locale } from "@/lib/i18n";
+import { getCurrentAccount, getDailyPetEggs, setDailyPetEggSupport, type DailyPetEggCatalog, type QDogAccount } from "@/lib/qdog-server";
+import { localePath, type Locale } from "@/lib/i18n";
 
-type Copy = {
-  eyebrow: string;
-  title: string;
-  intro: string;
-  login: string;
-  logout: string;
-  greeting: string;
-  available: string;
-  claimed: string;
-  support: string;
-  supported: string;
-  claim: string;
-  claimedByYou: string;
-  dailyLimit: string;
-  inventory: string;
-  backpack: string;
-  emptyBackpack: string;
-  loginHint: string;
-  failedLogin: string;
-  unavailable: string;
-  loading: string;
-  code: string;
-};
-
-const copy: Record<"en" | "zh", Copy> = {
+const copy = {
   en: {
-    eyebrow: "Daily pet eggs",
-    title: "50 new pet eggs, every day",
-    intro: "A fresh batch is issued at 00:00 UTC. Sign in with Google to support a favorite egg and claim one available egg each day.",
-    login: "Continue with Google",
-    logout: "Log out",
-    greeting: "Signed in as",
-    available: "Available",
-    claimed: "Claimed",
-    support: "Support",
-    supported: "Supported",
-    claim: "Claim this egg",
-    claimedByYou: "In your backpack",
-    dailyLimit: "You can claim one egg per day.",
-    inventory: "today's issued codes",
-    backpack: "Your pet egg backpack",
-    emptyBackpack: "Your backpack is empty. Claim an available egg from today’s release.",
-    loginHint: "Google sign-in is required for claiming, support, and your backpack.",
-    failedLogin: "Google sign-in did not complete. Please try again.",
-    unavailable: "This egg was just claimed or your daily claim has already been used.",
-    loading: "Loading today’s pet eggs…",
-    code: "Issue",
+    eyebrow: "Pet egg assets", title: "Today’s 50 pet egg codes", intro: "Every code can be redeemed once. The egg’s appearance stays hidden until it enters your backpack.",
+    available: "Available", redeemed: "Redeemed", support: "Support", supported: "Supported", copy: "Copy code", copied: "Copied",
+    redeem: "Redeem a code", account: "Personal center", login: "Log in to support or redeem", inventory: "Issued at 00:00 UTC", loading: "Loading today’s codes…", unavailable: "Unable to update. Please try again.",
   },
   zh: {
-    eyebrow: "每日宠物蛋",
-    title: "每天固定发放 50 枚宠物蛋",
-    intro: "每日 00:00 UTC 发放新一批。使用 Google 登录后，可以支持心仪的宠物蛋，并每天领取一枚仍可用的宠物蛋。",
-    login: "使用 Google 登录",
-    logout: "退出登录",
-    greeting: "当前登录",
-    available: "可领取",
-    claimed: "已领取",
-    support: "支持",
-    supported: "已支持",
-    claim: "领取这枚宠物蛋",
-    claimedByYou: "已收入背包",
-    dailyLimit: "每个账号每天可领取一枚。",
-    inventory: "今日发放编号",
-    backpack: "你的宠物蛋背包",
-    emptyBackpack: "背包还是空的，领取今日仍可用的宠物蛋吧。",
-    loginHint: "领取、支持和查看背包均需要使用 Google 登录。",
-    failedLogin: "Google 登录未完成，请重试。",
-    unavailable: "这枚宠物蛋刚刚被领取，或你今天已经领取过一枚。",
-    loading: "正在加载今日宠物蛋…",
-    code: "发放编号",
+    eyebrow: "宠物蛋资产", title: "今日发放的 50 个宠物蛋代码", intro: "每个代码只能兑换一次。兑换前隐藏宠物蛋属性，进入背包后才揭晓专属外观。",
+    available: "可兑换", redeemed: "已兑换", support: "支持", supported: "已支持", copy: "复制代码", copied: "已复制",
+    redeem: "兑换宠物蛋", account: "个人中心", login: "登录后支持或兑换", inventory: "每日 00:00 UTC 发放", loading: "正在加载今日代码…", unavailable: "操作失败，请稍后重试。",
   },
 };
-
-function traitsList(traits: string) {
-  return traits.split("|").map((trait) => trait.replace(":", " · "));
-}
-
-function currentPageReturnTo() {
-  if (typeof window === "undefined") return "/eggs";
-  const url = new URL(window.location.href);
-  // A previous OAuth failure must not be carried into a retry's success redirect.
-  url.searchParams.delete("login");
-  return `${url.pathname}${url.search}${url.hash}`;
-}
 
 export function DailyPetEggsPage({ locale }: { locale: Locale }) {
   const text = copy[locale === "zh" ? "zh" : "en"];
   const [catalog, setCatalog] = useState<DailyPetEggCatalog | null>(null);
   const [account, setAccount] = useState<QDogAccount | null>(null);
-  const [assets, setAssets] = useState<PetEggAsset[]>([]);
   const [pendingId, setPendingId] = useState<string | null>(null);
+  const [copiedId, setCopiedId] = useState<string | null>(null);
   const [message, setMessage] = useState("");
 
-  const refresh = async () => {
-    const [nextCatalog, nextAccount] = await Promise.all([
-      getDailyPetEggs(),
-      getCurrentAccount(),
-    ]);
+  async function refresh() {
+    const [nextCatalog, nextAccount] = await Promise.all([getDailyPetEggs(), getCurrentAccount()]);
     setCatalog(nextCatalog);
     setAccount(nextAccount);
-    if (nextAccount) {
-      const response = await fetch(
-        `${(process.env.NEXT_PUBLIC_QDOG_SERVER_API ?? "https://api.q.dog").replace(/\/$/, "")}/assets`,
-        { credentials: "include" },
-      );
-      if (response.ok) {
-        const payload = (await response.json()) as { assets?: PetEggAsset[] };
-        setAssets(payload.assets ?? []);
-      }
-    } else {
-      setAssets([]);
-    }
-  };
+  }
 
   useEffect(() => {
     void refresh().catch(() => setMessage(text.unavailable));
   }, []);
 
-  const claimedCount = useMemo(
-    () => catalog?.eggs.filter((egg) => !egg.available).length ?? 0,
-    [catalog],
-  );
-
-  async function claim(id: string) {
-    setPendingId(id);
-    setMessage("");
-    try {
-      await claimDailyPetEgg(id);
-      await refresh();
-    } catch {
-      setMessage(text.unavailable);
-    } finally {
-      setPendingId(null);
-    }
-  }
+  const remaining = useMemo(() => catalog?.eggs.filter((egg) => egg.available).length ?? 0, [catalog]);
 
   async function support(id: string, supporting: boolean) {
     setPendingId(id);
@@ -164,67 +52,50 @@ export function DailyPetEggsPage({ locale }: { locale: Locale }) {
     }
   }
 
-  async function logout() {
-    await logoutQDogAccount();
-    await refresh();
+  async function copyCode(id: string, code: string) {
+    await navigator.clipboard.writeText(code);
+    setCopiedId(id);
+    window.setTimeout(() => setCopiedId(null), 1400);
   }
 
-  const returnTo = currentPageReturnTo();
-  const loginFailed = typeof window !== "undefined" && new URLSearchParams(window.location.search).get("login") === "failed";
-
   return (
-    <main className="px-5 py-12 sm:px-6 sm:py-16">
-      <div className="mx-auto max-w-[1200px]">
-        <section className="rounded-[2rem] border border-border bg-bg-elevated p-6 shadow-[var(--shadow-lift)] sm:p-10">
+    <main className="asset-page">
+      <section className="asset-hero">
+        <div>
           <span className="section-kicker">{text.eyebrow}</span>
-          <h1 className="mt-3 text-3xl font-extrabold tracking-tight text-text sm:text-5xl">{text.title}</h1>
-          <p className="mt-4 max-w-3xl text-base leading-7 text-muted">{text.intro}</p>
-          <div className="mt-6 flex flex-wrap items-center gap-3">
-            {account ? (
-              <>
-                <span className="rounded-full border border-border bg-bg px-4 py-2 text-sm text-text">
-                  {text.greeting} <strong>{account.displayName ?? account.email ?? "Google user"}</strong>
-                </span>
-                <button className="rounded-full border border-border px-4 py-2 text-sm font-bold text-text hover:border-accent hover:text-accent" type="button" onClick={() => void logout()}>{text.logout}</button>
-              </>
-            ) : (
-              <a className="rounded-full bg-accent px-5 py-3 text-sm font-extrabold text-white shadow-sm transition-colors hover:bg-accent-hover" href={googleLoginUrl(returnTo)}>{text.login}</a>
-            )}
-            <span className="text-sm text-muted">{text.dailyLimit}</span>
+          <h1>{text.title}</h1>
+          <p>{text.intro}</p>
+        </div>
+        <div className="asset-hero__actions">
+          <Link className="asset-button asset-button--primary" href={localePath(locale, "/eggs/redeem")}>{text.redeem}</Link>
+          <Link className="asset-button" href={account ? localePath(locale, "/account") : `${localePath(locale, "/login")}?return_to=${encodeURIComponent(localePath(locale, "/eggs"))}`}>{account ? text.account : text.login}</Link>
+        </div>
+      </section>
+
+      <section className="asset-inventory">
+        <div className="asset-inventory__heading">
+          <div><span>{text.inventory}</span><h2>{catalog?.issuedForDate ?? "—"}</h2></div>
+          {catalog ? <strong>{remaining} / {catalog.eggs.length}</strong> : null}
+        </div>
+        {message ? <p className="asset-message" role="alert">{message}</p> : null}
+        {!catalog ? <p className="asset-loading">{text.loading}</p> : (
+          <div className="egg-code-grid">
+            {catalog.eggs.map((egg) => (
+              <article className={`egg-code-card ${egg.available ? "" : "egg-code-card--used"}`} key={egg.id}>
+                <div className="egg-code-card__top">
+                  <span>#{String(egg.slot).padStart(2, "0")}</span>
+                  <span>{egg.available ? text.available : text.redeemed}</span>
+                </div>
+                <code>{egg.code}</code>
+                <div className="egg-code-card__actions">
+                  <button disabled={!egg.available} onClick={() => void copyCode(egg.id, egg.code)} type="button">{copiedId === egg.id ? text.copied : text.copy}</button>
+                  <button disabled={!account || pendingId === egg.id} onClick={() => void support(egg.id, !egg.supported)} type="button">{egg.supported ? text.supported : text.support} · {egg.supporters}</button>
+                </div>
+              </article>
+            ))}
           </div>
-          {!account ? <p className="mt-4 text-sm text-muted">{text.loginHint}</p> : null}
-          {!account && loginFailed ? <p className="mt-4 text-sm font-semibold text-[#b42318]" role="alert">{text.failedLogin}</p> : null}
-          {message ? <p className="mt-4 text-sm font-semibold text-[#b42318]" role="alert">{message}</p> : null}
-        </section>
-
-        {!catalog ? <p className="py-16 text-center text-muted">{text.loading}</p> : (
-          <>
-            <section className="pt-12">
-              <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
-                <div><span className="section-kicker">{text.inventory}</span><h2 className="mt-2 text-2xl font-extrabold text-text">{catalog.issuedForDate}</h2></div>
-                <p className="text-sm text-muted">{claimedCount} / {catalog.eggs.length} {text.claimed.toLowerCase()}</p>
-              </div>
-              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                {catalog.eggs.map((egg) => (
-                  <article key={egg.id} className="rounded-2xl border border-border bg-bg-elevated p-5 shadow-sm">
-                    <div className="flex items-start justify-between gap-3">
-                      <span className="text-sm font-extrabold text-accent">{text.code} #{String(egg.slot).padStart(2, "0")}</span>
-                      <span className={`rounded-full px-2.5 py-1 text-xs font-bold ${egg.available ? "bg-accent-light text-accent" : "bg-bg-secondary text-muted"}`}>{egg.available ? text.available : text.claimed}</span>
-                    </div>
-                    <ul className="mt-4 space-y-1 text-sm text-muted">{traitsList(egg.traits).map((trait) => <li key={trait}>{trait}</li>)}</ul>
-                    <div className="mt-5 flex flex-wrap gap-2">
-                      <button className="rounded-lg border border-border px-3 py-2 text-sm font-bold text-text hover:border-accent hover:text-accent disabled:cursor-not-allowed disabled:opacity-50" disabled={!account || pendingId === egg.id} type="button" onClick={() => void support(egg.id, !egg.supported)}>{egg.supported ? text.supported : text.support} · {egg.supporters}</button>
-                      <button className="rounded-lg bg-accent px-3 py-2 text-sm font-bold text-white hover:bg-accent-hover disabled:cursor-not-allowed disabled:opacity-50" disabled={!account || !egg.available || pendingId === egg.id || egg.claimedByViewer} type="button" onClick={() => void claim(egg.id)}>{egg.claimedByViewer ? text.claimedByYou : text.claim}</button>
-                    </div>
-                  </article>
-                ))}
-              </div>
-            </section>
-
-            {account ? <section className="pt-14"><span className="section-kicker">{text.backpack}</span><div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">{assets.length ? assets.map((asset) => <article className="rounded-2xl border border-border bg-bg-elevated p-5 text-sm text-muted" key={asset.id}><strong className="block text-text">Pet egg</strong><span className="mt-2 block">{traitsList(asset.traits).join(" · ")}</span></article>) : <p className="text-muted">{text.emptyBackpack}</p>}</div></section> : null}
-          </>
         )}
-      </div>
+      </section>
     </main>
   );
 }

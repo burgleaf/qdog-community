@@ -11,7 +11,7 @@ export type DailyPetEgg = {
   id: string;
   slot: number;
   issuedForDate: string;
-  traits: string;
+  code: string;
   available: boolean;
   supporters: number;
   supported: boolean;
@@ -26,6 +26,7 @@ export type DailyPetEggCatalog = {
 export type PetEggAsset = {
   id: string;
   type: "pet_egg";
+  code: string;
   traits: string;
   acquiredAt: number;
 };
@@ -75,6 +76,18 @@ export function claimDailyPetEgg(id: string) {
   return apiRequest<{ asset: PetEggAsset }>(`/pet-eggs/daily/${encodeURIComponent(id)}/claim`, {
     method: "POST",
   });
+}
+
+export function redeemPetEggCode(code: string) {
+  return apiRequest<{ asset: PetEggAsset }>("/pet-eggs/redeem", {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({ code }),
+  });
+}
+
+export function getPetEggAssets() {
+  return apiRequest<{ assets: PetEggAsset[] }>("/assets");
 }
 
 export function setDailyPetEggSupport(id: string, supporting: boolean) {

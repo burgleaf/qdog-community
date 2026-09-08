@@ -1,16 +1,9 @@
 import type { Metadata } from "next";
 
-import { FeaturedCollections } from "@/components/featured-collections";
+import { CommunityDomains } from "@/components/community-domains";
 import { HeroSection } from "@/components/hero-section";
 import { LocalizedDocumentTitle } from "@/components/localized-document-title";
 import { PetGallery } from "@/components/pet-gallery";
-import { CommunityPulse } from "@/components/community-pulse";
-import { getCollections } from "@/lib/collection-catalog";
-import { toCollectionCardData } from "@/lib/collections";
-import {
-  getCommunityPulseData,
-  getLeaderboardData,
-} from "@/lib/leaderboards";
 import {
   getAllPets,
   getCategories,
@@ -57,10 +50,7 @@ export default function HomePage() {
   const pets = getAllPets();
   const galleryPets = pets.map(toGalleryPet);
   const categories = getCategories(galleryPets);
-  const collections = getCollections(pets).map(toCollectionCardData);
   const featured = getTrendingPets(pets, 6).map(toGalleryPet);
-  const leaderboard = getLeaderboardData(pets);
-  const communityPulse = getCommunityPulseData(leaderboard);
 
   const pageJsonLd = {
     "@context": "https://schema.org",
@@ -146,6 +136,7 @@ export default function HomePage() {
         ko="무료 Codex 펫 갤러리와 커뮤니티"
         zh="Codex 宠物画廊与社区"
       />
+      <CommunityDomains petCount={pets.length} />
       <HeroSection
         petCount={pets.length}
         categoryCount={categories.length}
@@ -154,8 +145,6 @@ export default function HomePage() {
       />
       <section className="px-5 py-16 sm:px-6 sm:py-20">
         <div className="mx-auto max-w-[1200px]">
-          <CommunityPulse data={communityPulse} />
-          <FeaturedCollections collections={collections} />
           <PetGallery pets={galleryPets} categories={categories} />
         </div>
       </section>
