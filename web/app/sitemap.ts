@@ -38,8 +38,23 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.7,
     },
     {
+      url: `${siteConfig.url}/eggs`,
+      changeFrequency: "daily",
+      priority: 0.75,
+    },
+    {
+      url: `${siteConfig.url}/en/eggs`,
+      changeFrequency: "daily",
+      priority: 0.65,
+    },
+    {
       url: `${siteConfig.url}/zh/install`,
       changeFrequency: "monthly",
+      priority: 0.85,
+    },
+    {
+      url: `${siteConfig.url}/zh/eggs`,
+      changeFrequency: "daily",
       priority: 0.85,
     },
     {
@@ -68,6 +83,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
       {
         url: `${siteConfig.url}${localePath(locale, "/install")}`,
         changeFrequency: "monthly" as const,
+        priority: 0.8,
+      },
+      {
+        url: `${siteConfig.url}${localePath(locale, "/eggs")}`,
+        changeFrequency: "daily" as const,
         priority: 0.8,
       },
       {

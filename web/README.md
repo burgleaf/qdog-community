@@ -85,6 +85,7 @@ npx wrangler pages deploy out --project-name=qdog-community
 - **Hosting**: Cloudflare Pages (global CDN, free tier)
 - **Stats reads**: deployment-time `public/stats.json`, served as a free Pages static asset; rankings do not poll the Worker
 - **Stats writes and requests**: a separate Worker at `https://resource.q.dog` records explicit installs, IP-limited pet likes, creator follows, and request support. The no-account request form accepts a checked PNG/JPEG/WebP upload or a public image link; uploads are stored in a private R2 bucket and served through a read-only content-hash URL. Rankings reuse total and 7-day like counts instead of introducing another popularity action. Ordinary page views never invoke the Worker. See `worker/README.md`.
+- **Pet eggs and identity**: `qdog-server` is a separate Cloudflare Worker API. The static site sends users there for Google authorization, then uses its cookie-backed API to display the 50 daily egg issues, support an egg, claim one daily egg, and show the account backpack. Raw redemption secrets are never exposed to the browser.
 - **Preview delivery**: cards load a static thumbnail first and fetch animation on hover or keyboard focus; the top three pet rankings animate automatically while lower pet rows and contributor/collection mosaics animate on interaction; detail pages keep the complete action set
 - **Caching**: Next.js hashed assets are immutable, preview assets use a seven-day browser cache, and the deployment-time statistics snapshot uses a ten-minute cache
 
@@ -94,6 +95,7 @@ npx wrangler pages deploy out --project-name=qdog-community
 | -------------------------------------- | ------------------------ | ---------------------------------- |
 | `NEXT_PUBLIC_SITE_URL`                 | `https://q.dog`          | `app/layout.tsx` metadata base     |
 | `NEXT_PUBLIC_STATS_WRITE_API`          | `https://resource.q.dog` | `lib/stats.ts`                     |
+| `NEXT_PUBLIC_QDOG_SERVER_API`          | `https://api.q.dog`      | `lib/qdog-server.ts`               |
 | `NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION` | _unset_                  | Google Search Console verification |
 | `NEXT_PUBLIC_BING_SITE_VERIFICATION`   | _unset_                  | Bing Webmaster verification        |
 

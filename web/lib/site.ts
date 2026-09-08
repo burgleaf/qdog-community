@@ -25,6 +25,7 @@ export const siteConfig = {
   catalog: "/pets.json",
   collectionsCatalog: "/collections.json",
   requestsCatalog: "/requests.json",
+  qdogServerApi: process.env.NEXT_PUBLIC_QDOG_SERVER_API ?? "https://api.q.dog",
   keywords: [
     "Codex",
     "Codex pet",
