@@ -28,7 +28,26 @@ export type PetEggAsset = {
   type: "pet_egg";
   code: string;
   traits: string;
+  genome: {
+    version: 1;
+    code: string;
+    rendererVersion: 1;
+  };
+  hatch: PetHatchSummary | null;
   acquiredAt: number;
+};
+
+export type PetHatchSummary = {
+  id?: string;
+  eggAssetId?: string;
+  status: "generating" | "completed" | "failed";
+  model?: "gpt-image-2";
+  promptVersion?: "base-pet-v1";
+  attemptCount?: number;
+  imagePath: string | null;
+  createdAt?: number;
+  updatedAt: number;
+  completedAt?: number | null;
 };
 
 async function apiRequest<T>(path: string, init?: RequestInit): Promise<T> {
@@ -88,6 +107,16 @@ export function redeemPetEggCode(code: string) {
 
 export function getPetEggAssets() {
   return apiRequest<{ assets: PetEggAsset[] }>("/assets");
+}
+
+export function hatchPetEgg(id: string) {
+  return apiRequest<{ hatch: PetHatchSummary }>(`/assets/${encodeURIComponent(id)}/hatch`, {
+    method: "POST",
+  });
+}
+
+export function petHatchImageUrl(id: string) {
+  return `${apiBase}/assets/${encodeURIComponent(id)}/hatch/image`;
 }
 
 export function setDailyPetEggSupport(id: string, supporting: boolean) {

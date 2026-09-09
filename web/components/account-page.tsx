@@ -3,14 +3,17 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-import { PetEggVisual, parseEggTraits } from "@/components/pet-egg-visual";
-import { getCurrentAccount, getPetEggAssets, logoutQDogAccount, type PetEggAsset, type QDogAccount } from "@/lib/qdog-server";
+import { PetEggVisual } from "@/components/pet-egg-visual";
+import { decodePetEggGenome } from "@/lib/pet-egg-genome";
+import { getCurrentAccount, getPetEggAssets, hatchPetEgg, logoutQDogAccount, petHatchImageUrl, type PetEggAsset, type QDogAccount } from "@/lib/qdog-server";
 import { localePath, type Locale } from "@/lib/i18n";
 
 export function AccountPage({ locale }: { locale: Locale }) {
   const zh = locale === "zh";
   const [account, setAccount] = useState<QDogAccount | null | undefined>(undefined);
   const [assets, setAssets] = useState<PetEggAsset[]>([]);
+  const [hatchingId, setHatchingId] = useState<string | null>(null);
+  const [hatchError, setHatchError] = useState<Record<string, string>>({});
 
   useEffect(() => {
     void getCurrentAccount().then(async (nextAccount) => {
@@ -22,6 +25,22 @@ export function AccountPage({ locale }: { locale: Locale }) {
   async function logout() {
     await logoutQDogAccount();
     window.location.assign(localePath(locale, "/login"));
+  }
+
+  async function hatch(asset: PetEggAsset) {
+    setHatchingId(asset.id);
+    setHatchError((current) => ({ ...current, [asset.id]: "" }));
+    try {
+      const result = await hatchPetEgg(asset.id);
+      setAssets((current) => current.map((item) => item.id === asset.id
+        ? { ...item, hatch: result.hatch }
+        : item));
+    } catch (error) {
+      const code = error instanceof Error ? error.message : "hatch_generation_failed";
+      setHatchError((current) => ({ ...current, [asset.id]: code }));
+    } finally {
+      setHatchingId(null);
+    }
   }
 
   if (account === undefined) return <main className="identity-page"><p>{zh ? "正在加载个人中心…" : "Loading personal center…"}</p></main>;
@@ -42,8 +61,25 @@ export function AccountPage({ locale }: { locale: Locale }) {
         {assets.length === 0 ? <div className="backpack-empty"><p>{zh ? "背包还是空的。复制每日发放的代码，兑换第一枚宠物蛋吧。" : "Your backpack is empty. Copy a daily code and redeem your first pet egg."}</p><Link href={localePath(locale, "/eggs")}>{zh ? "查看今日代码" : "View today’s codes"}</Link></div> : (
           <div className="backpack-grid">
             {assets.map((asset) => {
-              const traits = parseEggTraits(asset.traits);
-              return <article className="backpack-card" key={asset.id}><PetEggVisual className="backpack-card__egg" traits={asset.traits} /><div><code>{asset.code}</code><h3>{zh ? "宠物蛋" : "Pet egg"}</h3><p>{[traits.color, traits.material, traits.shape, traits.size].join(" · ")}</p><time>{new Date(asset.acquiredAt).toLocaleDateString(zh ? "zh-CN" : "en-US")}</time></div></article>;
+              const genome = decodePetEggGenome(asset.genome.code);
+              const generating = hatchingId === asset.id;
+              return <article className="backpack-card" key={asset.id}>
+                <div className="backpack-card__visual">
+                  {asset.hatch?.status === "completed"
+                    ? <img className="backpack-card__pet" src={petHatchImageUrl(asset.id)} alt={zh ? "已孵化的基础宠物" : "Hatched base pet"} />
+                    : <PetEggVisual className="backpack-card__egg" genomeCode={asset.genome.code} traits={asset.traits} />}
+                </div>
+                <div className="backpack-card__copy">
+                  <code>{asset.genome.code}</code>
+                  <h3>{asset.hatch?.status === "completed" ? (zh ? "基础宠物" : "Base pet") : (zh ? "宠物蛋" : "Pet egg")}</h3>
+                  {genome ? <p>{[genome.color, genome.material, genome.style, genome.archetype, genome.element, genome.temperament, genome.signature, genome.pattern, genome.habitat].join(" · ")}</p> : null}
+                  <time>{new Date(asset.acquiredAt).toLocaleDateString(zh ? "zh-CN" : "en-US")}</time>
+                  {asset.hatch?.status !== "completed" ? <button className="backpack-card__hatch" disabled={generating} onClick={() => void hatch(asset)} type="button">
+                    {generating ? (zh ? "正在孵化…" : "Hatching…") : asset.hatch?.status === "generating" ? (zh ? "检查孵化状态" : "Check hatch") : asset.hatch?.status === "failed" ? (zh ? "重新孵化" : "Retry hatch") : (zh ? "孵化基础宠物" : "Hatch base pet")}
+                  </button> : null}
+                  {hatchError[asset.id] ? <p className="backpack-card__error">{zh ? "孵化暂时失败，请稍后重试。" : "Hatching failed for now. Please retry later."}</p> : null}
+                </div>
+              </article>;
             })}
           </div>
         )}
