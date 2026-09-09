@@ -1203,12 +1203,19 @@ html[data-theme="dark"] .pet-card--tone-5 .pet-card__visual { background: #26394
 .account-profile p { color: var(--color-muted); }
 .account-profile button { border: 1px solid var(--color-border); border-radius: 999px; padding: 9px 16px; color: var(--color-muted); background: transparent; font-weight: 750; }
 .backpack-section { padding-top: 48px; }
-.backpack-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
-.backpack-card { display: grid; grid-template-columns: 116px 1fr; align-items: center; gap: 12px; border: 1px solid var(--color-border); border-radius: 1.4rem; padding: 18px; background: var(--color-bg-elevated); box-shadow: var(--shadow-soft); }
+.backpack-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.backpack-card { display: grid; min-width: 0; grid-template-columns: 150px 1fr; align-items: center; gap: 18px; border: 1px solid var(--color-border); border-radius: 1.4rem; padding: 18px; background: var(--color-bg-elevated); box-shadow: var(--shadow-soft); }
+.backpack-card__visual { display: grid; width: 150px; min-height: 150px; place-items: center; overflow: hidden; border-radius: 1rem; background: radial-gradient(circle, var(--color-honey), transparent 72%); }
 .backpack-card__egg { width: 110px; color: var(--color-text); }
-.backpack-card code { color: var(--color-accent); font-size: .68rem; }
+.backpack-card__pet { width: 100%; aspect-ratio: 1; object-fit: contain; }
+.backpack-card__copy { min-width: 0; }
+.backpack-card code { display: block; overflow: hidden; color: var(--color-accent); font-size: .68rem; text-overflow: ellipsis; white-space: nowrap; }
 .backpack-card h3 { margin: 5px 0 3px; }
 .backpack-card p, .backpack-card time { display: block; color: var(--color-muted); font-size: .72rem; }
+.backpack-card p { display: -webkit-box; overflow: hidden; -webkit-box-orient: vertical; -webkit-line-clamp: 3; }
+.backpack-card__hatch { margin-top: 14px; border: 0; border-radius: 999px; padding: 9px 14px; color: white; background: var(--color-accent); font-size: .75rem; font-weight: 850; }
+.backpack-card__hatch:disabled { cursor: wait; opacity: .58; }
+.backpack-card .backpack-card__error { margin-top: 8px; color: #c53f31; }
 .backpack-empty { border: 1px dashed var(--color-border-hover); border-radius: 1.4rem; padding: 40px; color: var(--color-muted); text-align: center; }
 .backpack-empty a { display: inline-block; margin-top: 10px; color: var(--color-accent); font-weight: 800; }
 
@@ -1243,6 +1250,8 @@ html[data-theme="dark"] .pet-card--tone-5 .pet-card__visual { background: #26394
   .asset-page, .account-page, .redeem-page { width: min(calc(100% - 24px), 1200px); padding-top: 38px; }
   .asset-hero { padding: 26px; }
   .egg-code-grid, .backpack-grid { grid-template-columns: 1fr; }
+  .backpack-card { grid-template-columns: 112px 1fr; padding: 14px; }
+  .backpack-card__visual { width: 112px; min-height: 128px; }
   .account-profile { grid-template-columns: auto 1fr; }
   .account-profile button { grid-column: 1 / -1; justify-self: start; }
   .backpack-heading { align-items: flex-start; flex-direction: column; }
