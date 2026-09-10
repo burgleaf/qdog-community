@@ -18,10 +18,10 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
   const isChinese = locale === "zh";
-  const title = isChinese ? "每日宠物蛋" : "Daily pet eggs";
+  const title = isChinese ? "每日赛博宠物蛋" : "Daily Cyber Eggs";
   const description = isChinese
-    ? "使用 Google 登录，支持并领取 QDog 每日固定发放的 50 枚宠物蛋。"
-    : "Sign in with Google to support and claim one of QDog's 50 daily pet eggs.";
+    ? "使用 Google 登录，支持并领取 QDog 每日固定发放的 50 枚赛博宠物蛋。"
+    : "Sign in with Google to support and claim one of QDog's 50 daily Cyber Eggs.";
   const canonical = locale === "en" ? "/en/eggs" : localePath(locale, "/eggs");
   return {
     title: { absolute: `${title} · ${siteConfig.title}` },

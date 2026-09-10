@@ -3,28 +3,28 @@ import { useId } from "react";
 import { decodePetEggGenome, type PetEggGenomeTraits } from "@/lib/pet-egg-genome";
 
 type LegacyEggTraits = { color: string; size: string; shape: string; material: string };
-type Palette = { base: string; shade: string; glow: string; aura: string };
+type Palette = { base: string; light: string; shade: string; deep: string; energy: string };
 
 const palettes: Record<string, Palette> = {
-  red: { base: "#ff6b5f", shade: "#a9283b", glow: "#ffd0c8", aura: "#ff765f" },
-  orange: { base: "#ff9c42", shade: "#a94a19", glow: "#ffe0ad", aura: "#ffb34f" },
-  yellow: { base: "#f3d64e", shade: "#997918", glow: "#fff8b8", aura: "#ffe76a" },
-  green: { base: "#50c98c", shade: "#18785c", glow: "#c9f5dc", aura: "#65e6a9" },
-  blue: { base: "#55a7ff", shade: "#3159b8", glow: "#c9ecff", aura: "#63c9ff" },
-  cyan: { base: "#4bd6d4", shade: "#177e91", glow: "#c9ffff", aura: "#66f5ef" },
-  purple: { base: "#a879ef", shade: "#6340a9", glow: "#ead9ff", aura: "#b888ff" },
-  magenta: { base: "#e66cc5", shade: "#8e337d", glow: "#ffd8f6", aura: "#fa85d8" },
-  white: { base: "#f5f1e8", shade: "#9f9bad", glow: "#ffffff", aura: "#e9f4ff" },
-  black: { base: "#3b3845", shade: "#15131b", glow: "#aaa4c3", aura: "#756c91" },
-  brown: { base: "#a96f4e", shade: "#593829", glow: "#e8bb91", aura: "#c98b62" },
-  silver: { base: "#bfc8d5", shade: "#687384", glow: "#f6fbff", aura: "#cedff3" },
-  gold: { base: "#f4bd45", shade: "#a76b12", glow: "#fff0ae", aura: "#ffd15a" },
+  red: { base: "#f35d68", light: "#ffb3a9", shade: "#a92747", deep: "#4b1329", energy: "#ff887b" },
+  orange: { base: "#f58a3a", light: "#ffd09b", shade: "#a54320", deep: "#4b2118", energy: "#ffb74f" },
+  yellow: { base: "#e8c83f", light: "#fff5a2", shade: "#94711b", deep: "#453616", energy: "#ffe66a" },
+  green: { base: "#42b97b", light: "#a9f0ca", shade: "#17684f", deep: "#0f382f", energy: "#61e3a1" },
+  blue: { base: "#4c8df4", light: "#acd9ff", shade: "#304da0", deep: "#172b61", energy: "#65c8ff" },
+  cyan: { base: "#37c3c4", light: "#b5ffff", shade: "#16788b", deep: "#123d50", energy: "#5df2e8" },
+  purple: { base: "#9569e4", light: "#d9c7ff", shade: "#57369d", deep: "#2f205d", energy: "#b78bff" },
+  magenta: { base: "#d55aad", light: "#ffc7ec", shade: "#82316d", deep: "#461c41", energy: "#f27bd0" },
+  white: { base: "#e9e8e4", light: "#ffffff", shade: "#9195a4", deep: "#484d5c", energy: "#d8ecff" },
+  black: { base: "#343441", light: "#9492aa", shade: "#1c1b26", deep: "#0d0c13", energy: "#8f83bd" },
+  brown: { base: "#996244", light: "#e2ae82", shade: "#573426", deep: "#2f1d18", energy: "#c8895f" },
+  silver: { base: "#aeb9c8", light: "#f3f8ff", shade: "#667386", deep: "#343d4d", energy: "#c8ddf5" },
+  gold: { base: "#e9ad3f", light: "#ffe79a", shade: "#946018", deep: "#463015", energy: "#ffd45c" },
 };
 
 const elementColors: Record<string, string> = {
-  fire: "#ff603e", water: "#36a9e8", earth: "#99704a", air: "#d8f5ff",
-  nature: "#63c66d", ice: "#b9efff", thunder: "#ffe249", light: "#fff5b0",
-  shadow: "#665184", cosmic: "#d776ff", metal: "#c5d0dd", void: "#44235c",
+  fire: "#ff6548", water: "#42b8f5", earth: "#bd8b5d", air: "#d7f7ff",
+  nature: "#72d877", ice: "#b7efff", thunder: "#ffe45c", light: "#fff2a1",
+  shadow: "#8970ad", cosmic: "#d982ff", metal: "#d2dde8", void: "#6d3f91",
 };
 
 const defaults: PetEggGenomeTraits = {
@@ -48,36 +48,21 @@ export function parseEggTraits(value: string): LegacyEggTraits {
 }
 
 function shellPath(style: string, legacyShape?: string) {
-  if (["pixel", "voxel", "low-poly"].includes(style) || legacyShape === "angular") return "M50 8 77 29 88 68 67 96 33 96 12 68 23 29Z";
-  if (["chibi", "clay"].includes(style) || legacyShape === "round") return "M50 18C29 18 17 39 17 61c0 23 14 35 33 35s33-12 33-35C83 39 71 18 50 18Z";
-  return "M50 7C31 7 14 40 14 66c0 20 15 32 36 32s36-12 36-32C86 40 69 7 50 7Z";
+  if (["pixel", "voxel", "low-poly"].includes(style) || legacyShape === "angular") {
+    return "M90 15 119 39 140 82 151 141 137 179 112 202 90 208 68 202 43 179 29 141 40 82 61 39Z";
+  }
+  if (["chibi", "clay"].includes(style) || legacyShape === "round") {
+    return "M90 29C57 29 34 79 34 137c0 45 23 70 56 70s56-25 56-70C146 79 123 29 90 29Z";
+  }
+  return "M90 14C56 14 28 79 28 139c0 43 25 69 62 69s62-26 62-69C152 79 124 14 90 14Z";
 }
 
-function Signature({ kind, color, index }: { kind: string; color: string; index: number }) {
-  if (kind === "none") return null;
-  const content = kind === "wings"
-    ? <path d="M18 47C4 35 1 54 15 67M82 47c14-12 17 7 3 20" fill={color} stroke={color} strokeWidth="2" />
-    : ["horns", "crystal-crest", "flame-plume", "royal-crown"].includes(kind)
-      ? <path d="m34 25 5-18 11 12L60 5l6 20" fill={color} stroke={color} strokeLinejoin="round" strokeWidth="2" />
-      : kind === "antennae"
-        ? <path d="M39 24C33 10 26 11 27 4M61 24C67 10 74 11 73 4" fill="none" stroke={color} strokeLinecap="round" strokeWidth="3" />
-        : kind === "orbiting-orb"
-          ? <><ellipse cx="50" cy="54" rx="48" ry="19" fill="none" stroke={color} strokeWidth="2" /><circle cx="91" cy="45" r="5" fill={color} /></>
-          : ["scarf", "leaf-mantle"].includes(kind)
-            ? <path d="M20 68c20 9 40 9 60 0l-5 14c-17 6-33 6-50 0Z" fill={color} opacity=".9" />
-            : kind === "goggles"
-              ? <><circle cx="38" cy="53" r="9" fill="none" stroke={color} strokeWidth="4" /><circle cx="62" cy="53" r="9" fill="none" stroke={color} strokeWidth="4" /><path d="M47 53h6" stroke={color} strokeWidth="3" /></>
-              : <path d="M69 61h14v28H69zM72 57h8" fill={color} stroke={color} strokeWidth="2" />;
-  return <g transform={`rotate(${(index - 6) * 0.7} 50 54)`}>{content}</g>;
-}
-
-function Face({ temperament, color, index }: { temperament: string; color: string; index: number }) {
-  const shy = temperament === "shy" || temperament === "dreamy";
-  const lively = ["playful", "energetic", "mischievous"].includes(temperament);
-  const eyeOffset = (index % 3) - 1;
-  return <g fill="none" stroke={color} strokeLinecap="round" strokeWidth="3">
-    {shy ? <><path d="M32 59q6 5 12 0M56 59q6 5 12 0" /></> : <><circle cx={38 - eyeOffset} cy="55" r={lively ? 4 : 3} fill={color} /><circle cx={62 + eyeOffset} cy="55" r={lively ? 4 : 3} fill={color} /></>}
-    <path d={lively ? "M42 70q8 10 16 0" : temperament === "rebellious" ? "M42 74q8-6 16 0" : "M43 70q7 6 14 0"} />
+function CoreSeal({ index, energy }: { index: number; energy: string }) {
+  const rotation = index * 17;
+  return <g transform={`rotate(${rotation} 90 122)`}>
+    <path d="M90 91 113 105 113 133 90 147 67 133 67 105Z" fill="none" stroke={energy} strokeWidth="2.2" opacity=".82" />
+    <path d="M90 99 105 108 105 127 90 136 75 127 75 108Z" fill="none" stroke={energy} strokeDasharray={`${3 + index % 5} 4`} strokeWidth="1.4" opacity=".64" />
+    <circle cx="90" cy="118" r={5 + index % 4} fill={energy} opacity=".88" />
   </g>;
 }
 
@@ -86,45 +71,63 @@ export function PetEggVisual({ genomeCode, traits, className = "" }: { genomeCod
   const genome = genomeCode ? decodePetEggGenome(genomeCode) : null;
   const parsed = genome ?? { ...defaults, color: legacy.color, material: legacy.material };
   const palette = palettes[parsed.color] ?? palettes.gold;
-  const scale = legacy.size === "small" ? 0.84 : legacy.size === "large" ? 1.04 : 0.94;
   const fallbackId = useId().replaceAll(":", "");
   const id = genomeCode ? genomeCode.replaceAll("-", "").toLowerCase() : fallbackId;
-  const patternId = `egg-pattern-${id}`;
-  const glowId = `egg-glow-${id}`;
-  const element = elementColors[parsed.element] ?? palette.aura;
-  const materialIndex = traitOrder.material.indexOf(parsed.material as never);
-  const styleIndex = traitOrder.style.indexOf(parsed.style as never);
-  const archetypeIndex = traitOrder.archetype.indexOf(parsed.archetype as never);
-  const temperamentIndex = traitOrder.temperament.indexOf(parsed.temperament as never);
-  const signatureIndex = traitOrder.signature.indexOf(parsed.signature as never);
-  const patternIndex = traitOrder.pattern.indexOf(parsed.pattern as never);
-  const habitatIndex = traitOrder.habitat.indexOf(parsed.habitat as never);
-  const dash = parsed.pattern === "solid" ? undefined : `${1 + patternIndex % 7} ${3 + patternIndex % 5}`;
-  const habitatHeight = 9 + habitatIndex;
+  const shell = shellPath(parsed.style, genome ? undefined : legacy.shape);
+  const materialIndex = Math.max(0, traitOrder.material.indexOf(parsed.material as never));
+  const styleIndex = Math.max(0, traitOrder.style.indexOf(parsed.style as never));
+  const archetypeIndex = Math.max(0, traitOrder.archetype.indexOf(parsed.archetype as never));
+  const temperamentIndex = Math.max(0, traitOrder.temperament.indexOf(parsed.temperament as never));
+  const signatureIndex = Math.max(0, traitOrder.signature.indexOf(parsed.signature as never));
+  const patternIndex = Math.max(0, traitOrder.pattern.indexOf(parsed.pattern as never));
+  const habitatIndex = Math.max(0, traitOrder.habitat.indexOf(parsed.habitat as never));
+  const energy = elementColors[parsed.element] ?? palette.energy;
+  const shellId = `shell-${id}`;
+  const fillId = `fill-${id}`;
+  const shineId = `shine-${id}`;
+  const glowId = `glow-${id}`;
+  const patternId = `pattern-${id}`;
+  const dash = `${2 + patternIndex % 6} ${4 + (patternIndex * 2) % 7}`;
+  const tilt = (styleIndex - 5.5) * 0.18;
+  const scale = legacy.size === "small" ? 0.91 : legacy.size === "large" ? 1.03 : 0.97;
 
-  return <svg className={className} viewBox="0 0 100 112" role="img" aria-label={`${parsed.color} ${parsed.material} ${parsed.style} pet egg`}>
+  return <svg className={className} viewBox="0 0 180 224" role="img" aria-label={genomeCode ? `QDog Cyber Egg ${genomeCode}` : "QDog Cyber Egg"}>
     <defs>
-      <radialGradient id={glowId}><stop stopColor={element} stopOpacity=".75" /><stop offset="1" stopColor={element} stopOpacity="0" /></radialGradient>
-      <pattern id={patternId} width="12" height="12" patternUnits="userSpaceOnUse" patternTransform={parsed.pattern === "waves" ? "rotate(20)" : undefined}>
-        <path d="M0 6h12" stroke={palette.glow} strokeWidth={parsed.pattern === "stripes" ? 5 : 2} strokeDasharray={dash} opacity={parsed.pattern === "solid" ? "0" : ".58"} />
+      <clipPath id={shellId}><path d={shell} /></clipPath>
+      <linearGradient id={fillId} x1=".12" y1=".05" x2=".88" y2=".95">
+        <stop stopColor={palette.light} /><stop offset=".34" stopColor={palette.base} /><stop offset="1" stopColor={palette.deep} />
+      </linearGradient>
+      <linearGradient id={shineId} x1="0" y1="0" x2="1" y2="1">
+        <stop stopColor="#fff" stopOpacity=".72" /><stop offset=".38" stopColor="#fff" stopOpacity=".08" /><stop offset="1" stopColor="#fff" stopOpacity="0" />
+      </linearGradient>
+      <radialGradient id={glowId}><stop stopColor={energy} stopOpacity=".65" /><stop offset="1" stopColor={energy} stopOpacity="0" /></radialGradient>
+      <pattern id={patternId} width={12 + patternIndex} height={10 + patternIndex % 5} patternUnits="userSpaceOnUse" patternTransform={`rotate(${patternIndex * 11})`}>
+        <path d={`M0 ${3 + patternIndex % 4}h24`} stroke={palette.light} strokeDasharray={dash} strokeWidth={patternIndex === 1 ? 4 : 1.4} opacity={parsed.pattern === "solid" ? "0" : ".42"} />
       </pattern>
     </defs>
-    <circle cx="50" cy="55" r="48" fill={`url(#${glowId})`} opacity=".45" />
-    <path d={`M24 102q26 -${habitatHeight} 52 0Z`} fill={palette.shade} opacity=".25" />
-    <ellipse cx="50" cy="104" rx="31" ry="6" fill="currentColor" opacity=".12" />
-    <g transform={`translate(${50 - 50 * scale} ${54 - 54 * scale}) scale(${scale})`}>
-      <circle cx="50" cy="57" r="43" fill="none" stroke={element} strokeDasharray={dash ?? "2 10"} strokeLinecap="round" strokeWidth="2" opacity=".75" />
-      <path d={shellPath(parsed.style, genome ? undefined : legacy.shape)} fill={palette.base} stroke={palette.shade} strokeWidth={2.5 + styleIndex * 0.16} transform={`rotate(${(styleIndex - 5.5) * 0.25} 50 55)`} />
-      <path d={shellPath(parsed.style, genome ? undefined : legacy.shape)} fill={`url(#${patternId})`} transform={`rotate(${(styleIndex - 5.5) * 0.25} 50 55)`} />
-      <ellipse cx="50" cy="61" rx={25 + materialIndex * 0.45} ry={31 - materialIndex * 0.25} fill="none" stroke={palette.glow} strokeDasharray={`${2 + materialIndex % 4} ${4 + materialIndex % 5}`} strokeWidth="1.2" opacity=".36" />
-      {parsed.material === "crystal" || parsed.material === "glass" ? <path d="M50 8 36 48 14 66M50 8l14 40 22 18M36 48l14 49 14-49Z" fill="none" stroke={palette.glow} strokeWidth="3" opacity=".8" /> : null}
-      {parsed.material === "metal" || parsed.material === "hologram" ? <path d="M19 45c20 9 42 9 62 0M16 70c23 8 45 8 68 0" fill="none" stroke={palette.glow} strokeWidth="4" opacity=".65" /> : null}
-      {parsed.material === "wood" || parsed.material === "leaf" ? <path d="M31 25c16 13 2 23 15 36s-2 24 10 34M62 20c-12 16 5 24-7 37s4 20-5 36" fill="none" stroke={palette.shade} strokeWidth="2.5" opacity=".55" /> : null}
-      {parsed.material === "porcelain" || parsed.material === "jelly" || parsed.material === "fur" ? <path d="M31 27C23 39 20 51 21 63" fill="none" stroke="#fff" strokeLinecap="round" strokeWidth="7" opacity={parsed.material === "jelly" ? ".3" : ".55"} /> : null}
-      <path d={parsed.archetype === "avian" ? "m45 38 5-10 5 10-5 5Z" : parsed.archetype === "aquatic" ? "M40 38q10-12 20 0-10 8-20 0Z" : parsed.archetype === "botanical" ? "M50 43q-12-10 0-18 12 8 0 18Z" : parsed.archetype === "dragon" ? "m41 40 9-15 9 15-9-5Z" : "M43 37l7-9 7 9-7 6Z"} fill={element} opacity=".92" transform={`rotate(${archetypeIndex * 17} 50 35)`} />
-      <Face temperament={parsed.temperament} color={palette.shade} index={temperamentIndex} />
-      <Signature kind={parsed.signature} color={palette.glow} index={signatureIndex} />
-      <circle cx="68" cy="28" r="4" fill={palette.glow} opacity=".78" />
+
+    <ellipse cx="90" cy="114" rx="82" ry="92" fill={`url(#${glowId})`} opacity=".38" />
+    <ellipse cx="90" cy="211" rx={47 + habitatIndex} ry="8" fill={palette.deep} opacity=".14" />
+    <g transform={`translate(${90 - 90 * scale} ${111 - 111 * scale}) scale(${scale}) rotate(${tilt} 90 111)`}>
+      <ellipse cx="90" cy="123" rx="73" ry="83" fill="none" stroke={energy} strokeDasharray={`${4 + temperamentIndex} ${11 + signatureIndex}`} strokeLinecap="round" strokeWidth="1.8" opacity=".48" />
+      <ellipse cx="90" cy="123" rx="66" ry="76" fill="none" stroke={energy} strokeDasharray="2 12" strokeLinecap="round" strokeWidth="1.2" opacity=".72" />
+      <path d={shell} fill={`url(#${fillId})`} stroke={palette.deep} strokeWidth="4" />
+      <g clipPath={`url(#${shellId})`}>
+        <rect x="20" y="10" width="140" height="204" fill={`url(#${patternId})`} />
+        <path d={`M31 ${69 + materialIndex}Q90 ${45 - materialIndex} 149 ${69 + materialIndex}`} fill="none" stroke={palette.light} strokeDasharray={`${5 + materialIndex} 7`} strokeWidth="2" opacity=".55" />
+        <path d={`M35 ${158 - materialIndex}Q90 ${184 + materialIndex} 145 ${158 - materialIndex}`} fill="none" stroke={energy} strokeDasharray={`${3 + signatureIndex} 6`} strokeWidth="2.2" opacity=".48" />
+        <path d="M47 41C36 73 34 120 43 161" fill="none" stroke={`url(#${shineId})`} strokeLinecap="round" strokeWidth="18" opacity=".46" />
+        {parsed.material === "crystal" || parsed.material === "glass" ? <path d="M90 16 65 90 30 140M90 16l26 75 35 50M65 90l25 116 26-115Z" fill="none" stroke={palette.light} strokeWidth="2.2" opacity=".48" /> : null}
+        {parsed.material === "metal" || parsed.material === "hologram" ? <><path d="M29 97h122M30 153h120" stroke={palette.light} strokeWidth="5" opacity=".28" /><path d="M90 32v160" stroke={energy} strokeDasharray="3 9" strokeWidth="1.5" opacity=".52" /></> : null}
+        {parsed.material === "wood" || parsed.material === "leaf" ? <path d="M58 38c22 30-8 47 14 74s-5 45 12 82M111 37c-20 31 9 49-12 75s7 44-8 82" fill="none" stroke={palette.deep} strokeWidth="2" opacity=".35" /> : null}
+        <CoreSeal index={archetypeIndex} energy={energy} />
+        <g transform={`rotate(${signatureIndex * 13} 90 62)`} opacity=".76">
+          <circle cx="90" cy="62" r={8 + signatureIndex % 5} fill="none" stroke={energy} strokeWidth="2" />
+          <path d="M90 47v30M75 62h30" stroke={energy} strokeDasharray={`${2 + signatureIndex % 4} 4`} strokeWidth="1.4" />
+        </g>
+      </g>
+      <path d={shell} fill="none" stroke={palette.light} strokeWidth="1.2" opacity=".7" transform="scale(.965) translate(3.2 4)" />
+      <circle cx="90" cy="118" r="2.5" fill="#fff" opacity=".9" />
     </g>
   </svg>;
 }

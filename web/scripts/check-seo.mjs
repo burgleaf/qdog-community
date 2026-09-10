@@ -49,7 +49,7 @@ function checkPage(filePath, html) {
       ? ""
       : outputPath.replace(/(?:\/index)?\.html$/, "");
   const expectedCanonical = `${SITE_URL}${route ? `/${route}` : ""}`;
-  const isPrivateRoute = /(?:^|\/)(?:account|login)$/.test(route);
+  const isPrivateRoute = /(?:^|\/)(?:account|login|eggs\/hatch)$/.test(route);
   const routeLocale = outputPath.split(/[/.]/)[0];
   const expectedLanguage = routeLanguages[routeLocale] ?? "en";
   requireMatch(html, /<title>[^<]+<\/title>/, `${outputPath}: missing title`);
@@ -101,7 +101,7 @@ function checkPage(filePath, html) {
     canonicalUrls.add(normalizeUrl(canonical));
   }
   if (isPrivateRoute && !/noindex/i.test(html)) {
-    failures.push(`${outputPath}: private account page must be noindex`);
+    failures.push(`${outputPath}: private account route must be noindex`);
   } else if (!isPrivateRoute && /noindex/i.test(html)) {
     failures.push(`${outputPath}: unexpectedly noindex`);
   }

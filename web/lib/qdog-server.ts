@@ -115,6 +115,10 @@ export function hatchPetEgg(id: string) {
   });
 }
 
+export function getPetEggHatch(id: string) {
+  return apiRequest<{ hatch: PetHatchSummary }>(`/assets/${encodeURIComponent(id)}/hatch`);
+}
+
 export function petHatchImageUrl(id: string) {
   return `${apiBase}/assets/${encodeURIComponent(id)}/hatch/image`;
 }

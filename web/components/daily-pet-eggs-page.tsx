@@ -8,14 +8,14 @@ import { localePath, type Locale } from "@/lib/i18n";
 
 const copy = {
   en: {
-    eyebrow: "Pet egg assets", title: "Today’s 50 pet egg codes", intro: "Every code can be redeemed once. The egg’s appearance stays hidden until it enters your backpack.",
+    eyebrow: "Cyber Egg assets", title: "Today’s 50 Cyber Egg codes", intro: "Every code can be redeemed once. The Cyber Egg’s appearance stays hidden until it enters your backpack.",
     available: "Available", redeemed: "Redeemed", support: "Support", supported: "Supported", copy: "Copy code", copied: "Copied",
     redeem: "Redeem a code", account: "Personal center", login: "Log in to support or redeem", inventory: "Issued at 00:00 UTC", loading: "Loading today’s codes…", unavailable: "Unable to update. Please try again.",
   },
   zh: {
-    eyebrow: "宠物蛋资产", title: "今日发放的 50 个宠物蛋代码", intro: "每个代码只能兑换一次。兑换前隐藏宠物蛋属性，进入背包后才揭晓专属外观。",
+    eyebrow: "赛博宠物蛋资产", title: "今日发放的 50 个赛博宠物蛋代码", intro: "每个代码只能兑换一次。兑换前隐藏赛博宠物蛋外观，进入背包后才揭晓专属蛋体。",
     available: "可兑换", redeemed: "已兑换", support: "支持", supported: "已支持", copy: "复制代码", copied: "已复制",
-    redeem: "兑换宠物蛋", account: "个人中心", login: "登录后支持或兑换", inventory: "每日 00:00 UTC 发放", loading: "正在加载今日代码…", unavailable: "操作失败，请稍后重试。",
+    redeem: "兑换赛博宠物蛋", account: "个人中心", login: "登录后支持或兑换", inventory: "每日 00:00 UTC 发放", loading: "正在加载今日代码…", unavailable: "操作失败，请稍后重试。",
   },
 };
 

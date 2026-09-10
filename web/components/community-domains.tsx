@@ -17,9 +17,9 @@ export function CommunityDomains({ petCount }: { petCount: number }) {
       </Link>
       <Link className="domain-card domain-card--asset" href={localePath(locale, "/eggs")}>
         <span className="domain-card__index">02</span>
-        <div><span>{zh ? "宠物蛋资产" : "Pet egg assets"}</span><h2>{zh ? "每天 50 个限量代码" : "50 limited codes every day"}</h2><p>{zh ? "获取代码、兑换宠物蛋，并收藏由属性生成的独特形象。" : "Collect a code, redeem an egg, and keep its trait-generated visual."}</p></div>
+        <div><span>{zh ? "赛博宠物蛋资产" : "Cyber Egg assets"}</span><h2>{zh ? "每天 50 个限量代码" : "50 limited codes every day"}</h2><p>{zh ? "获取代码、兑换赛博宠物蛋，并在孵化舱中唤醒专属赛博生命。" : "Collect a code, redeem a Cyber Egg, and awaken your own Cyber Life in the incubator."}</p></div>
         <PetEggVisual className="domain-card__egg" traits="color:gold|size:large|shape:angular|material:crystal" />
-        <strong>{zh ? "进入宠物蛋领域 →" : "Enter pet egg assets →"}</strong>
+        <strong>{zh ? "进入赛博宠物蛋领域 →" : "Enter Cyber Egg assets →"}</strong>
       </Link>
     </section>
   );

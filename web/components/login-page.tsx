@@ -22,7 +22,7 @@ export function LoginPage({ locale }: { locale: Locale }) {
       <section className="identity-card">
         <span className="section-kicker">{zh ? "QDog 账户" : "QDog account"}</span>
         <h1>{account ? (zh ? "你已经登录" : "You’re already signed in") : (zh ? "登录 QDog" : "Log in to QDog")}</h1>
-        <p>{zh ? "登录后可以兑换宠物蛋、支持每日代码，并在个人中心管理宠物蛋资产。" : "Log in to redeem pet eggs, support daily codes, and manage your assets in the personal center."}</p>
+        <p>{zh ? "登录后可以兑换赛博宠物蛋、支持每日代码，并在孵化舱中唤醒赛博生命。" : "Log in to redeem Cyber Eggs, support daily codes, and awaken Cyber Life in the incubator."}</p>
         {account ? (
           <Link className="identity-provider" href={localePath(locale, "/account")}>{zh ? `进入 ${account.displayName ?? "个人中心"}` : `Continue as ${account.displayName ?? "QDog member"}`}</Link>
         ) : (

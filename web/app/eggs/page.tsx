@@ -4,8 +4,8 @@ import { DailyPetEggsPage } from "@/components/daily-pet-eggs-page";
 import { languageAlternates } from "@/lib/localized-route-metadata";
 
 export const metadata: Metadata = {
-  title: "Daily pet eggs",
-  description: "Sign in with Google to support and claim one of QDog's 50 daily pet eggs.",
+  title: "Daily Cyber Eggs",
+  description: "Sign in with Google to support and claim one of QDog's 50 daily Cyber Eggs.",
   alternates: { canonical: "/eggs", languages: languageAlternates("/eggs") },
 };
 

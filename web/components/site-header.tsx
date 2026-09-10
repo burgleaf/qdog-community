@@ -25,7 +25,7 @@ export function SiteHeader() {
 
   const navItems = [
     { href: localePath(locale, "/"), label: t("gallery"), matchPrefix: "/pets" },
-    { href: localePath(locale, "/eggs"), label: locale === "zh" ? "宠物蛋资产" : "Pet egg assets" },
+    { href: localePath(locale, "/eggs"), label: locale === "zh" ? "赛博宠物蛋" : "Cyber Eggs" },
     { href: localePath(locale, "/install"), label: t("install") },
     { href: "/guide", label: t("makePet") },
   ];
