@@ -139,13 +139,13 @@ await Promise.all(
 
 const home = await readFile(join(outDir, "index.html"), "utf8");
 for (const required of [
-  "free Codex pet gallery and community",
-  "Meet the community’s",
-  "Browse and install",
-  "/request",
+  "Hatch a Cyber Life that is yours alone.",
+  "10 hatch credits included with every new account",
+  "Nine traits. One persistent identity.",
+  "/codex-pets",
 ]) {
   if (!home.includes(required)) {
-    failures.push(`index.html: missing community gallery signal ${required}`);
+    failures.push(`index.html: missing Cyber Life signal ${required}`);
   }
 }
 for (const language of hreflangLocales) {
@@ -158,13 +158,13 @@ for (const language of hreflangLocales) {
 
 const chineseHome = await readFile(join(outDir, "zh.html"), "utf8");
 for (const required of [
-  "社区宠物",
-  "Codex 社区宠物",
-  "浏览并安装",
-  "/zh/request",
+  "孵化一只只属于你的赛博生命。",
+  "每个新账户赠送 10 个孵化积分",
+  "九项特征，一个不会消失的身份。",
+  "/zh/codex-pets",
 ]) {
   if (!chineseHome.includes(required)) {
-    failures.push(`zh.html: missing community gallery signal ${required}`);
+    failures.push(`zh.html: missing Cyber Life signal ${required}`);
   }
 }
 

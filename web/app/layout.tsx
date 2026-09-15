@@ -78,8 +78,8 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#fff8ef" },
-    { media: "(prefers-color-scheme: dark)", color: "#1c1512" },
+    { media: "(prefers-color-scheme: light)", color: "#091113" },
+    { media: "(prefers-color-scheme: dark)", color: "#091113" },
   ],
 };
 
@@ -110,21 +110,21 @@ const websiteJsonLd = {
         "@id": `${siteConfig.url}/#organization`,
       },
       about: [
-        "Free OpenAI Codex pet gallery",
-        "One-step Codex pet installation",
-        "Community requests for anime and game character pets",
-        "Animated desktop companions",
+        "Persistent AI Cyber Life",
+        "Free genome pet eggs",
+        "AI pet hatching with starter credits",
+        "Codex forms for Cyber Life",
       ],
       potentialAction: [
         {
           "@type": "ViewAction",
-          name: "Browse the Codex pet gallery",
-          target: `${siteConfig.url}/#gallery`,
+          name: "Claim a free starter egg",
+          target: `${siteConfig.url}/login`,
         },
         {
           "@type": "CreateAction",
-          name: "Request a Codex pet",
-          target: `${siteConfig.url}/request`,
+          name: "Browse Codex forms",
+          target: `${siteConfig.url}/codex-pets`,
         },
       ],
     },

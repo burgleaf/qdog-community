@@ -6,21 +6,31 @@ import { useLocale } from "@/components/locale-provider";
 import { localePath } from "@/lib/i18n";
 
 export function CommunityDomains({ petCount }: { petCount: number }) {
-  const { locale } = useLocale();
-  const zh = locale === "zh";
+  const { locale, t } = useLocale();
   return (
-    <section className="domain-switcher" aria-label={zh ? "QDog 两大领域" : "QDog domains"}>
-      <Link className="domain-card" href="#gallery">
-        <span className="domain-card__index">01</span>
-        <div><span>{zh ? "社区宠物" : "Community pets"}</span><h2>{zh ? `${petCount} 只社区创作` : `${petCount} community creations`}</h2><p>{zh ? "发现、预览和安装社区制作的 Codex 小宠物。" : "Discover, preview, and install Codex pets made by the community."}</p></div>
-        <strong>{zh ? "进入社区宠物 →" : "Explore community pets →"}</strong>
-      </Link>
-      <Link className="domain-card domain-card--asset" href={localePath(locale, "/eggs")}>
-        <span className="domain-card__index">02</span>
-        <div><span>{zh ? "赛博宠物蛋资产" : "Cyber Egg assets"}</span><h2>{zh ? "每天 50 个限量代码" : "50 limited codes every day"}</h2><p>{zh ? "获取代码、兑换赛博宠物蛋，并在孵化舱中唤醒专属赛博生命。" : "Collect a code, redeem a Cyber Egg, and awaken your own Cyber Life in the incubator."}</p></div>
-        <PetEggVisual className="domain-card__egg" traits="color:gold|size:large|shape:angular|material:crystal" />
-        <strong>{zh ? "进入赛博宠物蛋领域 →" : "Enter Cyber Egg assets →"}</strong>
-      </Link>
+    <section className="domain-switcher" aria-label={t("domainSwitcherLabel")}>
+      <p className="domain-switcher__lede">{t("domainSwitcherLede")}</p>
+      <div className="domain-switcher__grid">
+        <Link className="domain-card domain-card--community" href="#gallery">
+          <span className="domain-card__index">01</span>
+          <div>
+            <span>{t("domainCommunityKicker")}</span>
+            <h2>{t("domainCommunityTitle", { count: petCount })}</h2>
+            <p>{t("domainCommunityDesc")}</p>
+          </div>
+          <strong>{t("domainCommunityCta")}</strong>
+        </Link>
+        <Link className="domain-card domain-card--cyber" href={localePath(locale, "/eggs")}>
+          <span className="domain-card__index">02</span>
+          <div>
+            <span>{t("domainCyberKicker")}</span>
+            <h2>{t("domainCyberTitle")}</h2>
+            <p>{t("domainCyberDesc")}</p>
+          </div>
+          <PetEggVisual className="domain-card__egg" traits="color:gold|size:large|shape:angular|material:crystal" />
+          <strong>{t("domainCyberCta")}</strong>
+        </Link>
+      </div>
     </section>
   );
 }

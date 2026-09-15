@@ -18,6 +18,21 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
     },
     {
+      url: `${siteConfig.url}/codex-pets`,
+      changeFrequency: "weekly",
+      priority: 0.75,
+    },
+    {
+      url: `${siteConfig.url}/en/codex-pets`,
+      changeFrequency: "weekly",
+      priority: 0.7,
+    },
+    {
+      url: `${siteConfig.url}/zh/codex-pets`,
+      changeFrequency: "weekly",
+      priority: 0.75,
+    },
+    {
       url: `${siteConfig.url}/`,
       changeFrequency: "weekly",
       priority: 1,
@@ -114,6 +129,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
         url: `${siteConfig.url}${localePath(locale, "/request")}`,
         changeFrequency: "weekly" as const,
         priority: 0.85,
+      },
+      {
+        url: `${siteConfig.url}${localePath(locale, "/codex-pets")}`,
+        changeFrequency: "weekly" as const,
+        priority: 0.7,
       },
     ]);
   const petEntries = pets.map((pet) => ({

@@ -69,6 +69,7 @@ export const translations = {
   en: {
     // Header
     gallery: "Community pets",
+    cyberLife: "Cyber Life",
     collections: "Collections",
     rankings: "Rankings",
     install: "Install",
@@ -109,6 +110,21 @@ export const translations = {
     heroStatLicenseValue: "MIT + CC BY-NC",
     exploreGallery: "Explore gallery",
     submitYourPet: "Submit your pet",
+    domainSwitcherLabel: "QDog domains",
+    domainSwitcherLede: "Two kinds of companions: installable community pets, and limited Cyber Life.",
+    domainCommunityKicker: "Community pets",
+    domainCommunityTitle: "{count} installable Codex companions",
+    domainCommunityDesc: "Discover, preview, and install animated pets made by the community.",
+    domainCommunityCta: "Explore community pets →",
+    domainCyberKicker: "Cyber Life",
+    domainCyberTitle: "50 limited genomes every day",
+    domainCyberDesc: "Redeem a Cyber Egg, then awaken a unique Cyber Life. The identity image is platform-neutral and cannot be installed into Codex.",
+    domainCyberCta: "Enter Cyber Life →",
+    cyberRailKicker: "Cyber Life",
+    cyberRailTitle: "Today’s limited genomes",
+    cyberRailDesc: "Collect a daily code, reveal a Cyber Egg, and awaken a one-of-a-kind life. It cannot be installed into Codex.",
+    cyberRailCta: "View today’s codes",
+    cyberRailRemaining: "{count} codes left today",
 
     // Gallery
     galleryTitle: "Community pets",
@@ -497,6 +513,7 @@ export const translations = {
   zh: {
     // Header
     gallery: "社区宠物",
+    cyberLife: "赛博生命",
     collections: "合集",
     rankings: "榜单",
     install: "安装",
@@ -536,6 +553,21 @@ export const translations = {
     heroStatLicenseValue: "MIT + CC BY-NC",
     exploreGallery: "浏览画廊",
     submitYourPet: "提交你的宠物",
+    domainSwitcherLabel: "QDog 两大领域",
+    domainSwitcherLede: "两种完全不同的伙伴：可安装的社区宠物，以及限量赛博生命。",
+    domainCommunityKicker: "社区宠物",
+    domainCommunityTitle: "{count} 只可安装的 Codex 伙伴",
+    domainCommunityDesc: "发现、预览并一键安装社区制作的动画小宠物。",
+    domainCommunityCta: "进入社区宠物 →",
+    domainCyberKicker: "赛博生命",
+    domainCyberTitle: "每天 50 个限量基因码",
+    domainCyberDesc: "兑换赛博蛋，再唤醒独一无二的赛博生命。生命形象与平台无关，不能装进 Codex。",
+    domainCyberCta: "进入赛博生命 →",
+    cyberRailKicker: "赛博生命",
+    cyberRailTitle: "今日限量基因",
+    cyberRailDesc: "领取每日代码、揭晓赛博蛋，唤醒独一无二的生命。它不能装进 Codex。",
+    cyberRailCta: "查看今日代码",
+    cyberRailRemaining: "今日剩余 {count} 个代码",
 
     // Gallery
     galleryTitle: "社区宠物",

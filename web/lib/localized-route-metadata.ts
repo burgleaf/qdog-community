@@ -18,9 +18,9 @@ const pageCopy: Record<
 > = {
   ko: {
     home: {
-      title: "무료 Codex 펫 갤러리와 커뮤니티",
+      title: "나만의 사이버 생명 부화",
       description:
-        "커뮤니티가 만든 Codex 펫의 애니메이션을 미리 보고 한 번에 설치하거나 원하는 캐릭터를 무료로 요청하세요.",
+        "무료 유전체 알을 받고 영구적인 AI 사이버 생명을 깨운 뒤 같은 정체성을 Codex로 가져오세요.",
       keywords: ["Codex 펫", "Codex 펫 설치", "무료 데스크톱 펫"],
     },
     install: {
@@ -38,9 +38,9 @@ const pageCopy: Record<
   },
   ja: {
     home: {
-      title: "無料 Codex ペットギャラリーとコミュニティ",
+      title: "あなただけのサイバー生命を孵化",
       description:
-        "コミュニティ制作の Codex ペットをアニメーションで確認し、ワンステップでインストール。好きなキャラクターの制作も無料でリクエストできます。",
+        "無料のゲノムエッグを受け取り、永続するAIサイバー生命を目覚めさせ、同じ存在をCodexへ連れて行けます。",
       keywords: ["Codex ペット", "Codex ペット インストール", "無料 デスクトップペット"],
     },
     install: {
@@ -58,9 +58,9 @@ const pageCopy: Record<
   },
   es: {
     home: {
-      title: "Galería y comunidad gratuita de mascotas Codex",
+      title: "Incuba tu propia Vida Ciber",
       description:
-        "Explora las animaciones de mascotas Codex creadas por la comunidad, instálalas en un paso o pide gratis tu personaje favorito.",
+        "Recibe un huevo genómico gratis, despierta una Vida Ciber persistente y lleva después la misma identidad a Codex.",
       keywords: ["mascotas Codex", "instalar mascota Codex", "mascota de escritorio gratis"],
     },
     install: {

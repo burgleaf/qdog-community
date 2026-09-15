@@ -66,6 +66,7 @@ export function toCollectionCardData(
       displayName: pet.displayName,
       runtimeDescription: pet.runtimeDescription,
       tags: pet.tags,
+      spriteVersionNumber: pet.spriteVersionNumber,
       previewImage: pet.previewImage,
       animatedPreviewImage: pet.animatedPreviewImage,
     })),

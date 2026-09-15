@@ -5,9 +5,9 @@ import { languageAlternates } from "@/lib/localized-route-metadata";
 import { withSiteKeywords } from "@/lib/seo-keywords";
 import { siteConfig } from "@/lib/site";
 
-const title = "免费 Codex 小宠物画廊与社区";
+const title = "孵化一只只属于你的赛博生命";
 const description =
-  "浏览社区制作的 Codex 小宠物完整动画，一键安装喜欢的角色，或免费申请社区制作。";
+  "免费领取基因蛋，用新账户赠送的 10 个积分孵化拥有永久身份的 AI 赛博生命，未来再让它进入 Codex。";
 
 export const metadata: Metadata = {
   title: {
@@ -38,7 +38,7 @@ export const metadata: Metadata = {
         url: siteConfig.ogImage,
         width: siteConfig.ogImageWidth,
         height: siteConfig.ogImageHeight,
-        alt: "QDog 精选宠物画廊",
+        alt: "QDog 赛博生命孵化",
       },
     ],
   },

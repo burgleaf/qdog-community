@@ -1,21 +1,15 @@
 import type { Metadata } from "next";
 
-import { CommunityDomains } from "@/components/community-domains";
-import { HeroSection } from "@/components/hero-section";
+import { CyberLifeHome } from "@/components/cyber-life-home";
 import { LocalizedDocumentTitle } from "@/components/localized-document-title";
-import { PetGallery } from "@/components/pet-gallery";
-import {
-  getAllPets,
-  getCategories,
-  toGalleryPet,
-} from "@/lib/pets";
+import { getAllPets, toGalleryPet } from "@/lib/pets";
 import { getTrendingPets } from "@/lib/ranking";
 import { languageAlternates } from "@/lib/localized-route-metadata";
 import { siteConfig } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: {
-    absolute: `${siteConfig.title} — free Codex pet gallery and community`,
+    absolute: `${siteConfig.title} — hatch your own Cyber Life`,
   },
   description: siteConfig.description,
   alternates: {
@@ -23,7 +17,7 @@ export const metadata: Metadata = {
     languages: languageAlternates("/"),
   },
   openGraph: {
-    title: `${siteConfig.title} — free Codex pet gallery and community`,
+    title: `${siteConfig.title} — hatch your own Cyber Life`,
     description: siteConfig.description,
     url: siteConfig.url,
     type: "website",
@@ -40,7 +34,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: `${siteConfig.title} — free Codex pet gallery and community`,
+    title: `${siteConfig.title} — hatch your own Cyber Life`,
     description: siteConfig.description,
     images: [siteConfig.ogImage],
   },
@@ -48,53 +42,26 @@ export const metadata: Metadata = {
 
 export default function HomePage() {
   const pets = getAllPets();
-  const galleryPets = pets.map(toGalleryPet);
-  const categories = getCategories(galleryPets);
-  const featured = getTrendingPets(pets, 6).map(toGalleryPet);
+  const examples = getTrendingPets(pets, 3).map(toGalleryPet);
 
   const pageJsonLd = {
     "@context": "https://schema.org",
     "@graph": [
       {
-        "@type": "CollectionPage",
-        "@id": `${siteConfig.url}/#gallery`,
-        name: `${siteConfig.title} — curated OpenAI Codex pet gallery`,
-        description: siteConfig.description,
+        "@type": "WebApplication",
+        "@id": `${siteConfig.url}/#cyber-life`,
+        name: `${siteConfig.title} Cyber Life`,
+        description: "Claim a free genome egg, hatch a persistent AI companion, and later bring that identity into Codex.",
         url: siteConfig.url,
         isPartOf: {
           "@id": `${siteConfig.url}/#website`,
         },
         inLanguage: ["en", "zh-CN", "ko", "ja", "es"],
         isAccessibleForFree: true,
-        potentialAction: [
-          {
-            "@type": "ViewAction",
-            name: "Browse free Codex pets",
-            target: `${siteConfig.url}/#gallery`,
-          },
-          {
-            "@type": "InstallAction",
-            name: "Install a Codex pet",
-            target: `${siteConfig.url}/install`,
-          },
-          {
-            "@type": "CreateAction",
-            name: "Request a character from the community",
-            target: `${siteConfig.url}/request`,
-          },
-        ],
-        mainEntity: {
-          "@type": "ItemList",
-          name: "Curated Codex pets",
-          numberOfItems: pets.length,
-          itemListElement: pets.slice(0, 24).map((pet, index) => ({
-            "@type": "ListItem",
-            position: index + 1,
-            url: `${siteConfig.url}/pets/${pet.slug}`,
-            name: pet.localizedNames.zh
-              ? `${pet.localizedNames.en ?? pet.name} / ${pet.localizedNames.zh}`
-              : pet.name,
-          })),
+        potentialAction: {
+          "@type": "CreateAction",
+          name: "Claim a free starter Cyber Egg",
+          target: `${siteConfig.url}/login`,
         },
       },
       {
@@ -130,24 +97,13 @@ export default function HomePage() {
   return (
     <main>
       <LocalizedDocumentTitle
-        en="Free Codex pet gallery and community"
-        es="Galería y comunidad gratuita de mascotas Codex"
-        ja="無料 Codex ペットギャラリーとコミュニティ"
-        ko="무료 Codex 펫 갤러리와 커뮤니티"
-        zh="Codex 宠物画廊与社区"
+        en="Hatch your own Cyber Life"
+        es="Incuba tu propia Vida Ciber"
+        ja="あなただけのサイバー生命を孵化"
+        ko="나만의 사이버 생명 부화"
+        zh="孵化一只只属于你的赛博生命"
       />
-      <CommunityDomains petCount={pets.length} />
-      <HeroSection
-        petCount={pets.length}
-        categoryCount={categories.length}
-        featured={featured}
-        allPets={galleryPets}
-      />
-      <section className="px-5 py-16 sm:px-6 sm:py-20">
-        <div className="mx-auto max-w-[1200px]">
-          <PetGallery pets={galleryPets} categories={categories} />
-        </div>
-      </section>
+      <CyberLifeHome examples={examples} communityPetCount={pets.length} />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(pageJsonLd) }}

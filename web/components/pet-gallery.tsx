@@ -243,7 +243,7 @@ export function PetGallery({ pets, categories }: PetGalleryProps) {
   }, [hasMore, visible.length]);
 
   return (
-    <section id="gallery" className="gallery-section">
+    <section className="gallery-section">
       <div className="gallery-heading">
         <span className="section-kicker">{t("gallery")}</span>
         <h2>{t("galleryTitle")}</h2>

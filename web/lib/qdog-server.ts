@@ -5,6 +5,8 @@ export type QDogAccount = {
   email: string | null;
   displayName: string | null;
   avatarUrl: string | null;
+  credits: number;
+  starterEggClaimed: boolean;
 };
 
 export type DailyPetEgg = {
@@ -42,7 +44,7 @@ export type PetHatchSummary = {
   eggAssetId?: string;
   status: "generating" | "completed" | "failed";
   model?: "gpt-image-2";
-  promptVersion?: "base-pet-v1";
+  promptVersion?: "base-pet-v1" | "base-pet-v2";
   attemptCount?: number;
   imagePath: string | null;
   createdAt?: number;
@@ -93,6 +95,12 @@ export function getDailyPetEggs() {
 
 export function claimDailyPetEgg(id: string) {
   return apiRequest<{ asset: PetEggAsset }>(`/pet-eggs/daily/${encodeURIComponent(id)}/claim`, {
+    method: "POST",
+  });
+}
+
+export function claimStarterPetEgg() {
+  return apiRequest<{ asset: PetEggAsset }>("/pet-eggs/starter/claim", {
     method: "POST",
   });
 }

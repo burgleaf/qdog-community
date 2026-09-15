@@ -1,6 +1,6 @@
-# QDog — Web Gallery
+# QDog — Cyber Life Web
 
-A Next.js static site that serves as the public gallery for community Codex pets.
+A Next.js static site for claiming genome eggs, hatching persistent Cyber Lives, and later bringing those identities into Codex. The community Codex pet catalog remains available as a secondary form library.
 
 ## Development
 
@@ -26,7 +26,7 @@ Pull-request CI uses `npm run build:pr` because a clean contributor checkout doe
 
 ## Deployment (Cloudflare Pages)
 
-The site deploys automatically after commits land on `main`. The `Pet previews` workflow regenerates previews/README data, commits those generated files, then builds and deploys the web gallery from the latest `main` state.
+The site deploys automatically after commits land on `main`. The `Pet previews` workflow regenerates previews/README data, commits those generated files, then builds and deploys the web experience from the latest `main` state.
 
 There is also a separate manual/tag-based deploy workflow available as a fallback (`v*`, `web-v*`, or manual dispatch).
 
@@ -85,7 +85,8 @@ npx wrangler pages deploy out --project-name=qdog-community
 - **Hosting**: Cloudflare Pages (global CDN, free tier)
 - **Stats reads**: deployment-time `public/stats.json`, served as a free Pages static asset; rankings do not poll the Worker
 - **Stats writes and requests**: a separate Worker at `https://resource.q.dog` records explicit installs, IP-limited pet likes, creator follows, and request support. The no-account request form accepts a checked PNG/JPEG/WebP upload or a public image link; uploads are stored in a private R2 bucket and served through a read-only content-hash URL. Rankings reuse total and 7-day like counts instead of introducing another popularity action. Ordinary page views never invoke the Worker. See `worker/README.md`.
-- **Cyber Eggs and identity**: `qdog-server` is a separate Cloudflare Worker API. The site has dedicated login, daily code, redemption, incubator, and personal-center pages. Public daily codes reveal no traits; redemption creates a deterministic SVG Cyber Egg, and the isolated incubator awakens a persisted Cyber Life.
+- **Primary journey**: the home page leads from a free starter egg to genome identity, hatching, and a future Codex form. Community pets live under `/codex-pets` as examples and installable forms.
+- **Cyber Eggs and identity**: `qdog-server` is a separate Cloudflare Worker API. Every new account starts with 10 hatch credits and can claim one permanent starter egg; 50 additional eggs are released daily. A successful hatch costs one credit, while failed generations return it.
 - **Preview delivery**: cards load a static thumbnail first and fetch animation on hover or keyboard focus; the top three pet rankings animate automatically while lower pet rows and contributor/collection mosaics animate on interaction; detail pages keep the complete action set
 - **Caching**: Next.js hashed assets are immutable, preview assets use a seven-day browser cache, and the deployment-time statistics snapshot uses a ten-minute cache
 
@@ -118,8 +119,10 @@ To actually surface in search results, do this once after the first deploy:
 
 Search pages and model-facing resources should describe QDog consistently:
 
-- It is primarily a free community gallery for browsing, previewing, downloading, and installing Codex pets.
-- It works like a pet store or library, but it is not a paid marketplace or an official OpenAI product.
+- It is primarily a Cyber Life incubator: claim a genome egg, awaken one persistent identity, and later bring that identity into Codex.
+- New accounts receive one starter egg and 10 hatch credits; the service also releases 50 limited eggs per day.
+- The community Codex pet catalog is a secondary form library for browsing, previewing, downloading, and installing existing Codex pets.
+- It is an independent project and not an official OpenAI product.
 - Anyone can submit a character request for free. Community contributors may volunteer to make it, but requests are not delivery promises.
 - Crafting and contribution documentation is a secondary contributor path, not the main visitor value proposition.
 

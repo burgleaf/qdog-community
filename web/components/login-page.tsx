@@ -18,11 +18,11 @@ export function LoginPage({ locale }: { locale: Locale }) {
   useEffect(() => { void getCurrentAccount().then(setAccount); }, []);
 
   return (
-    <main className="identity-page">
+    <main className="identity-page" data-domain="cyber">
       <section className="identity-card">
-        <span className="section-kicker">{zh ? "QDog 账户" : "QDog account"}</span>
-        <h1>{account ? (zh ? "你已经登录" : "You’re already signed in") : (zh ? "登录 QDog" : "Log in to QDog")}</h1>
-        <p>{zh ? "登录后可以兑换赛博宠物蛋、支持每日代码，并在孵化舱中唤醒赛博生命。" : "Log in to redeem Cyber Eggs, support daily codes, and awaken Cyber Life in the incubator."}</p>
+        <span className="section-kicker">{zh ? "建立生命账户" : "Create a life account"}</span>
+        <h1>{account ? (zh ? "你的生命账户已连接" : "Your life account is connected") : (zh ? "领取你的第一枚生命蛋" : "Claim your first life egg")}</h1>
+        <p>{zh ? "使用 Google 登录即可获得一枚专属新手蛋和 10 个孵化积分。无需填写资料，也不会公开你的生命资产。" : "Continue with Google to receive one personal starter egg and 10 hatch credits. Your life assets remain private to your account."}</p>
         {account ? (
           <Link className="identity-provider" href={localePath(locale, "/account")}>{zh ? `进入 ${account.displayName ?? "个人中心"}` : `Continue as ${account.displayName ?? "QDog member"}`}</Link>
         ) : (
@@ -31,7 +31,7 @@ export function LoginPage({ locale }: { locale: Locale }) {
             {zh ? "使用 Google 账号登录" : "Continue with Google"}
           </a>
         )}
-        <p className="identity-note">{zh ? "目前支持 Google 登录，后续可继续增加其他登录方式。" : "Google is currently supported; more sign-in methods can be added later."}</p>
+        <p className="identity-note">{zh ? "新账户赠送 10 积分 · 每次基础孵化消耗 1 积分" : "New accounts receive 10 credits · A base hatch costs 1 credit"}</p>
       </section>
     </main>
   );

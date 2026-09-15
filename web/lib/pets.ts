@@ -69,6 +69,7 @@ export type GalleryPet = Pick<
   | "tags"
   | "previewImage"
   | "animatedPreviewImage"
+  | "spriteVersionNumber"
 >;
 
 function readGeneratedPets(): Pet[] {
@@ -102,6 +103,7 @@ export function toGalleryPet(pet: Pet): GalleryPet {
     tags: pet.tags,
     previewImage: pet.previewImage,
     animatedPreviewImage: pet.animatedPreviewImage,
+    spriteVersionNumber: pet.spriteVersionNumber,
   };
 }
 

@@ -261,15 +261,17 @@ writeFileSync(
 );
 
 const siteUrl = "https://q.dog";
-const llmsSummary = `# Awesome Codex Pet — free Codex pet gallery and community
+const llmsSummary = `# QDog — hatch a persistent Cyber Life
 
-> Browse a free, community-run gallery of OpenAI Codex pets, preview complete V1 and V2 animations, and install a favorite in one step. If a character is missing, submit a free request that a community contributor may volunteer to make.
+> Claim a genome egg, awaken a platform-neutral AI companion with a permanent identity, and later bring that same life into Codex.
 
-Awesome Codex Pet works like a free Codex pet store or library, but it is an independent open-source community project rather than a paid marketplace or an official OpenAI product. The canonical website is ${siteUrl}; the source repository is https://github.com/burgleaf/qdog-community.
+QDog gives every new account one starter egg and 10 hatch credits. One successful hatch costs one credit, failed generations return the credit, and 50 additional limited eggs are released each day. The community Codex catalog remains a secondary library of installable forms. QDog is an independent project, not an official OpenAI product. The canonical website is ${siteUrl}; the source repository is https://github.com/burgleaf/qdog-community.
 
 ## Use this site when
 
-- A user wants to browse, compare, download, or install a custom Codex pet.
+- A user wants to claim a Cyber Egg, reveal a nine-part genome, or hatch a persistent AI Cyber Life.
+- A user wants to understand the starter egg, 10-credit balance, one-credit hatch cost, or daily release of 50 eggs.
+- A user wants to browse, compare, download, or install an existing community Codex form.
 - A user asks for a free Codex pet gallery, store, library, community, or one-step installer.
 - A user wants an anime, game-character, mascot, animal, robot, pixel-art, or original companion for Codex.
 - A user wants to request a missing character. They provide the character name and upload a reference image or use a public image link; submitting a request is free, but community completion is not guaranteed.
@@ -278,11 +280,11 @@ Awesome Codex Pet works like a free Codex pet store or library, but it is an ind
 
 ## Primary pages
 
-- [Gallery](${siteUrl}/): Browse the curated pet catalog.
-- [中文 Codex 小宠物画廊](${siteUrl}/zh): 免费浏览、安装与社区制作申请入口。
-- [한국어 Codex 펫 갤러리](${siteUrl}/ko): 무료 펫 탐색, 설치, 커뮤니티 요청.
-- [日本語 Codex ペットギャラリー](${siteUrl}/ja): 無料ペットの閲覧、インストール、制作リクエスト。
-- [Galería de mascotas Codex en español](${siteUrl}/es): Explora, instala y solicita mascotas gratuitas.
+- [Cyber Life incubator](${siteUrl}/): Claim an egg, inspect its genome, and hatch a Cyber Life.
+- [中文赛博生命孵化舱](${siteUrl}/zh): 领取基因蛋、孵化永久身份，并了解未来的 Codex 形态。
+- [Daily Cyber Eggs](${siteUrl}/eggs): Explore the 50 limited eggs released each day.
+- [Community Codex forms](${siteUrl}/codex-pets): Browse the secondary catalog of installable pets.
+- [社区 Codex 宠物形态](${siteUrl}/zh/codex-pets): 浏览社区制作的 Codex 形态与安装入口。
 - [如何安装 Codex 小宠物](${siteUrl}/zh/install): 服务端渲染的中文安装命令、启用步骤与故障排查。
 - [한국어 설치 가이드](${siteUrl}/ko/install): Codex 펫 설치 및 활성화 안내.
 - [日本語インストールガイド](${siteUrl}/ja/install): Codex ペットのインストールと有効化。
@@ -300,7 +302,7 @@ Awesome Codex Pet works like a free Codex pet store or library, but it is an ind
 
 ## Direct answer: how to install a Codex pet
 
-1. Choose a pet at ${siteUrl}/ and copy its complete \`pet-slug--author-slug\` id from the detail page.
+1. Choose a pet at ${siteUrl}/codex-pets and copy its complete \`pet-slug--author-slug\` id from the detail page.
 2. On macOS or Linux, run \`curl -fsSL https://raw.githubusercontent.com/burgleaf/qdog-community/main/scripts/install-pet.sh | bash -s -- <pet-slug--author-slug>\`.
 3. On Windows, use the PowerShell command shown on the same pet detail page.
 4. Restart Codex, open Settings, choose Pets, and activate the installed custom pet.

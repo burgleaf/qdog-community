@@ -30,6 +30,9 @@ const copy = {
     complete: "赛博生命已苏醒",
     result: "本次生成结果已固定保存，再次访问不会重复消耗模型额度。",
     quota: "今日赛博生命孵化名额已用完，请在下一个 UTC 自然日再来。",
+    credits: "当前积分",
+    cost: "本次孵化消耗 1 积分",
+    insufficient: "孵化积分不足。付费补充功能即将开放。",
     failed: "生命模型暂时没有完成孵化，请稍后重新连接。",
     code: "加密生命编码",
     model: "AI LIFE MODEL · GPT-IMAGE-2",
@@ -54,6 +57,9 @@ const copy = {
     complete: "Cyber Life awakened",
     result: "This result is permanently stored. Revisiting it will not consume model quota again.",
     quota: "Today’s Cyber Life hatch capacity is full. Please return on the next UTC day.",
+    credits: "Credits available",
+    cost: "This hatch costs 1 credit",
+    insufficient: "You do not have enough hatch credits. Credit purchases are coming soon.",
     failed: "The life model did not finish this hatch. Please reconnect later.",
     code: "Encrypted life code",
     model: "AI LIFE MODEL · GPT-IMAGE-2",
@@ -127,6 +133,7 @@ export function CyberEggHatchPage({ locale }: { locale: Locale }) {
     try {
       const { hatch } = await hatchPetEgg(asset.id);
       setAsset({ ...asset, hatch });
+      setAccount(await getCurrentAccount());
       setStep(text.steps.length - 1);
       setPhase("completed");
     } catch (error) {
@@ -140,9 +147,9 @@ export function CyberEggHatchPage({ locale }: { locale: Locale }) {
     }
   }
 
-  const message = errorCode === "daily_hatch_limit_reached" ? text.quota : text.failed;
+  const message = errorCode === "daily_hatch_limit_reached" ? text.quota : errorCode === "insufficient_credits" ? text.insufficient : text.failed;
 
-  return <main className="hatch-page">
+  return <main className="hatch-page" data-domain="cyber">
     <section className="hatch-hero">
       <span>{text.kicker}</span>
       <h1>{text.title}</h1>
@@ -153,7 +160,7 @@ export function CyberEggHatchPage({ locale }: { locale: Locale }) {
       <div className="hatch-chamber">
         <div className="hatch-chamber__rings" aria-hidden="true"><i /><i /><i /></div>
         {phase === "completed" && asset
-          ? <img className="hatch-life" src={petHatchImageUrl(asset.id)} alt={text.complete} />
+          ? <div className="hatch-life-stage"><img className="hatch-life" src={petHatchImageUrl(asset.id)} alt={text.complete} /></div>
           : asset ? <PetEggVisual className="hatch-egg" genomeCode={asset.genome.code} traits={asset.traits} /> : <div className="hatch-placeholder" />}
         <div className="hatch-chamber__beam" aria-hidden="true" />
       </div>
@@ -165,14 +172,15 @@ export function CyberEggHatchPage({ locale }: { locale: Locale }) {
         {account && asset === undefined && phase === "error" ? <div className="hatch-notice"><p>{text.failed}</p><Link href={localePath(locale, "/account")}>{text.back}</Link></div> : null}
         {asset ? <>
           <div className="hatch-code"><span>{text.code}</span><code>{asset.genome.code}</code></div>
-          <div className="hatch-channel"><span className={phase === "hatching" ? "is-live" : ""} />{text.model}</div>
+          <div className="hatch-channel"><span className={phase === "hatching" ? "is-live" : ""} />{text.model}<strong>{text.credits}: {account?.credits ?? 0} ◈</strong></div>
           {phase === "completed" ? <div className="hatch-complete"><small>100%</small><h2>{text.complete}</h2><p>{text.result}</p></div> : <>
             <div className="hatch-progress"><div><span>{text.progress}</span><strong>{progress}%</strong></div><i><b style={{ width: `${progress}%` }} /></i></div>
             <ol className="hatch-log">
               {text.steps.map((label, index) => <li className={phase === "hatching" && index <= step ? "is-active" : ""} key={label}><span>{index < step ? "✓" : index === step && phase === "hatching" ? "●" : "○"}</span>{label}</li>)}
             </ol>
             {phase === "error" ? <p className="hatch-error" role="alert">{message}</p> : null}
-            <button className="hatch-start" disabled={phase === "hatching"} onClick={() => void startHatch()} type="button">{phase === "hatching" ? text.steps[step] : phase === "error" ? text.retry : text.start}</button>
+            <p className="hatch-cost">{text.cost}</p>
+            <button className="hatch-start" disabled={phase === "hatching" || (account?.credits ?? 0) < 1} onClick={() => void startHatch()} type="button">{phase === "hatching" ? text.steps[step] : phase === "error" ? text.retry : text.start}</button>
           </>}
           <Link className="hatch-back" href={localePath(locale, "/account")}>← {text.back}</Link>
         </> : null}
