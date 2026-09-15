@@ -265,7 +265,7 @@ const llmsSummary = `# QDog — hatch a persistent Cyber Life
 
 > Claim a genome egg, awaken a platform-neutral AI companion with a permanent identity, and later bring that same life into Codex.
 
-QDog gives every new account one starter egg and 10 hatch credits. One successful hatch costs one credit, failed generations return the credit, and 50 additional limited eggs are released each day. The community Codex catalog remains a secondary library of installable forms. QDog is an independent project, not an official OpenAI product. The canonical website is ${siteUrl}; the source repository is https://github.com/burgleaf/qdog-community.
+QDog gives every new account one starter egg and 10 hatch credits. One successful hatch costs five credits, failed generations return them, and 50 additional limited eggs are released each day. The community Codex catalog remains a secondary library of installable forms. QDog is an independent project, not an official OpenAI product. The canonical website is ${siteUrl}; the source repository is https://github.com/burgleaf/qdog-community.
 
 ## Use this site when
 
