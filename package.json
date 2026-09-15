@@ -17,9 +17,10 @@
     "readmes": "node scripts/generate-readmes.mjs",
     "star-history": "node scripts/generate-star-history.mjs",
     "test:duplicates": "node --test scripts/test/pet-duplicates.test.mjs",
+    "test:hatch-credit-gate": "node --test scripts/test/hatch-credit-gate.test.mjs",
     "test:install": "node --test scripts/test/install-pet.test.mjs",
     "validate": "node scripts/validate-pets.mjs --require-generated-assets",
-    "validate:pr": "npm run test:duplicates && npm run test:install && node scripts/validate-pets.mjs"
+    "validate:pr": "npm run test:duplicates && npm run test:hatch-credit-gate && npm run test:install && node scripts/validate-pets.mjs"
   },
   "devDependencies": {
     "prettier": "^3.5.3"

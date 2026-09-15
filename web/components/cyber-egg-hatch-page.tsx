@@ -205,7 +205,7 @@ export function CyberEggHatchPage({ locale }: { locale: Locale }) {
             </ol>
             {phase === "error" ? <p className="hatch-error" role="alert">{message}</p> : null}
             <p className="hatch-cost">{text.cost}</p>
-            <button className="hatch-start" disabled={phase === "hatching" || (account?.credits ?? 0) < 1} onClick={() => void startHatch()} type="button">{phase === "hatching" ? text.steps[step] : phase === "error" ? text.retry : text.start}</button>
+            <button className="hatch-start" disabled={phase === "hatching" || (account?.credits ?? 0) < 5} onClick={() => void startHatch()} type="button">{phase === "hatching" ? text.steps[step] : phase === "error" ? text.retry : text.start}</button>
           </>}
           <Link className="hatch-back" href={localePath(locale, "/account")}>← {text.back}</Link>
         </> : null}
