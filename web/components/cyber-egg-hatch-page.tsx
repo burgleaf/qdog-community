@@ -26,6 +26,7 @@ const copy = {
     retry: "重新连接孵化舱",
     back: "返回我的背包",
     login: "登录后才能进入赛博生命孵化舱。",
+    loginCta: "前往登录",
     missing: "没有找到这枚赛博宠物蛋，或它不属于当前账户。",
     complete: "赛博生命已苏醒",
     result: "本次生成结果已固定保存，再次访问不会重复消耗模型额度。",
@@ -53,6 +54,7 @@ const copy = {
     retry: "Reconnect incubator",
     back: "Back to backpack",
     login: "Log in to enter the Cyber Life incubator.",
+    loginCta: "Log in",
     missing: "This Cyber Egg was not found or does not belong to this account.",
     complete: "Cyber Life awakened",
     result: "This result is permanently stored. Revisiting it will not consume model quota again.",
@@ -72,10 +74,25 @@ const copy = {
       "Locking the Cyber Life’s unique identity",
     ],
   },
+  ko: {
+    kicker: "사이버 라이프 부화기", title: "사이버 라이프 깨우기", intro: "생명 모델이 에그에 봉인된 유전자를 읽고 하나뿐인 사이버 라이프를 만듭니다.",
+    start: "생명 모델에 연결하고 부화", retry: "부화기 다시 연결", back: "내 보관함으로", login: "사이버 라이프 부화기에 들어가려면 로그인하세요.", loginCta: "로그인", missing: "이 사이버 에그를 찾을 수 없거나 현재 계정의 소유가 아닙니다.", complete: "사이버 라이프 각성 완료", result: "이 결과는 영구 저장됩니다. 다시 방문해도 모델 한도를 추가로 사용하지 않습니다.", quota: "오늘의 부화 용량이 모두 찼습니다. 다음 UTC 날짜에 다시 방문하세요.", credits: "사용 가능한 크레딧", cost: "이번 부화는 1크레딧입니다", insufficient: "부화 크레딧이 부족합니다. 크레딧 구매 기능은 곧 제공됩니다.", failed: "생명 모델이 부화를 완료하지 못했습니다. 잠시 후 다시 연결하세요.", code: "암호화된 생명 코드", model: "AI LIFE MODEL · GPT-IMAGE-2 / CF FALLBACK", progress: "부화 동기화",
+    steps: ["에그 소유권과 무결성 확인 중", "아홉 가지 생명 유전자 개봉 중", "생명 모델과 보안 연결 중", "생명 모델이 형태와 소재를 만드는 중", "사이버 라이프의 고유한 정체성을 고정 중"],
+  },
+  ja: {
+    kicker: "サイバー生命孵化装置", title: "サイバー生命を目覚めさせる", intro: "生命モデルがエッグに封印された遺伝子を読み取り、唯一のサイバー生命を構築します。",
+    start: "生命モデルに接続して孵化", retry: "孵化装置に再接続", back: "生命庫に戻る", login: "サイバー生命孵化装置に入るにはログインしてください。", loginCta: "ログイン", missing: "このサイバーエッグが見つからないか、現在のアカウントの所有物ではありません。", complete: "サイバー生命が目覚めました", result: "この結果は永続保存されます。再訪してもモデル枠は追加消費されません。", quota: "本日の孵化枠は終了しました。次の UTC 日にお越しください。", credits: "利用可能クレジット", cost: "今回の孵化は1クレジット", insufficient: "孵化クレジットが不足しています。追加購入機能は近日公開予定です。", failed: "生命モデルが孵化を完了できませんでした。しばらくしてから再接続してください。", code: "暗号化生命コード", model: "AI LIFE MODEL · GPT-IMAGE-2 / CF FALLBACK", progress: "孵化同期率",
+    steps: ["エッグの所有権と完全性を確認中", "9つの生命遺伝子を開封中", "生命モデルへ安全に接続中", "生命モデルが形と素材を生成中", "サイバー生命の唯一の個性を固定中"],
+  },
+  es: {
+    kicker: "Incubadora de vida cibernética", title: "Despierta tu vida cibernética", intro: "El modelo de vida lee el genoma sellado en el huevo y construye una vida cibernética única.",
+    start: "Conectar el modelo e incubar", retry: "Reconectar incubadora", back: "Volver a mi mochila", login: "Inicia sesión para entrar en la incubadora.", loginCta: "Iniciar sesión", missing: "No encontramos este huevo o no pertenece a la cuenta actual.", complete: "Vida cibernética despierta", result: "El resultado queda guardado permanentemente. Volver a visitarlo no consume más cuota.", quota: "La capacidad de incubación de hoy está completa. Regresa el próximo día UTC.", credits: "Créditos disponibles", cost: "Esta incubación cuesta 1 crédito", insufficient: "No tienes suficientes créditos. La compra de créditos estará disponible pronto.", failed: "El modelo de vida no completó la incubación. Vuelve a conectarte más tarde.", code: "Código de vida cifrado", model: "AI LIFE MODEL · GPT-IMAGE-2 / CF FALLBACK", progress: "Sincronización de incubación",
+    steps: ["Verificando propiedad e integridad del huevo", "Abriendo el genoma de nueve rasgos", "Creando una conexión segura con el modelo", "El modelo da forma y material a la vida", "Fijando la identidad única de la vida cibernética"],
+  },
 };
 
 export function CyberEggHatchPage({ locale }: { locale: Locale }) {
-  const text = locale === "zh" ? copy.zh : copy.en;
+  const text = copy[locale];
   const [account, setAccount] = useState<QDogAccount | null | undefined>();
   const [asset, setAsset] = useState<PetEggAsset | null>();
   const [phase, setPhase] = useState<HatchPhase>("loading");
@@ -167,7 +184,7 @@ export function CyberEggHatchPage({ locale }: { locale: Locale }) {
 
       <div className="hatch-control">
         {phase === "loading" ? <p>{text.steps[0]}…</p> : null}
-        {!account && phase !== "loading" ? <div className="hatch-notice"><p>{text.login}</p><Link className="asset-button asset-button--primary" href={`${localePath(locale, "/login")}?return_to=${encodeURIComponent(`${localePath(locale, "/eggs/hatch")}${window.location.search}`)}`}>{locale === "zh" ? "前往登录" : "Log in"}</Link></div> : null}
+        {!account && phase !== "loading" ? <div className="hatch-notice"><p>{text.login}</p><Link className="asset-button asset-button--primary" href={`${localePath(locale, "/login")}?return_to=${encodeURIComponent(`${localePath(locale, "/eggs/hatch")}${window.location.search}`)}`}>{text.loginCta}</Link></div> : null}
         {account && asset === null ? <div className="hatch-notice"><p>{text.missing}</p><Link href={localePath(locale, "/account")}>{text.back}</Link></div> : null}
         {account && asset === undefined && phase === "error" ? <div className="hatch-notice"><p>{text.failed}</p><Link href={localePath(locale, "/account")}>{text.back}</Link></div> : null}
         {asset ? <>

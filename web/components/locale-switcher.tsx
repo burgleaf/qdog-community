@@ -12,6 +12,18 @@ import {
   supportedLocales,
 } from "@/lib/i18n";
 
+const localizedRoutes = new Set([
+  "/",
+  "/account",
+  "/codex-pets",
+  "/eggs",
+  "/eggs/hatch",
+  "/eggs/redeem",
+  "/install",
+  "/login",
+  "/request",
+]);
+
 export function LocaleSwitcher() {
   const { locale, setLocale } = useLocale();
   const pathname = usePathname();
@@ -23,11 +35,7 @@ export function LocaleSwitcher() {
     const basePath = routeLocale
       ? pathname.replace(new RegExp(`^/${routeLocale}(?=/|$)`), "") || "/"
       : pathname;
-    if (
-      basePath === "/" ||
-      basePath === "/install" ||
-      basePath === "/request"
-    ) {
+    if (localizedRoutes.has(basePath)) {
       router.push(localePath(nextLocale, basePath));
     }
   }
