@@ -54,6 +54,11 @@ export type PetHatchSummary = {
   completedAt?: number | null;
 };
 
+export type CodexImageLink = {
+  imageUrl: string;
+  expiresAt: number;
+};
+
 async function apiRequest<T>(path: string, init?: RequestInit): Promise<T> {
   const response = await fetch(`${apiBase}${path}`, {
     ...init,
@@ -127,6 +132,13 @@ export function hatchPetEgg(id: string) {
 
 export function getPetEggHatch(id: string) {
   return apiRequest<{ hatch: PetHatchSummary }>(`/assets/${encodeURIComponent(id)}/hatch`);
+}
+
+export function createPetCodexImageLink(id: string) {
+  return apiRequest<CodexImageLink>(
+    `/assets/${encodeURIComponent(id)}/hatch/codex-image-link`,
+    { method: "POST" },
+  );
 }
 
 export function petHatchImageUrl(id: string) {

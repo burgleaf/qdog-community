@@ -835,6 +835,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -Command "iwr -UseB https://raw.gi
 
 - [Codex pet request](https://q.dog/ja/request)
 - [Contribution guide](https://q.dog/guide)
+- [`.agents/skills/codexify-qdog-life`](../../.agents/skills/codexify-qdog-life)
 - [`.agents/skills/submit-codex-pet`](../../.agents/skills/submit-codex-pet)
 
 ## ドキュメント

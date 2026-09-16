@@ -911,6 +911,7 @@ Contributor PRs should only include `submission.json`, `pet.json`, and `spritesh
 
 ## Make a Pet
 
+- [.agents/skills/codexify-qdog-life](./.agents/skills/codexify-qdog-life) — turn a QDog Cyber Life image into a private local Codex V2 pet
 - [.agents/skills/submit-codex-pet](./.agents/skills/submit-codex-pet) — request community production, create or submit your own pet through the GitHub API, or prepare an advanced PR
 - [.agents/skills/hatch-pet-v1](./.agents/skills/hatch-pet-v1) — preserve or repair a legacy 8x9 v1 pet
 - [.agents/skills/hatch-pet-v2](./.agents/skills/hatch-pet-v2) — create or upgrade an 8x11 v2 pet with 16 look directions

@@ -911,6 +911,7 @@ npm run lint
 
 ## 制作 Pet
 
+- [.agents/skills/codexify-qdog-life](../../.agents/skills/codexify-qdog-life) — 将 QDog 赛博生命形象转换成私人本地 Codex V2 宠物
 - [.agents/skills/submit-codex-pet](../../.agents/skills/submit-codex-pet) — 请求社区制作、通过 GitHub API 制作或提交自己的宠物，或准备高级 PR
 - [.agents/skills/hatch-pet-v1](../../.agents/skills/hatch-pet-v1) — 保留或修复旧版 8x9 v1 宠物
 - [.agents/skills/hatch-pet-v2](../../.agents/skills/hatch-pet-v2) — 创建或升级带 16 个环视方向的 8x11 v2 宠物

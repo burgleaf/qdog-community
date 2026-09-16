@@ -835,6 +835,7 @@ Si falta un personaje, puedes publicar una petición comunitaria gratuita. Para 
 
 - [Codex pet request](https://q.dog/es/request)
 - [Contribution guide](https://q.dog/guide)
+- [`.agents/skills/codexify-qdog-life`](../../.agents/skills/codexify-qdog-life)
 - [`.agents/skills/submit-codex-pet`](../../.agents/skills/submit-codex-pet)
 
 ## Documentación

@@ -1422,6 +1422,14 @@ main[data-domain="cyber"] .asset-inventory__heading strong { color: var(--cyber-
 .hatch-complete h2 { margin: 8px 0; color: #fff; font-size: 2rem; }
 .hatch-complete p, .hatch-notice p { color: #a7acc1; }
 .hatch-notice a { display: inline-flex; margin-top: 18px; }
+.hatch-codex { margin-top: 24px; border-top: 1px solid rgba(255,255,255,.09); padding-top: 22px; }
+.hatch-codex__heading { display: flex; align-items: flex-start; gap: 12px; }
+.hatch-codex__heading h3 { margin: 0 0 5px; color: #f1f2ff; font-size: 1rem; }
+.hatch-codex__heading p { margin: 0; font-size: .76rem; line-height: 1.55; }
+.hatch-codex button { display: flex; width: 100%; min-height: 48px; align-items: center; justify-content: center; margin-top: 16px; border: 1px solid #7770ff; border-radius: .9rem; padding: 11px 16px; color: #fff; background: linear-gradient(120deg, #655dff, #7c64e8); font-weight: 850; }
+.hatch-codex button:disabled { cursor: wait; opacity: .68; }
+.hatch-codex > span { display: block; margin-top: 9px; color: #777d96; font-size: .66rem; line-height: 1.45; }
+.hatch-codex .hatch-error { margin: 10px 0 0; }
 
 @keyframes hatch-ring { to { transform: rotate(360deg); } }
 @keyframes hatch-egg-pulse { 50% { transform: translateY(-7px) scale(1.025); } }

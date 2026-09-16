@@ -911,6 +911,7 @@ npm run lint
 
 ## 펫 만들기
 
+- [.agents/skills/codexify-qdog-life](../../.agents/skills/codexify-qdog-life) — QDog 사이버 생명 이미지를 개인 로컬 Codex V2 펫으로 변환합니다.
 - [.agents/skills/submit-codex-pet](../../.agents/skills/submit-codex-pet) — 커뮤니티 제작을 요청하거나 GitHub API로 내 펫을 만들고 제출하고, 고급 PR을 준비합니다.
 - [.agents/skills/hatch-pet-v1](../../.agents/skills/hatch-pet-v1) — 기존 8x9 v1 펫을 보존하거나 수리합니다.
 - [.agents/skills/hatch-pet-v2](../../.agents/skills/hatch-pet-v2) — 16개 시선 방향을 포함한 8x11 v2 펫을 만들거나 업그레이드합니다.

@@ -11,6 +11,7 @@
 ## Pet Skill 版本
 
 - `$submit-codex-pet` 是统一投稿入口：区分“请求社区制作”“制作或提交自己的宠物”和“高级 PR”，优先通过 GitHub API 操作，避免为了三个成品文件完整克隆大型素材仓库。
+- `$codexify-qdog-life` 用于把 QDog 孵化页复制出的赛博生命图片链接转换为私人本地 Codex V2 宠物；QDog 只提供 Skill、当前语言的提示词和 24 小时图片链接，不跟踪制作状态或接收生成结果。
 - `$hatch-pet-v1` 是仓库保留的旧版产线，输出 `8x9`、`1536x1872` 的 v1 spritesheet；维护现有仓库 pet 时使用它。
 - `$hatch-pet-v2` 是从当前 Codex App 内置 skill 同步的 v2 产线，输出 `8x11`、`1536x2288` 的 spritesheet，并要求 `pet.json.spriteVersionNumber: 2` 与 16 个环视方向。
 - 调用时必须显式选择版本。v1 与 v2 都可以收录，但 `spriteVersionNumber`、图集尺寸和实际行数必须匹配。

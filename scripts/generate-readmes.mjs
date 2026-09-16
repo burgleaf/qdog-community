@@ -458,6 +458,7 @@ Contributor PRs should only include \`submission.json\`, \`pet.json\`, and \`spr
 
 ## Make a Pet
 
+- [.agents/skills/codexify-qdog-life](./.agents/skills/codexify-qdog-life) — turn a QDog Cyber Life image into a private local Codex V2 pet
 - [.agents/skills/submit-codex-pet](./.agents/skills/submit-codex-pet) — request community production, create or submit your own pet through the GitHub API, or prepare an advanced PR
 - [.agents/skills/hatch-pet-v1](./.agents/skills/hatch-pet-v1) — preserve or repair a legacy 8x9 v1 pet
 - [.agents/skills/hatch-pet-v2](./.agents/skills/hatch-pet-v2) — create or upgrade an 8x11 v2 pet with 16 look directions
@@ -643,6 +644,7 @@ npm run lint
 
 ## 制作 Pet
 
+- [.agents/skills/codexify-qdog-life](../../.agents/skills/codexify-qdog-life) — 将 QDog 赛博生命形象转换成私人本地 Codex V2 宠物
 - [.agents/skills/submit-codex-pet](../../.agents/skills/submit-codex-pet) — 请求社区制作、通过 GitHub API 制作或提交自己的宠物，或准备高级 PR
 - [.agents/skills/hatch-pet-v1](../../.agents/skills/hatch-pet-v1) — 保留或修复旧版 8x9 v1 宠物
 - [.agents/skills/hatch-pet-v2](../../.agents/skills/hatch-pet-v2) — 创建或升级带 16 个环视方向的 8x11 v2 宠物
@@ -828,6 +830,7 @@ npm run lint
 
 ## 펫 만들기
 
+- [.agents/skills/codexify-qdog-life](../../.agents/skills/codexify-qdog-life) — QDog 사이버 생명 이미지를 개인 로컬 Codex V2 펫으로 변환합니다.
 - [.agents/skills/submit-codex-pet](../../.agents/skills/submit-codex-pet) — 커뮤니티 제작을 요청하거나 GitHub API로 내 펫을 만들고 제출하고, 고급 PR을 준비합니다.
 - [.agents/skills/hatch-pet-v1](../../.agents/skills/hatch-pet-v1) — 기존 8x9 v1 펫을 보존하거나 수리합니다.
 - [.agents/skills/hatch-pet-v2](../../.agents/skills/hatch-pet-v2) — 16개 시선 방향을 포함한 8x11 v2 펫을 만들거나 업그레이드합니다.
@@ -1013,6 +1016,7 @@ ${copy.contribute}
 
 - [Codex pet request](${websiteUrl}/${localePath}/request)
 - [Contribution guide](${websiteUrl}/guide)
+- [\`.agents/skills/codexify-qdog-life\`](../../.agents/skills/codexify-qdog-life)
 - [\`.agents/skills/submit-codex-pet\`](../../.agents/skills/submit-codex-pet)
 
 ## ${copy.docsTitle}
