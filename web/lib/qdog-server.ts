@@ -45,7 +45,6 @@ export type PetHatchSummary = {
   eggAssetId?: string;
   status: "generating" | "completed" | "failed";
   model?: "gpt-image-2";
-  providerModel?: "gpt-image-2" | "@cf/bytedance/stable-diffusion-xl-lightning";
   promptVersion?: "base-pet-v1" | "base-pet-v2";
   attemptCount?: number;
   imagePath: string | null;
