@@ -5,7 +5,6 @@ import { useEffect, useMemo, useState } from "react";
 
 import { PetEggVisual } from "@/components/pet-egg-visual";
 import { useLocale } from "@/components/locale-provider";
-import { getLocalizedPetName } from "@/lib/codex-links";
 import { localePath } from "@/lib/i18n";
 import {
   claimStarterPetEgg,
@@ -13,14 +12,31 @@ import {
   getDailyPetEggs,
   type QDogAccount,
 } from "@/lib/qdog-server";
-import type { GalleryPet } from "@/lib/pets";
 
 type CyberLifeHomeProps = {
-  examples: GalleryPet[];
   communityPetCount: number;
 };
 
 const GENOME = "QDG1-BCP-DTC-GHU-F3";
+const FEATURED_LIFE = "Yfi";
+
+const cyberForms = [
+  {
+    asset: "/home-cyber-life/yfi-idle.gif",
+    signal: "IDENTITY ONLINE",
+    name: { en: "Awakened identity", zh: "觉醒意识", ko: "각성한 정체성", ja: "覚醒した個性", es: "Identidad despierta" },
+  },
+  {
+    asset: "/home-cyber-life/yfi-running.gif",
+    signal: "MOTION SYNC",
+    name: { en: "Kinetic form", zh: "高速巡航", ko: "기동 형태", ja: "機動形態", es: "Forma cinética" },
+  },
+  {
+    asset: "/home-cyber-life/yfi-review.gif",
+    signal: "SENSE ARRAY",
+    name: { en: "Perception mode", zh: "感知模式", ko: "감지 모드", ja: "知覚モード", es: "Modo perceptivo" },
+  },
+] as const;
 
 const copy = {
   en: {
@@ -34,7 +50,7 @@ const copy = {
     remaining: "{count} limited eggs remain today",
     examplesKicker: "Awakened forms",
     examplesTitle: "A life begins as one identity, then learns new forms.",
-    examplesDesc: "These community-made Codex companions show the animated form a Cyber Life can eventually take.",
+    examplesDesc: "One Cyber Life keeps the same identity across idle, motion, and perception; these animations come from its completed Codex V2 form.",
     starterKicker: "Your first egg",
     starterTitle: "The egg is free. You decide when it wakes.",
     starterDesc: "Create an account to receive one permanent starter egg and 10 credits. Each hatch costs 5 credits; failed generations return them.",
@@ -64,7 +80,7 @@ const copy = {
     remaining: "今日还有 {count} 枚限量蛋",
     examplesKicker: "已觉醒形态",
     examplesTitle: "一个生命身份，可以拥有不同形态。",
-    examplesDesc: "这些社区制作的 Codex 伙伴，展示了赛博生命未来可以获得的动画化身。",
+    examplesDesc: "同一个赛博生命在待机、移动与感知中保持身份连续；这些动画来自它已经完成的 Codex V2 形态。",
     starterKicker: "你的第一枚蛋",
     starterTitle: "蛋免费领取，由你决定何时唤醒。",
     starterDesc: "注册后获得一枚永久新手蛋和 10 个积分。每次孵化消耗 5 分；生成失败会自动返还。",
@@ -94,7 +110,7 @@ const copy = {
     remaining: "오늘 한정 에그 {count}개 남음",
     examplesKicker: "각성한 형태",
     examplesTitle: "하나의 생명은 하나의 정체성으로 시작해 새로운 형태를 배웁니다.",
-    examplesDesc: "커뮤니티가 만든 Codex 동반자들은 사이버 라이프가 언젠가 얻을 수 있는 애니메이션 형태를 보여 줍니다.",
+    examplesDesc: "하나의 사이버 라이프가 대기, 이동, 감지 중에도 같은 정체성을 유지합니다. 이 애니메이션은 완성된 Codex V2 형태에서 가져왔습니다.",
     starterKicker: "첫 번째 에그",
     starterTitle: "에그는 무료입니다. 언제 깨울지는 당신이 정합니다.",
     starterDesc: "계정을 만들면 영구 스타터 에그 하나와 크레딧 10개를 받습니다. 에그 하나를 깨우는 데 5크레딧이 들며, 생성 실패 시 반환됩니다.",
@@ -124,7 +140,7 @@ const copy = {
     remaining: "本日の限定エッグは残り {count} 個",
     examplesKicker: "覚醒した姿",
     examplesTitle: "ひとつの生命は、ひとつの個性から始まり、新しい姿を学びます。",
-    examplesDesc: "コミュニティ製の Codex パートナーは、サイバー生命が将来手にできるアニメーション形態を示しています。",
+    examplesDesc: "ひとつのサイバー生命が、待機・移動・感知のあいだも同じアイデンティティを保ちます。これらのアニメーションは完成済みの Codex V2 形態によるものです。",
     starterKicker: "最初のエッグ",
     starterTitle: "エッグは無料。いつ目覚めさせるかはあなた次第。",
     starterDesc: "アカウント作成で永久スターターエッグ1個と10クレジットを獲得。孵化は1回5クレジットで、生成失敗時は返却されます。",
@@ -154,7 +170,7 @@ const copy = {
     remaining: "Quedan {count} huevos limitados hoy",
     examplesKicker: "Formas despiertas",
     examplesTitle: "Una vida comienza con una identidad y aprende nuevas formas.",
-    examplesDesc: "Estos compañeros Codex creados por la comunidad muestran la forma animada que una vida cibernética puede llegar a adoptar.",
+    examplesDesc: "Una misma vida cibernética conserva su identidad en reposo, movimiento y percepción; estas animaciones proceden de su forma Codex V2 ya completada.",
     starterKicker: "Tu primer huevo",
     starterTitle: "El huevo es gratis. Tú decides cuándo despierta.",
     starterDesc: "Crea una cuenta para recibir un huevo inicial permanente y 10 créditos. Cada incubación cuesta 5 créditos; si falla, se devuelven.",
@@ -175,7 +191,7 @@ const copy = {
   },
 };
 
-export function CyberLifeHome({ examples, communityPetCount }: CyberLifeHomeProps) {
+export function CyberLifeHome({ communityPetCount }: CyberLifeHomeProps) {
   const { locale } = useLocale();
   const text = copy[locale];
   const [account, setAccount] = useState<QDogAccount | null | undefined>();
@@ -255,12 +271,16 @@ export function CyberLifeHome({ examples, communityPetCount }: CyberLifeHomeProp
           <p>{text.examplesDesc}</p>
         </header>
         <div className="life-example-grid">
-          {examples.slice(0, 3).map((pet, index) => (
-            <Link className="life-example" href={`/pets/${pet.slug}`} key={pet.slug}>
+          {cyberForms.map((form, index) => (
+            <article className="life-example life-example--cyber" key={form.signal}>
               <span className="life-example__index">0{index + 1}</span>
-              <div className="life-example__visual"><img alt={getLocalizedPetName(pet, locale)} src={pet.previewImage} /></div>
-              <div><strong>{getLocalizedPetName(pet, locale)}</strong><span>CODEX FORM · V{pet.spriteVersionNumber}</span></div>
-            </Link>
+              <span className="life-example__signal"><i />{form.signal}</span>
+              <div className="life-example__visual">
+                <span className="life-example__reticle" aria-hidden="true" />
+                <img alt={`${FEATURED_LIFE} · ${form.name[locale]}`} src={form.asset} />
+              </div>
+              <div><strong>{form.name[locale]}</strong><span>{FEATURED_LIFE} · CODEX V2</span></div>
+            </article>
           ))}
         </div>
       </section>
@@ -311,7 +331,11 @@ export function CyberLifeHome({ examples, communityPetCount }: CyberLifeHomeProp
         <div className="life-codex__track">
           <div className="life-codex__origin"><PetEggVisual genomeCode={GENOME} traits="color:blue|size:large|shape:angular|material:crystal" /><span>QDG1</span></div>
           <i aria-hidden="true" />
-          {examples[0] ? <div className="life-codex__form"><img alt="" src={examples[0].previewImage} /><span>CODEX V2</span></div> : null}
+          <div className="life-codex__form life-codex__form--cyber">
+            <span className="life-codex__scan" aria-hidden="true" />
+            <img alt={`${FEATURED_LIFE} · Codex V2`} src="/home-cyber-life/yfi-idle.gif" />
+            <span>{FEATURED_LIFE} · CODEX V2</span>
+          </div>
         </div>
       </section>
     </main>

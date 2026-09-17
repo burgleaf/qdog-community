@@ -2,8 +2,7 @@ import type { Metadata } from "next";
 
 import { CyberLifeHome } from "@/components/cyber-life-home";
 import { LocalizedDocumentTitle } from "@/components/localized-document-title";
-import { getAllPets, toGalleryPet } from "@/lib/pets";
-import { getTrendingPets } from "@/lib/ranking";
+import { getAllPets } from "@/lib/pets";
 import { languageAlternates } from "@/lib/localized-route-metadata";
 import { siteConfig } from "@/lib/site";
 
@@ -42,7 +41,6 @@ export const metadata: Metadata = {
 
 export default function HomePage() {
   const pets = getAllPets();
-  const examples = getTrendingPets(pets, 3).map(toGalleryPet);
 
   const pageJsonLd = {
     "@context": "https://schema.org",
@@ -103,7 +101,7 @@ export default function HomePage() {
         ko="나만의 사이버 생명 부화"
         zh="孵化一只只属于你的赛博生命"
       />
-      <CyberLifeHome examples={examples} communityPetCount={pets.length} />
+      <CyberLifeHome communityPetCount={pets.length} />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(pageJsonLd) }}
