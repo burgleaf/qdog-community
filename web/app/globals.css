@@ -1608,10 +1608,17 @@ main[data-domain="cyber"] .asset-inventory__heading strong { color: var(--cyber-
 .life-example--cyber { border-color: rgba(114,223,186,.18); background: linear-gradient(155deg, rgba(18,39,42,.96), rgba(9,19,21,.98)); box-shadow: inset 0 1px rgba(255,255,255,.025); }
 .life-example--cyber::before { position: absolute; z-index: 1; inset: 0; background: repeating-linear-gradient(0deg, transparent 0 5px, rgba(133,235,201,.018) 5px 6px); content: ""; pointer-events: none; }
 .life-example__visual { position: relative; display: grid; min-height: 330px; place-items: center; overflow: hidden; padding: 38px; background: radial-gradient(circle, rgba(114,223,186,.09), transparent 62%); }
+.life-example:nth-child(1) .life-example__visual { background: radial-gradient(circle, rgba(84,181,255,.13), transparent 62%); }
+.life-example:nth-child(2) .life-example__visual { background: radial-gradient(circle, rgba(147,99,255,.15), transparent 62%); }
+.life-example:nth-child(3) .life-example__visual { background: radial-gradient(circle, rgba(255,113,64,.13), transparent 62%); }
 .life-example--cyber .life-example__visual::before { position: absolute; inset: 12% 8%; border: 1px solid rgba(114,223,186,.08); border-radius: 50%; box-shadow: inset 0 0 0 28px rgba(114,223,186,.012), inset 0 0 0 58px rgba(114,223,186,.01); content: ""; }
 .life-example--cyber .life-example__visual::after { position: absolute; right: 12%; bottom: 18%; left: 12%; height: 1px; background: linear-gradient(90deg, transparent, rgba(114,223,186,.55), transparent); box-shadow: 0 0 18px rgba(114,223,186,.35); content: ""; }
 .life-example__visual img { position: relative; z-index: 1; width: 100%; height: 250px; object-fit: contain; filter: drop-shadow(0 18px 24px rgba(0,0,0,.38)) drop-shadow(0 0 18px rgba(99,190,255,.1)); transition: transform .35s ease; }
-.life-example:hover img { transform: translateY(-6px) scale(1.035); }
+.life-example__pet { will-change: transform; }
+.life-example__pet--float { transform-origin: 50% 78%; animation: life-pet-float 4.8s ease-in-out infinite; }
+.life-example__pet--drift { transform-origin: 50% 60%; animation: life-pet-drift 6.2s ease-in-out infinite; }
+.life-example__pet--charge { transform-origin: 50% 72%; animation: life-pet-charge 5.4s ease-in-out infinite; }
+.life-example:hover .life-example__pet { animation-play-state: paused; transform: translateY(-6px) scale(1.035); }
 .life-example > div:last-child { display: flex; align-items: center; justify-content: space-between; gap: 12px; border-top: 1px solid rgba(177,211,199,.1); padding: 17px 19px; }
 .life-example > div span { color: #6f857d; font-family: var(--font-mono); font-size: .56rem; }
 .life-example__index { position: absolute; z-index: 2; top: 16px; left: 17px; color: #759289; font-family: var(--font-mono); font-size: .62rem; }
@@ -1691,6 +1698,9 @@ main[data-domain="cyber"] .egg-code-card { border-color: rgba(177,211,199,.12); 
 @keyframes life-float { 50% { transform: translateY(-9px); } }
 @keyframes life-pulse { 50% { opacity: .35; transform: scale(.72); } }
 @keyframes life-form-scan { 0%, 100% { transform: translateY(-105px); opacity: 0; } 18%, 82% { opacity: .75; } 50% { transform: translateY(90px); opacity: .32; } }
+@keyframes life-pet-float { 0%, 100% { transform: translateY(4px) rotate(-.8deg) scale(.97); } 50% { transform: translateY(-9px) rotate(.8deg) scale(1.015); } }
+@keyframes life-pet-drift { 0%, 100% { transform: translate(-4px, 3px) rotate(-1.2deg) scale(.98); } 50% { transform: translate(5px, -8px) rotate(1.4deg) scale(1.018); } }
+@keyframes life-pet-charge { 0%, 100% { transform: translateY(3px) rotate(.7deg) scale(.975); filter: drop-shadow(0 18px 24px rgba(0,0,0,.38)) drop-shadow(0 0 12px rgba(69,153,255,.14)); } 50% { transform: translateY(-7px) rotate(-.7deg) scale(1.022); filter: drop-shadow(0 18px 24px rgba(0,0,0,.38)) drop-shadow(0 0 24px rgba(255,91,38,.28)); } }
 
 @media (max-width: 900px) {
   .life-hero { min-height: auto; grid-template-columns: 1fr; padding-top: 80px; }
@@ -1698,7 +1708,7 @@ main[data-domain="cyber"] .egg-code-card { border-color: rgba(177,211,199,.12); 
   .life-flow { position: relative; bottom: auto; grid-column: 1 / -1; margin-top: 12px; }
   .life-section__heading, .life-starter, .life-genome, .life-codex { grid-template-columns: 1fr; }
   .life-example-grid { grid-template-columns: repeat(2, 1fr); }
-  .life-example:last-child { display: none; }
+  .life-example:last-child { grid-column: 1 / -1; }
   .life-starter__visual { min-height: 350px; }
   .account-profile { grid-template-columns: auto 1fr; }
   .account-credits { grid-column: 1 / -1; justify-self: start; border-right: 0; }
@@ -1723,7 +1733,7 @@ main[data-domain="cyber"] .egg-code-card { border-color: rgba(177,211,199,.12); 
   .life-section { padding: 80px 0; }
   .life-section__heading { gap: 22px; }
   .life-example-grid { grid-template-columns: 1fr; }
-  .life-example:nth-child(2) { display: none; }
+  .life-example:last-child { grid-column: auto; }
   .life-example__visual { min-height: 290px; }
   .life-starter__visual { min-height: 300px; }
   .life-genome__traits { grid-template-columns: repeat(3, 1fr); }

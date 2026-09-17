@@ -22,19 +22,25 @@ const FEATURED_LIFE = "Yfi";
 
 const cyberForms = [
   {
-    asset: "/home-cyber-life/yfi-idle.gif",
-    signal: "IDENTITY ONLINE",
-    name: { en: "Awakened identity", zh: "觉醒意识", ko: "각성한 정체성", ja: "覚醒した個性", es: "Identidad despierta" },
+    asset: "/home-cyber-life/crystal-fox.webp",
+    identity: "CRYSTAL FOX",
+    motion: "float",
+    signal: "CRYO LINK",
+    name: { en: "Crystal Fox", zh: "霜晶灵狐", ko: "서리 수정 여우", ja: "霜晶の霊狐", es: "Zorro de cristal" },
   },
   {
-    asset: "/home-cyber-life/yfi-running.gif",
-    signal: "MOTION SYNC",
-    name: { en: "Kinetic form", zh: "高速巡航", ko: "기동 형태", ja: "機動形態", es: "Forma cinética" },
+    asset: "/home-cyber-life/astral-faun.webp",
+    identity: "ASTRAL FAE",
+    motion: "drift",
+    signal: "STAR MAP",
+    name: { en: "Astral Fae", zh: "星穹幻灵", ko: "성운 정령", ja: "星空の幻獣", es: "Espíritu astral" },
   },
   {
-    asset: "/home-cyber-life/yfi-review.gif",
-    signal: "SENSE ARRAY",
-    name: { en: "Perception mode", zh: "感知模式", ko: "감지 모드", ja: "知覚モード", es: "Modo perceptivo" },
+    asset: "/home-cyber-life/starfire-dragon.webp",
+    identity: "STARFIRE DRAGON",
+    motion: "charge",
+    signal: "CORE IGNITED",
+    name: { en: "Starfire Dragon", zh: "星焰幼龙", ko: "성화 드래곤", ja: "星焔の幼竜", es: "Dragón de fuego estelar" },
   },
 ] as const;
 
@@ -49,8 +55,8 @@ const copy = {
     credits: "10 hatch credits included with every new account",
     remaining: "{count} limited eggs remain today",
     examplesKicker: "Awakened forms",
-    examplesTitle: "A life begins as one identity, then learns new forms.",
-    examplesDesc: "One Cyber Life keeps the same identity across idle, motion, and perception; these animations come from its completed Codex V2 form.",
+    examplesTitle: "Three identities. Three distinct energy signatures.",
+    examplesDesc: "Crystal, astral, and starfire lifeforms are online together. Subtle motion keeps every silhouette alive without changing its original design.",
     starterKicker: "Your first egg",
     starterTitle: "The egg is free. You decide when it wakes.",
     starterDesc: "Create an account to receive one permanent starter egg and 10 credits. Each hatch costs 5 credits; failed generations return them.",
@@ -79,8 +85,8 @@ const copy = {
     credits: "每个新账户赠送 10 个孵化积分",
     remaining: "今日还有 {count} 枚限量蛋",
     examplesKicker: "已觉醒形态",
-    examplesTitle: "一个生命身份，可以拥有不同形态。",
-    examplesDesc: "同一个赛博生命在待机、移动与感知中保持身份连续；这些动画来自它已经完成的 Codex V2 形态。",
+    examplesTitle: "三个生命身份，三种赛博能量。",
+    examplesDesc: "冰晶、星穹与星焰生命同时在线；轻量动态让每个轮廓保持生命感，同时不改变它们原本的设计。",
     starterKicker: "你的第一枚蛋",
     starterTitle: "蛋免费领取，由你决定何时唤醒。",
     starterDesc: "注册后获得一枚永久新手蛋和 10 个积分。每次孵化消耗 5 分；生成失败会自动返还。",
@@ -109,8 +115,8 @@ const copy = {
     credits: "새 계정마다 부화 크레딧 10개 제공",
     remaining: "오늘 한정 에그 {count}개 남음",
     examplesKicker: "각성한 형태",
-    examplesTitle: "하나의 생명은 하나의 정체성으로 시작해 새로운 형태를 배웁니다.",
-    examplesDesc: "하나의 사이버 라이프가 대기, 이동, 감지 중에도 같은 정체성을 유지합니다. 이 애니메이션은 완성된 Codex V2 형태에서 가져왔습니다.",
+    examplesTitle: "세 가지 정체성, 세 가지 사이버 에너지.",
+    examplesDesc: "수정, 성운, 성화 생명체가 함께 온라인 상태입니다. 원래 디자인을 바꾸지 않는 가벼운 움직임으로 생명감을 더했습니다.",
     starterKicker: "첫 번째 에그",
     starterTitle: "에그는 무료입니다. 언제 깨울지는 당신이 정합니다.",
     starterDesc: "계정을 만들면 영구 스타터 에그 하나와 크레딧 10개를 받습니다. 에그 하나를 깨우는 데 5크레딧이 들며, 생성 실패 시 반환됩니다.",
@@ -139,8 +145,8 @@ const copy = {
     credits: "新規アカウントに孵化クレジット10を付与",
     remaining: "本日の限定エッグは残り {count} 個",
     examplesKicker: "覚醒した姿",
-    examplesTitle: "ひとつの生命は、ひとつの個性から始まり、新しい姿を学びます。",
-    examplesDesc: "ひとつのサイバー生命が、待機・移動・感知のあいだも同じアイデンティティを保ちます。これらのアニメーションは完成済みの Codex V2 形態によるものです。",
+    examplesTitle: "3つの個性、3つのサイバーエネルギー。",
+    examplesDesc: "霜晶・星空・星焔の生命が同時にオンライン。元のデザインを変えず、軽やかな動きでそれぞれの生命感を表現します。",
     starterKicker: "最初のエッグ",
     starterTitle: "エッグは無料。いつ目覚めさせるかはあなた次第。",
     starterDesc: "アカウント作成で永久スターターエッグ1個と10クレジットを獲得。孵化は1回5クレジットで、生成失敗時は返却されます。",
@@ -169,8 +175,8 @@ const copy = {
     credits: "Cada cuenta nueva incluye 10 créditos de incubación",
     remaining: "Quedan {count} huevos limitados hoy",
     examplesKicker: "Formas despiertas",
-    examplesTitle: "Una vida comienza con una identidad y aprende nuevas formas.",
-    examplesDesc: "Una misma vida cibernética conserva su identidad en reposo, movimiento y percepción; estas animaciones proceden de su forma Codex V2 ya completada.",
+    examplesTitle: "Tres identidades. Tres energías cibernéticas.",
+    examplesDesc: "Las formas cristalina, astral y de fuego estelar están conectadas. Un movimiento sutil les da vida sin alterar su diseño original.",
     starterKicker: "Tu primer huevo",
     starterTitle: "El huevo es gratis. Tú decides cuándo despierta.",
     starterDesc: "Crea una cuenta para recibir un huevo inicial permanente y 10 créditos. Cada incubación cuesta 5 créditos; si falla, se devuelven.",
@@ -277,9 +283,9 @@ export function CyberLifeHome({ communityPetCount }: CyberLifeHomeProps) {
               <span className="life-example__signal"><i />{form.signal}</span>
               <div className="life-example__visual">
                 <span className="life-example__reticle" aria-hidden="true" />
-                <img alt={`${FEATURED_LIFE} · ${form.name[locale]}`} src={form.asset} />
+                <img className={`life-example__pet life-example__pet--${form.motion}`} alt={form.name[locale]} src={form.asset} />
               </div>
-              <div><strong>{form.name[locale]}</strong><span>{FEATURED_LIFE} · CODEX V2</span></div>
+              <div><strong>{form.name[locale]}</strong><span>{form.identity} · CYBER LIFE</span></div>
             </article>
           ))}
         </div>
