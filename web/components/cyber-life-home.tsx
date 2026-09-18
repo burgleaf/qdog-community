@@ -20,6 +20,33 @@ type CyberLifeHomeProps = {
 const GENOME = "QDG1-BCP-DTC-GHU-F3";
 const FEATURED_LIFE = "Yfi";
 
+const codexActions = [
+  {
+    asset: "/home-cyber-life/yfi-running-right-clean.webp",
+    label: { en: "Run right", zh: "向右奔跑", ko: "오른쪽 달리기", ja: "右へ走る", es: "Correr a la derecha" },
+  },
+  {
+    asset: "/home-cyber-life/yfi-running-left-clean.webp",
+    label: { en: "Run left", zh: "向左奔跑", ko: "왼쪽 달리기", ja: "左へ走る", es: "Correr a la izquierda" },
+  },
+  {
+    asset: "/home-cyber-life/yfi-failed-clean.webp",
+    label: { en: "Failed", zh: "失败沮丧", ko: "실패", ja: "失敗", es: "Fallido" },
+  },
+  {
+    asset: "/home-cyber-life/yfi-waiting-clean.webp",
+    label: { en: "Waiting", zh: "等待指令", ko: "대기", ja: "待機", es: "Esperando" },
+  },
+  {
+    asset: "/home-cyber-life/yfi-running-clean.webp",
+    label: { en: "Working", zh: "执行任务", ko: "작업 중", ja: "実行中", es: "Trabajando" },
+  },
+  {
+    asset: "/home-cyber-life/yfi-review-clean.webp",
+    label: { en: "Review", zh: "检查成果", ko: "검토", ja: "レビュー", es: "Revisión" },
+  },
+] as const;
+
 const cyberForms = [
   {
     asset: "/home-cyber-life/crystal-fox.webp",
@@ -204,6 +231,7 @@ export function CyberLifeHome({ communityPetCount }: CyberLifeHomeProps) {
   const [remaining, setRemaining] = useState<number | null>(null);
   const [pending, setPending] = useState(false);
   const [message, setMessage] = useState("");
+  const [activeCodexActionIndex, setActiveCodexActionIndex] = useState(0);
 
   useEffect(() => {
     void getCurrentAccount().then(setAccount).catch(() => setAccount(null));
@@ -211,6 +239,16 @@ export function CyberLifeHome({ communityPetCount }: CyberLifeHomeProps) {
       .then((catalog) => setRemaining(catalog.eggs.filter((egg) => egg.available).length))
       .catch(() => setRemaining(null));
   }, []);
+
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const timer = window.setInterval(() => {
+      setActiveCodexActionIndex((index) => (index + 1) % codexActions.length);
+    }, 3600);
+    return () => window.clearInterval(timer);
+  }, []);
+
+  const activeCodexAction = codexActions[activeCodexActionIndex];
 
   const primaryCta = useMemo(() => {
     if (!account) return text.login;
@@ -339,8 +377,9 @@ export function CyberLifeHome({ communityPetCount }: CyberLifeHomeProps) {
           <i aria-hidden="true" />
           <div className="life-codex__form life-codex__form--cyber">
             <span className="life-codex__scan" aria-hidden="true" />
-            <img alt={`${FEATURED_LIFE} · Codex V2`} src="/home-cyber-life/yfi-idle.gif" />
-            <span>{FEATURED_LIFE} · CODEX V2</span>
+            <span className="life-codex__action-index">ACTION {String(activeCodexActionIndex + 1).padStart(2, "0")} / {String(codexActions.length).padStart(2, "0")}</span>
+            <img className="life-codex__action" key={activeCodexAction.asset} alt={`${FEATURED_LIFE} · ${activeCodexAction.label[locale]} · Codex V2`} src={activeCodexAction.asset} />
+            <span>{FEATURED_LIFE} · {activeCodexAction.label[locale]} · CODEX V2</span>
           </div>
         </div>
       </section>
