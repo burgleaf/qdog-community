@@ -1369,7 +1369,7 @@ main[data-domain="cyber"] .asset-inventory__heading strong { color: var(--cyber-
 .backpack-card__copy { min-width: 0; }
 .backpack-card__badge { display: inline-flex; border-radius: 999px; padding: 3px 8px; color: #c5c9ff; background: rgba(124, 116, 255, 0.18); font-size: .62rem; font-weight: 850; letter-spacing: .06em; text-transform: uppercase; }
 .backpack-card code { display: block; overflow: hidden; margin-top: 8px; color: #b9c0ff; font-size: .68rem; text-overflow: ellipsis; white-space: nowrap; }
-.backpack-card h3 { margin: 5px 0 3px; }
+.backpack-card h3 { overflow: hidden; margin: 5px 0 3px; color: #dce9e4; font-family: var(--font-mono); font-size: 1rem; text-overflow: ellipsis; white-space: nowrap; }
 .backpack-card p, .backpack-card time { display: block; color: var(--cyber-muted); font-size: .72rem; }
 .backpack-card p { display: -webkit-box; overflow: hidden; -webkit-box-orient: vertical; -webkit-line-clamp: 3; }
 .backpack-card__hatch { display: inline-flex; align-items: center; justify-content: center; margin-top: 14px; border: 0; border-radius: 999px; padding: 9px 14px; color: white; background: var(--color-accent); font-size: .75rem; font-weight: 850; }
@@ -1419,7 +1419,7 @@ main[data-domain="cyber"] .asset-inventory__heading strong { color: var(--cyber-
 .hatch-back { align-self: flex-start; margin-top: 18px; color: #8d92aa; font-size: .76rem; font-weight: 750; }
 .hatch-error { margin: -4px 0 16px; color: #ff999c; font-size: .78rem; }
 .hatch-complete small { color: #64dfc1; font-family: var(--font-mono); }
-.hatch-complete h2 { margin: 8px 0; color: #fff; font-size: 2rem; }
+.hatch-complete h2 { margin: 10px 0 8px; color: #91e5c7; font-family: var(--font-mono); font-size: clamp(1.65rem, 4vw, 2.35rem); letter-spacing: -.035em; text-shadow: 0 0 28px rgba(114,223,186,.16); }
 .hatch-complete p, .hatch-notice p { color: #a7acc1; }
 .hatch-notice a { display: inline-flex; margin-top: 18px; }
 .hatch-codex { margin-top: 24px; border-top: 1px solid rgba(255,255,255,.09); padding-top: 22px; }
@@ -1684,9 +1684,11 @@ main[data-domain="cyber"] .egg-code-card { border-color: rgba(177,211,199,.12); 
 .egg-code-card__claim, .egg-code-card__closed { display: flex; width: 100%; min-height: 40px; align-items: center; justify-content: center; border: 1px solid rgba(242,169,95,.3); border-radius: .7rem; color: #f4b575; background: rgba(242,169,95,.06); font-size: .74rem; font-weight: 820; }
 .egg-code-card__closed { border-color: rgba(177,211,199,.1); color: #5f736c; background: transparent; }
 .account-profile { grid-template-columns: auto 1fr auto auto; }
-.account-credits { display: flex; align-items: baseline; gap: 7px; border-right: 1px solid rgba(177,211,199,.14); padding-right: 20px; }
+.account-credits { display: flex; align-items: center; gap: 7px; border-right: 1px solid rgba(177,211,199,.14); padding-right: 20px; }
 .account-credits strong { color: #f2b675; font-family: var(--font-mono); font-size: 1.6rem; }
 .account-credits span { color: #788e86; font-size: .65rem; }
+.account-profile .account-credits__buy { margin-left: 7px; border-color: rgba(242,169,95,.32); color: #f2b675; background: rgba(242,169,95,.07); white-space: nowrap; }
+.account-profile .account-credits__buy:disabled { cursor: wait; opacity: .58; }
 .backpack-heading__actions { display: flex; flex-wrap: wrap; gap: 8px; }
 .backpack-empty button { margin-top: 12px; border: 0; color: #f2b675; background: transparent; font-weight: 820; }
 .backpack-card__visual { background: radial-gradient(circle at 50% 42%, rgba(114,223,186,.15), #0b1416 72%); }
@@ -1714,7 +1716,7 @@ main[data-domain="cyber"] .egg-code-card { border-color: rgba(177,211,199,.12); 
   .life-example:last-child { grid-column: 1 / -1; }
   .life-starter__visual { min-height: 350px; }
   .account-profile { grid-template-columns: auto 1fr; }
-  .account-credits { grid-column: 1 / -1; justify-self: start; border-right: 0; }
+  .account-credits { grid-column: 1 / -1; flex-wrap: wrap; justify-self: start; border-right: 0; }
 }
 
 @media (max-width: 600px) {

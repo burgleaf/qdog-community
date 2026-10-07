@@ -47,6 +47,7 @@ export type PetHatchSummary = {
   model?: "gpt-image-2";
   promptVersion?: "base-pet-v1" | "base-pet-v2";
   attemptCount?: number;
+  displayName?: string | null;
   imagePath: string | null;
   createdAt?: number;
   updatedAt: number;
@@ -56,6 +57,28 @@ export type PetHatchSummary = {
 export type CodexImageLink = {
   imageUrl: string;
   expiresAt: number;
+};
+
+export type CreditPaymentOrder = {
+  id: string;
+  productId: "credits_10";
+  priceAmount: number;
+  priceCurrency: "usd";
+  creditAmount: number;
+  status:
+    | "creating"
+    | "pending"
+    | "paid"
+    | "partially_paid"
+    | "failed"
+    | "refunded"
+    | "expired"
+    | "cancelled"
+    | "review"
+    | "creation_failed";
+  creditedAt: number | null;
+  createdAt: number;
+  updatedAt: number;
 };
 
 async function apiRequest<T>(path: string, init?: RequestInit): Promise<T> {
@@ -148,6 +171,24 @@ export function setDailyPetEggSupport(id: string, supporting: boolean) {
   return apiRequest<{ codeId: string; supporters: number; supporting: boolean; changed: boolean }>(
     `/pet-eggs/daily/${encodeURIComponent(id)}/support`,
     { method: supporting ? "POST" : "DELETE" },
+  );
+}
+
+export function createNowPaymentsCheckout(locale: string) {
+  return apiRequest<{
+    order: CreditPaymentOrder;
+    checkoutUrl: string;
+    environment: "sandbox" | "production";
+  }>("/payments/nowpayments/checkout", {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({ productId: "credits_10", locale }),
+  });
+}
+
+export function getCreditPaymentOrder(id: string) {
+  return apiRequest<{ order: CreditPaymentOrder }>(
+    `/payments/orders/${encodeURIComponent(id)}`,
   );
 }
 

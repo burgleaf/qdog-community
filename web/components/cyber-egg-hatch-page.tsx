@@ -193,6 +193,7 @@ export function CyberEggHatchPage({ locale }: { locale: Locale }) {
       const { imageUrl } = await createPetCodexImageLink(asset.id);
       const prompt = getCyberLifeCodexPrompt({
         lifeCode: asset.genome.code,
+        displayName: asset.hatch?.displayName ?? undefined,
         imageUrl,
       }, locale);
       await navigator.clipboard.writeText(prompt);
@@ -223,7 +224,7 @@ export function CyberEggHatchPage({ locale }: { locale: Locale }) {
       <div className="hatch-chamber">
         <div className="hatch-chamber__rings" aria-hidden="true"><i /><i /><i /></div>
         {phase === "completed" && asset
-          ? <div className="hatch-life-stage"><img className="hatch-life" src={petHatchImageUrl(asset.id)} alt={text.complete} /></div>
+          ? <div className="hatch-life-stage"><img className="hatch-life" src={petHatchImageUrl(asset.id)} alt={asset.hatch?.displayName ? `${asset.hatch.displayName} · ${text.complete}` : text.complete} /></div>
           : asset ? <PetEggVisual className="hatch-egg" genomeCode={asset.genome.code} traits={asset.traits} /> : <div className="hatch-placeholder" />}
         <div className="hatch-chamber__beam" aria-hidden="true" />
       </div>
@@ -236,7 +237,7 @@ export function CyberEggHatchPage({ locale }: { locale: Locale }) {
         {asset ? <>
           <div className="hatch-code"><span>{text.code}</span><code>{asset.genome.code}</code></div>
           <div className="hatch-channel"><span className={phase === "hatching" ? "is-live" : ""} />{text.model}<strong>{text.credits}: {account?.credits ?? 0} ◈</strong></div>
-          {phase === "completed" ? <div className="hatch-complete"><small>100%</small><h2>{text.complete}</h2><p>{text.result}</p><div className="hatch-codex"><div className="hatch-codex__heading"><CodexIcon className="size-9" /><div><h3>{text.codexTitle}</h3><p>{text.codexDesc}</p></div></div><button disabled={copyStatus === "copying"} onClick={() => void copyCodexPrompt()} type="button">{copyStatus === "copying" ? text.codexCopying : copyStatus === "copied" ? text.codexCopied : text.codexCopy}</button>{copyStatus === "error" ? <p className="hatch-error" role="alert">{text.codexError}</p> : null}<span>{text.codexPrivacy}</span></div></div> : <>
+          {phase === "completed" ? <div className="hatch-complete"><small>100% · {text.complete}</small><h2>{asset.hatch?.displayName ?? text.complete}</h2><p>{text.result}</p><div className="hatch-codex"><div className="hatch-codex__heading"><CodexIcon className="size-9" /><div><h3>{text.codexTitle}</h3><p>{text.codexDesc}</p></div></div><button disabled={copyStatus === "copying"} onClick={() => void copyCodexPrompt()} type="button">{copyStatus === "copying" ? text.codexCopying : copyStatus === "copied" ? text.codexCopied : text.codexCopy}</button>{copyStatus === "error" ? <p className="hatch-error" role="alert">{text.codexError}</p> : null}<span>{text.codexPrivacy}</span></div></div> : <>
             <div className="hatch-progress"><div><span>{text.progress}</span><strong>{progress}%</strong></div><i><b style={{ width: `${progress}%` }} /></i></div>
             <ol className="hatch-log">
               {text.steps.map((label, index) => <li className={phase === "hatching" && index <= step ? "is-active" : ""} key={label}><span>{index < step ? "✓" : index === step && phase === "hatching" ? "●" : "○"}</span>{label}</li>)}

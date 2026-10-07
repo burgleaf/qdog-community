@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 
 import { PetEggVisual } from "@/components/pet-egg-visual";
-import { claimStarterPetEgg, getCurrentAccount, getPetEggAssets, logoutQDogAccount, petHatchImageUrl, type PetEggAsset, type QDogAccount } from "@/lib/qdog-server";
+import { claimStarterPetEgg, createNowPaymentsCheckout, getCurrentAccount, getPetEggAssets, logoutQDogAccount, petHatchImageUrl, type PetEggAsset, type QDogAccount } from "@/lib/qdog-server";
 import { localePath, type Locale } from "@/lib/i18n";
 
 const copy = {
@@ -15,11 +15,20 @@ const copy = {
   es: { loading: "Cargando centro personal…", loginTitle: "Inicia sesión primero", loginDesc: "Inicia sesión para ver tu mochila de vida cibernética.", goLogin: "Ir al inicio de sesión", account: "Cuenta de vida", credits: "créditos de incubación", logout: "Cerrar sesión", persistent: "Identidades permanentes", vault: "Mi bóveda de vida", encoding: "Codificando genoma…", claimFree: "Reclamar huevo inicial gratis", daily: "Ver los 50 diarios", error: "No se pudo reclamar el huevo inicial. Inténtalo de nuevo.", empty: "Tu bóveda está vacía. Empieza con el huevo gratuito de tu cuenta.", claim: "Reclamar huevo inicial", awakenedAlt: "Vida cibernética despierta", life: "Vida cibernética", egg: "Huevo cibernético", lifeDesc: "Identidad despierta y preparada para una futura forma Codex", eggDesc: "Genoma de nueve rasgos sellado · Incubar cuesta 5 créditos", locale: "es-ES", view: "Ver vida cibernética", returning: "Volver a la incubadora", enter: "Entrar en la incubadora" },
 };
 
+const paymentCopy = {
+  en: { buy: "Sandbox · 10 credits · 0.1U", opening: "Opening sandbox checkout…", error: "Checkout is temporarily unavailable. Please try again." },
+  zh: { buy: "沙箱测试 · 10 积分 · 0.1U", opening: "正在打开沙箱结账…", error: "暂时无法打开支付页面，请稍后重试。" },
+  ko: { buy: "샌드박스 · 10크레딧 · 0.1U", opening: "샌드박스 결제를 여는 중…", error: "결제를 열 수 없습니다. 다시 시도해 주세요." },
+  ja: { buy: "サンドボックス · 10クレジット · 0.1U", opening: "サンドボックス決済を開いています…", error: "決済ページを開けません。もう一度お試しください。" },
+  es: { buy: "Sandbox · 10 créditos · 0.1U", opening: "Abriendo pago de prueba…", error: "El pago no está disponible temporalmente. Inténtalo de nuevo." },
+};
+
 export function AccountPage({ locale }: { locale: Locale }) {
   const text = copy[locale];
   const [account, setAccount] = useState<QDogAccount | null | undefined>(undefined);
   const [assets, setAssets] = useState<PetEggAsset[]>([]);
   const [claiming, setClaiming] = useState(false);
+  const [purchasing, setPurchasing] = useState(false);
   const [message, setMessage] = useState("");
 
   useEffect(() => {
@@ -49,6 +58,18 @@ export function AccountPage({ locale }: { locale: Locale }) {
     }
   }
 
+  async function buyCredits() {
+    setPurchasing(true);
+    setMessage("");
+    try {
+      const checkout = await createNowPaymentsCheckout(locale);
+      window.location.assign(checkout.checkoutUrl);
+    } catch {
+      setMessage(paymentCopy[locale].error);
+      setPurchasing(false);
+    }
+  }
+
   if (account === undefined) return <main className="identity-page" data-domain="cyber"><p>{text.loading}</p></main>;
   if (!account) return (
     <main className="identity-page" data-domain="cyber"><section className="identity-card"><h1>{text.loginTitle}</h1><p>{text.loginDesc}</p><Link className="identity-provider" href={`${localePath(locale, "/login")}?return_to=${encodeURIComponent(localePath(locale, "/account"))}`}>{text.goLogin}</Link></section></main>
@@ -59,7 +80,7 @@ export function AccountPage({ locale }: { locale: Locale }) {
       <section className="account-profile">
         {account.avatarUrl ? <img src={account.avatarUrl} alt="" /> : <span>{(account.displayName ?? account.email ?? "Q").slice(0, 1)}</span>}
         <div><span className="section-kicker">{text.account}</span><h1>{account.displayName ?? account.email}</h1><p>{account.email}</p></div>
-        <div className="account-credits"><strong>{account.credits}</strong><span>{text.credits}</span></div>
+        <div className="account-credits"><strong>{account.credits}</strong><span>{text.credits}</span><button className="account-credits__buy" disabled={purchasing} onClick={() => void buyCredits()} type="button">{purchasing ? paymentCopy[locale].opening : paymentCopy[locale].buy}</button></div>
         <button onClick={() => void logout()} type="button">{text.logout}</button>
       </section>
 
@@ -70,16 +91,17 @@ export function AccountPage({ locale }: { locale: Locale }) {
           <div className="backpack-grid">
             {assets.map((asset) => {
               const hatched = asset.hatch?.status === "completed";
+              const displayName = hatched ? asset.hatch?.displayName : null;
               return <article className={`backpack-card ${hatched ? "backpack-card--life" : "backpack-card--egg"}`} key={asset.id}>
                 <div className="backpack-card__visual">
                   {hatched
-                    ? <img className="backpack-card__pet" src={petHatchImageUrl(asset.id)} alt={text.awakenedAlt} />
+                    ? <img className="backpack-card__pet" src={petHatchImageUrl(asset.id)} alt={displayName ? `${displayName} · ${text.awakenedAlt}` : text.awakenedAlt} />
                     : <PetEggVisual className="backpack-card__egg" genomeCode={asset.genome.code} traits={asset.traits} />}
                 </div>
                 <div className="backpack-card__copy">
                   <span className="backpack-card__badge">{hatched ? text.life : text.egg}</span>
                   <code>{asset.genome.code}</code>
-                  <h3>{hatched ? text.life : text.egg}</h3>
+                  <h3>{displayName ?? (hatched ? text.life : text.egg)}</h3>
                   <p>{hatched ? text.lifeDesc : text.eggDesc}</p>
                   <time>{new Date(asset.acquiredAt).toLocaleDateString(text.locale)}</time>
                   <Link className="backpack-card__hatch" href={`${localePath(locale, "/eggs/hatch")}?id=${encodeURIComponent(asset.id)}`}>{hatched ? text.view : asset.hatch?.status === "generating" ? text.returning : text.enter}</Link>
