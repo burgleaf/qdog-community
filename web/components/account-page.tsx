@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 
 import { PetEggVisual } from "@/components/pet-egg-visual";
-import { claimStarterPetEgg, createNowPaymentsCheckout, getCurrentAccount, getPetEggAssets, logoutQDogAccount, petHatchImageUrl, type PetEggAsset, type QDogAccount } from "@/lib/qdog-server";
+import { claimStarterPetEgg, createNowPaymentsCheckout, getCurrentAccount, getPetEggAssets, logoutQDogAccount, petHatchImageUrl, QDogApiError, type PetEggAsset, type QDogAccount } from "@/lib/qdog-server";
 import { localePath, type Locale } from "@/lib/i18n";
 
 const copy = {
@@ -16,12 +16,23 @@ const copy = {
 };
 
 const paymentCopy = {
-  en: { buy: "Sandbox · 10 credits · 0.1U", opening: "Opening sandbox checkout…", error: "Checkout is temporarily unavailable. Please try again." },
-  zh: { buy: "沙箱测试 · 10 积分 · 0.1U", opening: "正在打开沙箱结账…", error: "暂时无法打开支付页面，请稍后重试。" },
-  ko: { buy: "샌드박스 · 10크레딧 · 0.1U", opening: "샌드박스 결제를 여는 중…", error: "결제를 열 수 없습니다. 다시 시도해 주세요." },
-  ja: { buy: "サンドボックス · 10クレジット · 0.1U", opening: "サンドボックス決済を開いています…", error: "決済ページを開けません。もう一度お試しください。" },
-  es: { buy: "Sandbox · 10 créditos · 0.1U", opening: "Abriendo pago de prueba…", error: "El pago no está disponible temporalmente. Inténtalo de nuevo." },
+  en: { buy: "Sandbox · 10 credits · 1U", opening: "Opening sandbox checkout…", error: "Checkout is temporarily unavailable. Please try again." },
+  zh: { buy: "沙箱测试 · 10 积分 · 1U", opening: "正在打开沙箱结账…", error: "暂时无法打开支付页面，请稍后重试。" },
+  ko: { buy: "샌드박스 · 10크레딧 · 1U", opening: "샌드박스 결제를 여는 중…", error: "결제를 열 수 없습니다. 다시 시도해 주세요." },
+  ja: { buy: "サンドボックス · 10クレジット · 1U", opening: "サンドボックス決済を開いています…", error: "決済ページを開けません。もう一度お試しください。" },
+  es: { buy: "Sandbox · 10 créditos · 1U", opening: "Abriendo pago de prueba…", error: "El pago no está disponible temporalmente. Inténtalo de nuevo." },
 };
+
+function paymentDiagnostic(error: unknown) {
+  if (!(error instanceof QDogApiError) || !error.diagnostics) return "";
+  const diagnostic = error.diagnostics;
+  return [
+    diagnostic.stage,
+    diagnostic.httpStatus ? `HTTP ${diagnostic.httpStatus}` : null,
+    diagnostic.providerCode ?? diagnostic.sdkCode,
+    diagnostic.reason,
+  ].filter(Boolean).join(" · ");
+}
 
 export function AccountPage({ locale }: { locale: Locale }) {
   const text = copy[locale];
@@ -64,8 +75,10 @@ export function AccountPage({ locale }: { locale: Locale }) {
     try {
       const checkout = await createNowPaymentsCheckout(locale);
       window.location.assign(checkout.checkoutUrl);
-    } catch {
-      setMessage(paymentCopy[locale].error);
+    } catch (error) {
+      console.error("NOWPayments checkout failed", error);
+      const diagnostic = paymentDiagnostic(error);
+      setMessage(`${paymentCopy[locale].error}${diagnostic ? ` [${diagnostic}]` : ""}`);
       setPurchasing(false);
     }
   }

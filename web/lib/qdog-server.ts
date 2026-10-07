@@ -82,6 +82,40 @@ export type CreditPaymentOrder = {
   updatedAt: number;
 };
 
+export type PaymentProviderDiagnostics = {
+  event: "payment_provider_failed";
+  provider: "nowpayments";
+  stage: string;
+  sdkCode: string | null;
+  httpStatus: number | null;
+  providerCode: string | null;
+  reason: string | null;
+};
+
+export class QDogApiError extends Error {
+  constructor(
+    message: string,
+    readonly diagnostics: PaymentProviderDiagnostics | null = null,
+  ) {
+    super(message);
+    this.name = "QDogApiError";
+  }
+}
+
+function paymentDiagnostics(payload: unknown): PaymentProviderDiagnostics | null {
+  if (!payload || typeof payload !== "object" || !("diagnostics" in payload)) return null;
+  const diagnostics = payload.diagnostics;
+  if (
+    !diagnostics ||
+    typeof diagnostics !== "object" ||
+    !("event" in diagnostics) ||
+    diagnostics.event !== "payment_provider_failed" ||
+    !("provider" in diagnostics) ||
+    diagnostics.provider !== "nowpayments"
+  ) return null;
+  return diagnostics as PaymentProviderDiagnostics;
+}
+
 async function apiRequest<T>(path: string, init?: RequestInit): Promise<T> {
   const response = await fetch(`${apiBase}${path}`, {
     ...init,
@@ -89,8 +123,10 @@ async function apiRequest<T>(path: string, init?: RequestInit): Promise<T> {
   });
   if (!response.ok) {
     let message = "Request failed";
+    let diagnostics: PaymentProviderDiagnostics | null = null;
     try {
       const payload: unknown = await response.json();
+      diagnostics = paymentDiagnostics(payload);
       if (
         typeof payload === "object" &&
         payload !== null &&
@@ -102,7 +138,7 @@ async function apiRequest<T>(path: string, init?: RequestInit): Promise<T> {
     } catch {
       // Keep the stable fallback; the API deliberately never exposes internals.
     }
-    throw new Error(message);
+    throw new QDogApiError(message, diagnostics);
   }
   return response.json() as Promise<T>;
 }
