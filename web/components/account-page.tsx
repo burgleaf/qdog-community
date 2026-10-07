@@ -80,7 +80,7 @@ export function AccountPage({ locale }: { locale: Locale }) {
       <section className="account-profile">
         {account.avatarUrl ? <img src={account.avatarUrl} alt="" /> : <span>{(account.displayName ?? account.email ?? "Q").slice(0, 1)}</span>}
         <div><span className="section-kicker">{text.account}</span><h1>{account.displayName ?? account.email}</h1><p>{account.email}</p></div>
-        <div className="account-credits"><strong>{account.credits}</strong><span>{text.credits}</span><button className="account-credits__buy" disabled={purchasing} onClick={() => void buyCredits()} type="button">{purchasing ? paymentCopy[locale].opening : paymentCopy[locale].buy}</button></div>
+        <div className="account-credits"><strong>{account.credits}</strong><span>{text.credits}</span>{account.paymentAccess ? <button className="account-credits__buy" disabled={purchasing} onClick={() => void buyCredits()} type="button">{purchasing ? paymentCopy[locale].opening : paymentCopy[locale].buy}</button> : null}</div>
         <button onClick={() => void logout()} type="button">{text.logout}</button>
       </section>
 

@@ -7,6 +7,7 @@ export type QDogAccount = {
   avatarUrl: string | null;
   credits: number;
   starterEggClaimed: boolean;
+  paymentAccess: boolean;
 };
 
 export type DailyPetEgg = {
